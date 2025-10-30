@@ -2,4 +2,7 @@
 .venv
 
 # data folder
-code/data
+code/data/joined
+code/data/raw
+code/data/metadata
+code/data/cleaned
