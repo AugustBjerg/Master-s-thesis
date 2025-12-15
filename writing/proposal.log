@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.3.13)  15 DEC 2025 15:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.3.13)  15 DEC 2025 15:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex"
-(c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex
+**"c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex"
+(c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -1022,8 +1022,8 @@ Package: blx-case-expl3 2024/03/21 v3.20 expl3 case changing code for biblatex
 ))
 \@quotelevel=\count452
 \@quotereset=\count453
- (main.aux)
-\openout1 = `main.aux'.
+ (proposal.aux)
+\openout1 = `proposal.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
 LaTeX Font Info:    ... okay on input line 50.
@@ -1071,14 +1071,14 @@ LaTeX Font Info:    ... okay on input line 50.
 * \headsep=25.0pt
 * \topskip=11.0pt
 * \footskip=30.0pt
-* \marginparwidth=4.0pt
+* \marginparwidth=59.0pt
 * \marginparsep=10.0pt
 * \columnsep=21.33955pt
 * \skip\footins=10.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
-* \@twocolumntrue
+* \@twocolumnfalse
 * \@twosidefalse
 * \@mparswitchfalse
 * \@reversemarginfalse
@@ -1105,7 +1105,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 50.
 \@outlinefile=\write4
-\openout4 = `main.out'.
+\openout4 = `proposal.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
@@ -1134,20 +1134,19 @@ File: english.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `main.bcf'.
+\openout3 = `proposal.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' found.
- (main.bbl)
+Package biblatex Info: ... file 'proposal.bbl' found.
+ (proposal.bbl)
 Package biblatex Info: Reference section=0 on input line 50.
 Package biblatex Info: Reference segment=0 on input line 50.
 
 
 [1
 
-
 {C:/Users/August Bjerg-Heise/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Missing number, treated as zero.
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Missing number, treated as zero.
 <to be read again> 
                    A
 l.97 ]
@@ -1156,7 +1155,7 @@ A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
 look up `weird error' in the index to The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Illegal unit of measure (pt inserted).
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Illegal unit of measure (pt inserted).
 <to be read again> 
                    A
 l.97 ]
@@ -1168,14 +1167,14 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Missing = inserted for \ifdim.
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Missing = inserted for \ifdim.
 <to be read again> 
                    A
 l.97 ]
       
 I was expecting to see `<', `=', or `>'. Didn't.
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Missing number, treated as zero.
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Missing number, treated as zero.
 <to be read again> 
                    A
 l.97 ]
@@ -1184,7 +1183,7 @@ A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
 look up `weird error' in the index to The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Illegal unit of measure (pt inserted).
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Illegal unit of measure (pt inserted).
 <to be read again> 
                    A
 l.97 ]
@@ -1196,7 +1195,7 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Missing number, treated as zero.
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Missing number, treated as zero.
 <to be read again> 
                    \unskip 
 l.97 ]
@@ -1205,7 +1204,7 @@ A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
 look up `weird error' in the index to The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Illegal unit of measure (pt inserted).
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Illegal unit of measure (pt inserted).
 <to be read again> 
                    \unskip 
 l.97 ]
@@ -1217,7 +1216,7 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Missing number, treated as zero.
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Missing number, treated as zero.
 <to be read again> 
                    A
 l.97 ]
@@ -1226,7 +1225,7 @@ A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
 look up `weird error' in the index to The TeXbook.)
 
-c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/main.tex:97: Illegal unit of measure (pt inserted).
+c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex:97: Illegal unit of measure (pt inserted).
 <to be read again> 
                    A
 l.97 ]
@@ -1250,7 +1249,6 @@ l.135 \clearpage
                  [1
 
 
-
 ]
 
 LaTeX Warning: Empty bibliography on input line 137.
@@ -1265,7 +1263,7 @@ See the caption package documentation for explanation.
 
 
 
-] (main.aux)
+] (proposal.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1278,32 +1276,32 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 
-Package rerunfilecheck Warning: File `main.out' has changed.
+Package rerunfilecheck Warning: File `proposal.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
-Package rerunfilecheck Info: Checksums for `main.out':
+Package rerunfilecheck Info: Checksums for `proposal.out':
 (rerunfilecheck)             Before: <no file>
 (rerunfilecheck)             After:  4E232A9EAB3C02787C79A23559CF00C7;720.
 
 Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                main
+(biblatex)                proposal
 (biblatex)                and rerun LaTeX afterwards.
 
-Package logreq Info: Writing requests to 'main.run.xml'.
-\openout1 = `main.run.xml'.
+Package logreq Info: Writing requests to 'proposal.run.xml'.
+\openout1 = `proposal.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  23618 strings out of 473523
- 424695 string characters out of 5708302
- 1429480 words of memory out of 5000000
+ 424783 string characters out of 5708302
+ 1429512 words of memory out of 5000000
  46555 multiletter control sequences out of 15000+600000
  565520 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,8n,101p,1357b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,8n,101p,1361b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on main.pdf (3 pages, 68352 bytes).
+Output written on proposal.pdf (3 pages, 68352 bytes).
 PDF statistics:
  45 PDF objects out of 1000 (max. 8388607)
  8 named destinations out of 1000 (max. 500000)
