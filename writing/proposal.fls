@@ -4,10 +4,10 @@ INPUT c:\Users\August Bjerg-Heise\OneDrive - CBS - Copenhagen Business School\De
 OUTPUT proposal.log
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size11.clo
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size11.clo
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size11.clo
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr10.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\graphics\keyval.sty
@@ -19,6 +19,8 @@ INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\generic\ifte
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\mathptmx.sty
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\mathptmx.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphicx.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphicx.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphics.sty
@@ -211,6 +213,10 @@ INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\biblat
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\blx-case-expl3.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\l3packages\xparse\xparse.sty
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\l3packages\xparse\xparse.sty
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
 INPUT .\proposal.aux
 INPUT .\proposal.aux
 INPUT proposal.aux
@@ -226,8 +232,14 @@ INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\epstop
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
-OUTPUT proposal.out
+INPUT .\proposal.out
+INPUT .\proposal.out
+INPUT proposal.out
+INPUT proposal.out
 OUTPUT proposal.pdf
+INPUT .\proposal.out
+INPUT .\proposal.out
+OUTPUT proposal.out
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\biblatex-apa\english-apa.lbx
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\biblatex-apa\english-apa.lbx
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\biblatex-apa\english-apa.lbx
@@ -249,38 +261,30 @@ INPUT .\proposal.bbl
 INPUT .\proposal.bbl
 INPUT .\proposal.bbl
 INPUT proposal.bbl
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr17.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr8.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr6.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi8.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi6.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy8.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy6.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex8.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\base\8r.enc
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT proposal.aux
 INPUT .\proposal.out
 INPUT .\proposal.out
+INPUT proposal.run.xml
 OUTPUT proposal.run.xml
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\urw\times\utmb8a.pfb
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\urw\times\utmb8a.pfb
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\urw\times\utmr8a.pfb
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\type1\urw\times\utmr8a.pfb

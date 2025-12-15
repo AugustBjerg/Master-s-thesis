@@ -1,6 +1,7 @@
-\documentclass[11pt,onecolumn]{article}
+\documentclass[12pt,onecolumn]{article}
 
-\usepackage[a4paper, top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{mathptmx}  % Times Roman with math support
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath}
@@ -17,7 +18,6 @@
 \usepackage{placeins,needspace}
 \usepackage{adjustbox}
 \usepackage{parskip} % Better spacing between paragraphs
-\setlength{\columnsep}{0.75cm} % Spacing between the columns
 \usepackage{lipsum}
 \usepackage{xcolor}
 \usepackage{setspace} % Makes linespacing possible
@@ -25,25 +25,24 @@
 
 \captionsetup[table]{font=tiny,justification=centering,position=bottom}
 
-\onehalfspacing % \setstretch{1.2} for custom, you can also do single or double spacing
+\doublespacing % \setstretch{1.2} for custom, you can also do single or double spacing
 
 \definecolor{mydarkgray}{gray}{0.2}
 
 
 \usepackage[style=apa, backend=biber]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
-\addbibresource{references.bib}  
+\addbibresource{proposal.bib}  
 
 % Customize section title appearance
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
 
-\title{\textbf{[Your Report Title]}}
+\title{\textbf{[Exploring Data-Driven Approaches to Identifying Sources of Operational Efficiency in Maritime Transport]}}
 \author{
-[Author Name] ([Student Number]) \\
-[Author Name] ([Student Number])
+August Bjerg-Heise (114300315)
 }
-\date{[Date of Submission]}
+\date{31 December 2025}
 \vspace{1em}
 
 
@@ -54,56 +53,43 @@
     \centering
     \vspace*{2cm}
 
-    \textbf{\Large{[Course Name and Code]}}\\[1em]
-    \textbf{\Huge{[Report Type]}}\\[3em]
+    \textbf{\Large{Research Proposal}}\\[1em]
+    \textbf{\Huge{Identifying Sources of Operational Efficiency in Maritime Transport}}\\[3em]
 
-    % Optional: Include an image
+    % Placeholder for Image
     % \includegraphics[width=0.6\textwidth]{your_image.png}\\[3em]
 
-    \begin{flushleft}
-    \textbf{Students \& Student Number:} [Name] ([Number]) \& [Name] ([Number])\\[1.2em]
-    \textbf{Group name:} [Group Name]\\[1.2em]
-    \textbf{Programme:} [Your Programme]\\[1.2em]
-    \textbf{Date of Submission:} [Submission Date]\\[1.2em]
-    \textbf{Number of Characters (incl. spaces):} [Character Count]\\[1.2em]
-    \textbf{Number of Pages:} [Page Count]\\[1.2em]
-    % Optional: Add dataset or other project links
-    % \textbf{Dataset:} \href{https://your-link.com}{Link Description}
-    \end{flushleft}
+    \begin{center}
+    \textbf{Student:} August Bjerg-Heise (114300315)\\[1.2em]
+    \textbf{Date of Submission:} January 1st, 2025\\[1.2em]
+    % TODO: update page count before hand-in
+    \textbf{Number of Pages:} 10\\[1.2em]
+    \end{center}
 
 \end{titlepage}
-
-\twocolumn[
-\maketitle
-\vspace{-1em}
-
-\begin{center}
-\begin{minipage}{0.95\textwidth} % Adjust width if needed
-\noindent\rule{\linewidth}{0.4pt}
-\vspace{0.01pt}
-
-\textbf{Abstract. } Your abstract goes here. Briefly describe the purpose, methods, key findings, and conclusions of your report.
-
-\vspace{1em}
-
-\textbf{Keywords:}
-Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5
-
-\noindent\rule{\linewidth}{0.4pt}
-\end{minipage}
-\end{center}
-
-\vspace{1em}
-]
+\clearpage
 
 \section{Introduction}
-[Your introduction goes here.]
 
-\section{[Section Title]}
-[Your content goes here.]
+\section{Literature Review}
 
-\subsection{[Subsection Title]}
-[Your content goes here.]
+\section{Theoretical Framework}
+\subsection{[...]} %TODO: update this
+
+\subsection{Approach}
+
+\subsection{Hypotheses}
+
+\section{Dataset}
+\subsection{Origin}
+
+\subsection{Ship particulars}
+
+\subsection{Contents}
+
+\section{Methodology}
+
+\section{Expected Results and Applications}
 
 % Example of including a figure
 % \begin{figure}[htbp]
@@ -129,15 +115,11 @@ Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5
 %   \label{tab:your_label}
 % \end{table}
 
-\section{Conclusion}
-[Your conclusion goes here.]
-
 \clearpage
 
 \printbibliography
 
 \clearpage
-\onecolumn
 \appendix
 
 \section*{Appendix}
