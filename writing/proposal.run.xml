@@ -83,7 +83,7 @@
       <file>proposal.bcf</file>
     </requires>
     <requires type="editable">
-      <file>proposal.bib</file>
+      <file>references/proposal.bib</file>
     </requires>
   </external>
 </requests>

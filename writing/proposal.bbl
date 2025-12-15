@@ -16,5 +16,116 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{kim2025comprehensive}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Youngrong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1464d6b3a8d2b3388e6a45013c518d35}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Prateek},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7429d7b064aca1ab1cefe1bfb85333bd}{%
+           family={Steen},
+           familyi={S\bibinitperiod},
+           given={Sverre},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{fullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{fullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{bibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorbibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authornamehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{authorfullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorfullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Applied Ocean Research}
+      \field{title}{A comprehensive review of data processing for ship performance analysis}
+      \field{volume}{162}
+      \field{year}{2025}
+      \field{pages}{104737}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.apor.2025.104737
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{kim2025comprehensive}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Youngrong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1464d6b3a8d2b3388e6a45013c518d35}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Prateek},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7429d7b064aca1ab1cefe1bfb85333bd}{%
+           family={Steen},
+           familyi={S\bibinitperiod},
+           given={Sverre},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{fullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{fullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{bibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorbibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authornamehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{authorfullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorfullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Applied Ocean Research}
+      \field{title}{A comprehensive review of data processing for ship performance analysis}
+      \field{volume}{162}
+      \field{year}{2025}
+      \field{pages}{104737}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.apor.2025.104737
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
