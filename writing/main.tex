@@ -1,6 +1,165 @@
-\documentclass{article}
+\documentclass[11pt,twocolumn]{article}
+
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{textgreek}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{makecell}
+\usepackage{placeins,needspace}
+\usepackage{adjustbox}
+\usepackage{parskip} % Better spacing between paragraphs
+\setlength{\columnsep}{0.75cm} % Spacing between the columns
+\usepackage{lipsum}
+\usepackage{xcolor}
+\usepackage{setspace} % Makes linespacing possible
+
+
+\captionsetup[table]{font=tiny,justification=centering,position=bottom}
+
+\onehalfspacing % \setstretch{1.2} for custom, you can also do single or double spacing
+
+\definecolor{mydarkgray}{gray}{0.2}
+
+
+\usepackage[style=apa, backend=biber]{biblatex}
+\DeclareLanguageMapping{english}{english-apa}
+\addbibresource{references.bib}  
+
+% Customize section title appearance
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\title{\textbf{[Your Report Title]}}
+\author{
+[Author Name] ([Student Number]) \\
+[Author Name] ([Student Number])
+}
+\date{[Date of Submission]}
+\vspace{1em}
+
 
 \begin{document}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec lacus non dui tristique sagittis. Sed eget vestibulum neque.
+
+% ----- Front Page -----
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+
+    \textbf{\Large{[Course Name and Code]}}\\[1em]
+    \textbf{\Huge{[Report Type]}}\\[3em]
+
+    % Optional: Include an image
+    % \includegraphics[width=0.6\textwidth]{your_image.png}\\[3em]
+
+    \begin{flushleft}
+    \textbf{Students \& Student Number:} [Name] ([Number]) \& [Name] ([Number])\\[1.2em]
+    \textbf{Group name:} [Group Name]\\[1.2em]
+    \textbf{Programme:} [Your Programme]\\[1.2em]
+    \textbf{Date of Submission:} [Submission Date]\\[1.2em]
+    \textbf{Number of Characters (incl. spaces):} [Character Count]\\[1.2em]
+    \textbf{Number of Pages:} [Page Count]\\[1.2em]
+    % Optional: Add dataset or other project links
+    % \textbf{Dataset:} \href{https://your-link.com}{Link Description}
+    \end{flushleft}
+
+\end{titlepage}
+
+\twocolumn[
+\maketitle
+\vspace{-1em}
+
+\begin{center}
+\begin{minipage}{0.95\textwidth} % Adjust width if needed
+\noindent\rule{\linewidth}{0.4pt}
+\vspace{0.01pt}
+
+\textbf{Abstract. } [Your abstract goes here. Briefly describe the purpose, methods, key findings, and conclusions of your report.]
+
+\vspace{1em}
+
+\textbf{Keywords:}
+[Keyword 1], [Keyword 2], [Keyword 3], [Keyword 4], [Keyword 5]
+
+\noindent\rule{\linewidth}{0.4pt}
+\end{minipage}
+\end{center}
+
+\vspace{1em}
+
+\vspace{1em}
+]
+
+\section{Introduction}
+[Your introduction goes here.]
+
+\section{[Section Title]}
+[Your content goes here.]
+
+\subsection{[Subsection Title]}
+[Your content goes here.]
+
+% Example of including a figure
+% \begin{figure}[htbp]
+%   \centering
+%   \captionsetup{font=scriptsize,justification=centering}
+%   \includegraphics[width=0.9\linewidth]{your_figure.png}
+%   \caption{Your figure caption}
+%   \label{fig:your_label}
+% \end{figure}
+
+% Example of including a table
+% \begin{table}[H]
+%   \centering
+%   \begin{tabular}{@{}lrr@{}}
+%     \toprule
+%     Column 1 & Column 2 & Column 3 \\
+%     \midrule
+%     Data 1   & Data 2   & Data 3   \\ 
+%     Data 4   & Data 5   & Data 6   \\ 
+%     \bottomrule
+%   \end{tabular}
+%   \caption{Your table caption}
+%   \label{tab:your_label}
+% \end{table}
+
+\section{Conclusion}
+[Your conclusion goes here.]
+
+\clearpage
+
+\printbibliography
+
+\clearpage
+\onecolumn
+\appendix
+
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+
+% Make appendix sections use Arabic numbers instead of letters:
+\renewcommand{\thesection}{\arabic{section}}
+\setcounter{section}{0}
+
+\section{[Appendix Section Title]}
+\label{sec:appendix1}
+
+[Your appendix content goes here.]
+
+% Example of appendix figure
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.8\linewidth]{appendix_figure.png}
+%   \caption{Your appendix figure caption}
+%   \label{fig:appendix_label}
+% \end{figure}
 
 \end{document}
