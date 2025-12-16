@@ -19,6 +19,70 @@
 
 \refsection{0}
   \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{Coraddu2019}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=744a5fdbd36ad70cdd6c385024ecaf72}{%
+           family={Coraddu},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ac1aad6cfc103482fc43476932564a3}{%
+           family={Oneto},
+           familyi={O\bibinitperiod},
+           given={Luca},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1d3e2f52c11e0a85fbbace7bbdb338f}{%
+           family={Baldi},
+           familyi={B\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=76c370eb4eaa2a43fd57d48138498e40}{%
+           family={Cipollini},
+           familyi={C\bibinitperiod},
+           given={Francesca},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d46365aacd65c7de0bcdb6f0370c3cf7}{%
+           family={Atlar},
+           familyi={A\bibinitperiod},
+           given={Mehmet},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fdd8948210ea312a4d9b9506480e497e}{%
+           family={Savio},
+           familyi={S\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{fullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{fullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \strng{bibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorbibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authornamehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{authorfullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorfullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven ship digital twin for estimating the speed loss caused by the marine fouling}
+      \field{volume}{186}
+      \field{year}{2019}
+      \field{pages}{106063}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2019.05.045
+      \endverb
+    \endentry
     \entry{Dong_2023}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
@@ -86,6 +150,70 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
+    \entry{Duan2024}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=6cef52a2fed52a6ef80cf6aca6917e5d}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Kuiquan},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49310272ed2a04e25c91154f7b40764}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qingbo},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fef154b792626b810d59ba9166b45439}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yanxin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a86e69c2f3e044207235167c7d61d1cb}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Han},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9c9203300a0f1ec2844a9f423ad6b93}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a112636cb4be6bf302c111598f16e0de}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Manxia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{fullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{fullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \strng{bibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorbibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authornamehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{authorfullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorfullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven approach to evaluate the impact of hull roughness on main engine load of river-sea ships}
+      \field{volume}{312}
+      \field{year}{2024}
+      \field{pages}{119239}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2024.119239
       \endverb
     \endentry
     \entry{froude1955papers}{book}{}{}
@@ -313,6 +441,70 @@
     \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
+    \entry{Coraddu2019}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=744a5fdbd36ad70cdd6c385024ecaf72}{%
+           family={Coraddu},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ac1aad6cfc103482fc43476932564a3}{%
+           family={Oneto},
+           familyi={O\bibinitperiod},
+           given={Luca},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1d3e2f52c11e0a85fbbace7bbdb338f}{%
+           family={Baldi},
+           familyi={B\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=76c370eb4eaa2a43fd57d48138498e40}{%
+           family={Cipollini},
+           familyi={C\bibinitperiod},
+           given={Francesca},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d46365aacd65c7de0bcdb6f0370c3cf7}{%
+           family={Atlar},
+           familyi={A\bibinitperiod},
+           given={Mehmet},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fdd8948210ea312a4d9b9506480e497e}{%
+           family={Savio},
+           familyi={S\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{fullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{fullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \strng{bibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorbibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authornamehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{authorfullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorfullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven ship digital twin for estimating the speed loss caused by the marine fouling}
+      \field{volume}{186}
+      \field{year}{2019}
+      \field{pages}{106063}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2019.05.045
+      \endverb
+    \endentry
     \entry{Dong_2023}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
@@ -380,6 +572,70 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
+    \entry{Duan2024}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=6cef52a2fed52a6ef80cf6aca6917e5d}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Kuiquan},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49310272ed2a04e25c91154f7b40764}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qingbo},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fef154b792626b810d59ba9166b45439}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yanxin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a86e69c2f3e044207235167c7d61d1cb}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Han},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9c9203300a0f1ec2844a9f423ad6b93}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a112636cb4be6bf302c111598f16e0de}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Manxia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{fullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{fullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \strng{bibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorbibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authornamehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{authorfullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorfullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven approach to evaluate the impact of hull roughness on main engine load of river-sea ships}
+      \field{volume}{312}
+      \field{year}{2024}
+      \field{pages}{119239}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2024.119239
       \endverb
     \endentry
     \entry{froude1955papers}{book}{}{}

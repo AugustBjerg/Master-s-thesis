@@ -76,19 +76,18 @@ The operational efficiency of a vessel can largely be defined as its ability to 
 With maritime transport constituting 3\% of global CO2 emissions, this is a pressing issue that goes beyond the shipping industry
 % Comment on the magnitude of the problem (Shipping -> x% of global emissions / equal to X country -> fuel x% of shipping emissions -> decreasing fuel use by x% would be equivalent to decarbonising the entire (X country, maybe Taiwan))
 
-
 % Include a comment on the scope of the proposal (e.g., not to evaluate new tech or retrofittings)
 
 % Include RQs:
 
-\section{Literature Review (1.75 pages)}
+\section{Literature Review}
 
 Ever since the first ships were built, operators have sought to optimize energy use, first in manpower and wind, and later in modern fuels. The earliest academic contributions are commonly traced to 19th-century work on the physics of ship resistance and propulsion \parencite{Russell1839Experimental}, alongside the pioneering of systematic towing-test approaches that enabled empirical inference about performance \parencite{froude1955papers}. This early literature cemented a central operational hypothesis: efficiency is governed primarily by the relationship between speed and required propulsive power, a principle embedded today in the “speed–power curve,” which maps the power needed to maintain each steady speed under specified conditions. Through almost two centuries of research, it has been found that the relationship between speed and propulsion power is approximately cubic, i.e., power need rises steeply with speed (see example in Figure \ref{fig:example_spd_pwr_curve}). 
 
 \begin{figure}[htbp]
    \centering
    \captionsetup{font=scriptsize,justification=centering}
-   \includegraphics[width=0.9\linewidth]{figures/proposal/example_spd_pwr_curve.png}
+   \includegraphics[width=0.65\linewidth]{figures/proposal/example_spd_pwr_curve.png}
    \caption{Example of a speed-power curve derived from empirical tests \parencite{Schultz2007EffectsOfCoating}}
    \label{fig:example_spd_pwr_curve}
 \end{figure}
@@ -97,21 +96,9 @@ As measurement and computation matured, subsequent research increasingly combine
 
 Computational fluid dynamics (CFD) is a physics-based approach that numerically solves the flow equations around a ship hull to predict resistance and related propulsion requirements as a function of speed and operating conditions \parencite{Russell1839Experimental}. Conceptually, this computational programme extends early resistance-focused science, including Russell’s experimental work that treated resistance as a mechanistic phenomenon. Contemporary studies broaden the optimization target from calm-water performance to operational conditions, for example panel-method modelling of wave added resistance and related wave-load computations that refine how power penalties are represented under realistic sea states \parencite{Dong_2023,Wang_2022}. Relative to purely empirical curves and data-driven models, CFD’s key strengths are physical interpretability and theoretical rigor, while its main limitations remain sensitivity to modelling assumptions and the need for careful verification and validation, alongside high computational cost.
 
-Empirical naval architecture models estimate the speed–power relationship from physical measurements, most commonly towing-tank tests where a scale model is towed at controlled speeds and resistance is measured for inference. In contrast to CFD, which derives the same relationship by numerically solving flow equations, towing tests provide benchmark data that is often used to validate and calibrate computational predictions. This experimental tradition is commonly linked to William Froude and Robert Froude’s \parencite*{froude1955papers} development of systematic model testing and scaling concepts for predicting full-scale ship performance. More recent applications include towing-tank studies of operational interventions such as hull coatings \parencite{Schultz2007EffectsOfCoating}, while the core trade-off remains that experiments can be highly accurate under controlled conditions but are expensive, time-consuming, and not always fully representative of real sea states and in-service hull condition.
+Empirical naval architecture (ENA) models estimate the speed–power relationship from physical measurements, most commonly towing-tank tests where a scale model is towed at controlled speeds and resistance is measured for inference. In contrast to CFD, which derives the same relationship by numerically solving flow equations, towing tests provide benchmark data that is often used to validate and calibrate computational predictions. This experimental tradition is commonly linked to William Froude and Robert Froude’s \parencite*{froude1955papers} development of systematic model testing and scaling concepts for predicting full-scale ship performance. More recent applications include towing-tank studies of operational interventions such as hull coatings \parencite{Schultz2007EffectsOfCoating}, while the core trade-off remains that experiments can be highly accurate under controlled conditions but are expensive, time-consuming, and not always fully representative of real sea states and in-service hull condition.
 
-Data Science approaches [Source xxx]
-    - Explain what it is (incl. how does not inherently rely on physics, although a minimum of physics-informed domain knowledge is somewhat necessary)
-    - A few research examples [source xxx]
-    - Strengths and weaknesses (recent developments in IoT infrastructure, computational power, ML algorithms)
-
-Comparison of the three approached
-- They are all very useful and can achieve different things. But from a research perspective, exploring further data driven approaches is more interesting, because of recent developments in enabling methods and technologies
-
-Contemporary academic consensus:
-- Three main culprits of inefficiency have been identified: 
-    - Marine Fouling [source xxx]: explain what is is, and its impact on ship propulsion.
-    - Engine depreciation [source xxx]: explain what it is and main parts at risk
-    - 3rd reason (if no internal is found, use weather conditions [source xxx]): explain what it is and its impact on ship propulsion.
+Data-science approaches model operational efficiency directly from observed data, typically without imposing any physical constraints. However, physics-informed feature choice and engineering remain necessary to avoid spurious inference. Recent work leverages increasingly dense IoT (sensor) data streams to estimate performance baselines and degradation signals, for example by building data-driven digital twins that predict “expected” speed and then interpret systematic deviations as fouling-induced speed loss \parencite{Coraddu2019}. Related studies fuse operational logs with metocean data and apply machine-learning regressors to quantify hull condition, enabling counterfactual evaluation of cleaning timing under controlled operating scenarios \parencite{Duan2024}. The main strength of these methods is flexibility in capturing ship-specific, nonlinear relationships at scale as data availability and ML toolchains have improved, but their central limitation is dependence of very high volume, frequency and quality of data \parencite{kim2025comprehensive}. From a research perspective, exploring new avenues within data-science based approaches is a particularly interesting due to the recent rapid developments in the quantity and quality of data.
 
 \section{Theoretical Framework (1.5 pages)}
 \subsection{[...]} %TODO: update this
