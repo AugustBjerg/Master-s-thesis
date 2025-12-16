@@ -69,28 +69,75 @@ August Bjerg-Heise (114300315)
 \end{titlepage}
 \clearpage
 
-\section{Introduction}
+\section{Introduction (0.75 page)}
 
-\section{Literature Review}
-[This is an example of text that requires a citation \parencite{kim2025comprehensive}.]
+The operational efficiency of a vessel can largely be defined as its ability to achieve the highest transport work for the lowest fuel consumption. (source)
 
-\section{Theoretical Framework}
+With maritime transport constituting 3\% of global CO2 emissions, this is a pressing issue that goes beyond the shipping industry
+% Comment on the magnitude of the problem (Shipping -> x% of global emissions / equal to X country -> fuel x% of shipping emissions -> decreasing fuel use by x% would be equivalent to decarbonising the entire (X country, maybe Taiwan))
+
+
+% Include a comment on the scope of the proposal (e.g., not to evaluate new tech or retrofittings)
+
+% Include RQs:
+
+\section{Literature Review (1.75 pages)}
+
+Ever since the first ships were built, operators have sought to optimize energy use, first in manpower and wind, and later in modern fuels. The earliest academic contributions are commonly traced to 19th-century work on the physics of ship resistance and propulsion \parencite{Russell1839Experimental}, alongside the pioneering of systematic towing-test approaches that enabled empirical inference about performance \parencite{froude1955papers}. This early literature cemented a central operational hypothesis: efficiency is governed primarily by the relationship between speed and required propulsive power, a principle embedded today in the “speed–power curve,” which maps the power needed to maintain each steady speed under specified conditions. Through almost two centuries of research, it has been found that the relationship between speed and propulsion power is approximately cubic, i.e., power need rises steeply with speed (see example in Figure \ref{fig:example_spd_pwr_curve}). 
+
+\begin{figure}[htbp]
+   \centering
+   \captionsetup{font=scriptsize,justification=centering}
+   \includegraphics[width=0.9\linewidth]{figures/proposal/example_spd_pwr_curve.png}
+   \caption{Example of a speed-power curve derived from empirical tests \parencite{Schultz2007EffectsOfCoating}}
+   \label{fig:example_spd_pwr_curve}
+\end{figure}
+
+As measurement and computation matured, subsequent research increasingly combined physics-grounded models with real operational data, enabling more mathematically complex and empirically testable approaches to operational efficiency analysis \parencite{kim2025comprehensive}. More contemporary work can be grouped into three broad methodological categories: i) Computational Fluid Dynamics, ii) Empirical Naval Architecture and iii) Data Science.
+
+Computational Fluid Dynamics (CFD) simulations 
+    - Explain what it is
+    - A few research examples [Source xxx]
+        - Earliest ideas from Russell in 1839
+    - Strengths and weaknesses
+
+Empirical Naval Architecture models
+    - Explain what it is (incl. its relation to CFD if any)
+    - A few research examples [source xxx]
+        - Earliest work by William and Robert Froude in the late 1800s
+    - Strengths and weaknesses
+
+Data Science approaches [Source xxx]
+    - Explain what it is (incl. how does not inherently rely on physics, although a minimum of physics-informed domain knowledge is somewhat necessary)
+    - A few research examples [source xxx]
+    - Strengths and weaknesses (recent developments in IoT infrastructure, computational power, ML algorithms)
+
+Comparison of the three approached
+- They are all very useful and can achieve different things. But from a research perspective, exploring further data driven approaches is more interesting, because of recent developments in enabling methods and technologies
+
+Contemporary academic consensus:
+- Three main culprits of inefficiency have been identified: 
+    - Marine Fouling [source xxx]: explain what is is, and its impact on ship propulsion.
+    - Engine depreciation [source xxx]: explain what it is and main parts at risk
+    - 3rd reason (if no internal is found, use weather conditions [source xxx]): explain what it is and its impact on ship propulsion.
+
+\section{Theoretical Framework (1.5 pages)}
 \subsection{[...]} %TODO: update this
 
 \subsection{Approach}
 
 \subsection{Hypotheses}
 
-\section{Dataset}
+\section{Dataset (1 page)}
 \subsection{Origin}
 
 \subsection{Ship particulars}
 
 \subsection{Contents}
 
-\section{Methodology}
+\section{Methodology (1.5 pages)}
 
-\section{Expected Results and Applications}
+\section{Expected Results and Applications (1.5 page)}
 
 % Example of including a figure
 % \begin{figure}[htbp]

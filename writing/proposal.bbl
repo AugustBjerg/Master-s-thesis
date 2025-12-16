@@ -19,6 +19,54 @@
 
 \refsection{0}
   \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{froude1955papers}{book}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
+           family={Froude},
+           familyi={F\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b3a58d9ff86759ae6a39749fd829dd32}{%
+           family={Abell},
+           familyi={A\bibinitperiod},
+           given={Sir\bibnamedelima Westcott},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7aa79129b13cd78611297a56330790d7}{%
+           family={Gawn},
+           familyi={G\bibinitperiod},
+           given={RWL},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=803d7f27f8554b53cba8dbde92139712}{%
+           family={Duckworth},
+           familyi={D\bibinitperiod},
+           given={AD},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institution of Naval Architects}%
+      }
+      \strng{namehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{fullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{fullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \strng{bibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorbibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authornamehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{authorfullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorfullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
+      \field{year}{1955}
+    \endentry
     \entry{kim2025comprehensive}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
@@ -71,8 +119,126 @@
       \verb https://doi.org/10.1016/j.apor.2025.104737
       \endverb
     \endentry
+    \entry{Russell1839Experimental}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
+           family={Russell},
+           familyi={R\bibinitperiod},
+           given={John\bibnamedelima Scott},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{bibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorbibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authornamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions of the Royal Society of Edinburgh}
+      \field{number}{1}
+      \field{title}{III.—Experimental Researches into the Laws of Certain Hydrodynamical Phenomena that accompany the Motion of Floating Bodies, and have not previously been reduced into conformity with the known Laws of the Resistance of Fluids}
+      \field{volume}{14}
+      \field{year}{1839}
+      \field{pages}{47\bibrangedash 109}
+      \range{pages}{63}
+      \verb{doi}
+      \verb 10.1017/S0080456800021451
+      \endverb
+    \endentry
+    \entry{Schultz2007EffectsOfCoating}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
+           family={Schultz},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{bibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorbibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authornamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biofouling}
+      \field{month}{02}
+      \field{title}{Effects of coating roughness and biofouling on ship resistance and powering}
+      \field{volume}{23}
+      \field{year}{2007}
+      \field{pages}{331\bibrangedash 41}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1080/08927010701461974
+      \endverb
+    \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
+    \entry{froude1955papers}{book}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
+           family={Froude},
+           familyi={F\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b3a58d9ff86759ae6a39749fd829dd32}{%
+           family={Abell},
+           familyi={A\bibinitperiod},
+           given={Sir\bibnamedelima Westcott},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7aa79129b13cd78611297a56330790d7}{%
+           family={Gawn},
+           familyi={G\bibinitperiod},
+           given={RWL},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=803d7f27f8554b53cba8dbde92139712}{%
+           family={Duckworth},
+           familyi={D\bibinitperiod},
+           given={AD},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institution of Naval Architects}%
+      }
+      \strng{namehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{fullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{fullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \strng{bibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorbibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authornamehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{authorfullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorfullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
+      \field{year}{1955}
+    \endentry
     \entry{kim2025comprehensive}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
@@ -123,6 +289,76 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+    \endentry
+    \entry{Russell1839Experimental}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
+           family={Russell},
+           familyi={R\bibinitperiod},
+           given={John\bibnamedelima Scott},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{bibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorbibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authornamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions of the Royal Society of Edinburgh}
+      \field{number}{1}
+      \field{title}{III.—Experimental Researches into the Laws of Certain Hydrodynamical Phenomena that accompany the Motion of Floating Bodies, and have not previously been reduced into conformity with the known Laws of the Resistance of Fluids}
+      \field{volume}{14}
+      \field{year}{1839}
+      \field{pages}{47\bibrangedash 109}
+      \range{pages}{63}
+      \verb{doi}
+      \verb 10.1017/S0080456800021451
+      \endverb
+    \endentry
+    \entry{Schultz2007EffectsOfCoating}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
+           family={Schultz},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{bibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorbibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authornamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biofouling}
+      \field{month}{02}
+      \field{title}{Effects of coating roughness and biofouling on ship resistance and powering}
+      \field{volume}{23}
+      \field{year}{2007}
+      \field{pages}{331\bibrangedash 41}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1080/08927010701461974
       \endverb
     \endentry
   \enddatalist
