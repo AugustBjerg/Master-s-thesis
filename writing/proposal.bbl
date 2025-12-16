@@ -19,6 +19,75 @@
 
 \refsection{0}
   \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{Dong_2023}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Guohua},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=99d436fc3cbe3eeef7905e4945b9569c}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Jianghao},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08efd89ba572999fe83cc3ab39a30650}{%
+           family={Yao},
+           familyi={Y\bibinitperiod},
+           given={Chaobang},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5933bbdc43f2cc45e2773e496dc65805}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Dakui},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b81dc5d82137dbb71d256bec6de73cd}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Fanliang},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{fullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{fullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{bibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorbibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authornamehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{authorfullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorfullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IOP Conference Series: Materials Science and Engineering}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Numerical study of second-order wave forces using a Rankine panel method}
+      \field{volume}{1288}
+      \field{year}{2023}
+      \field{pages}{012028}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
     \entry{froude1955papers}{book}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
@@ -187,10 +256,132 @@
       \range{pages}{11}
       \verb{doi}
       \verb 10.1080/08927010701461974
+      \endverb
+    \endentry
+    \entry{Wang_2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=3564ba11823006ef6188baafdf155a0f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xujie},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02454d900cdd2c3d835cbf2003af5a43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ri},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc9895337565b86a51d8526b71d6f73d}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c51839f2cd11216a0d92cf870f4442d}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Pengfei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{fullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{fullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{bibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorbibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authornamehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{authorfullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorfullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Ocean University of China}
+      \field{month}{06}
+      \field{title}{Study on Wave Added Resistance of Ships in Oblique Waves Based on Panel Method}
+      \field{volume}{21}
+      \field{year}{2022}
+      \field{pages}{773\bibrangedash 781}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1007/s11802-022-5074-3
       \endverb
     \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
+    \entry{Dong_2023}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Guohua},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=99d436fc3cbe3eeef7905e4945b9569c}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Jianghao},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08efd89ba572999fe83cc3ab39a30650}{%
+           family={Yao},
+           familyi={Y\bibinitperiod},
+           given={Chaobang},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5933bbdc43f2cc45e2773e496dc65805}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Dakui},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b81dc5d82137dbb71d256bec6de73cd}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Fanliang},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{fullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{fullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{bibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorbibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authornamehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{authorfullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorfullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IOP Conference Series: Materials Science and Engineering}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Numerical study of second-order wave forces using a Rankine panel method}
+      \field{volume}{1288}
+      \field{year}{2023}
+      \field{pages}{012028}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
     \entry{froude1955papers}{book}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
@@ -359,6 +550,59 @@
       \range{pages}{11}
       \verb{doi}
       \verb 10.1080/08927010701461974
+      \endverb
+    \endentry
+    \entry{Wang_2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=3564ba11823006ef6188baafdf155a0f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xujie},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02454d900cdd2c3d835cbf2003af5a43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ri},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc9895337565b86a51d8526b71d6f73d}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c51839f2cd11216a0d92cf870f4442d}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Pengfei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{fullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{fullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{bibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorbibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authornamehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{authorfullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorfullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Ocean University of China}
+      \field{month}{06}
+      \field{title}{Study on Wave Added Resistance of Ships in Oblique Waves Based on Panel Method}
+      \field{volume}{21}
+      \field{year}{2022}
+      \field{pages}{773\bibrangedash 781}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1007/s11802-022-5074-3
       \endverb
     \endentry
   \enddatalist

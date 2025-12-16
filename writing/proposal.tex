@@ -95,17 +95,9 @@ Ever since the first ships were built, operators have sought to optimize energy 
 
 As measurement and computation matured, subsequent research increasingly combined physics-grounded models with real operational data, enabling more mathematically complex and empirically testable approaches to operational efficiency analysis \parencite{kim2025comprehensive}. More contemporary work can be grouped into three broad methodological categories: i) Computational Fluid Dynamics, ii) Empirical Naval Architecture and iii) Data Science.
 
-Computational Fluid Dynamics (CFD) simulations 
-    - Explain what it is
-    - A few research examples [Source xxx]
-        - Earliest ideas from Russell in 1839
-    - Strengths and weaknesses
+Computational fluid dynamics (CFD) is a physics-based approach that numerically solves the flow equations around a ship hull to predict resistance and related propulsion requirements as a function of speed and operating conditions \parencite{Russell1839Experimental}. Conceptually, this computational programme extends early resistance-focused science, including Russell’s experimental work that treated resistance as a mechanistic phenomenon. Contemporary studies broaden the optimization target from calm-water performance to operational conditions, for example panel-method modelling of wave added resistance and related wave-load computations that refine how power penalties are represented under realistic sea states \parencite{Dong_2023,Wang_2022}. Relative to purely empirical curves and data-driven models, CFD’s key strengths are physical interpretability and theoretical rigor, while its main limitations remain sensitivity to modelling assumptions and the need for careful verification and validation, alongside high computational cost.
 
-Empirical Naval Architecture models
-    - Explain what it is (incl. its relation to CFD if any)
-    - A few research examples [source xxx]
-        - Earliest work by William and Robert Froude in the late 1800s
-    - Strengths and weaknesses
+Empirical naval architecture models estimate the speed–power relationship from physical measurements, most commonly towing-tank tests where a scale model is towed at controlled speeds and resistance is measured for inference. In contrast to CFD, which derives the same relationship by numerically solving flow equations, towing tests provide benchmark data that is often used to validate and calibrate computational predictions. This experimental tradition is commonly linked to William Froude and Robert Froude’s \parencite*{froude1955papers} development of systematic model testing and scaling concepts for predicting full-scale ship performance. More recent applications include towing-tank studies of operational interventions such as hull coatings \parencite{Schultz2007EffectsOfCoating}, while the core trade-off remains that experiments can be highly accurate under controlled conditions but are expensive, time-consuming, and not always fully representative of real sea states and in-service hull condition.
 
 Data Science approaches [Source xxx]
     - Explain what it is (incl. how does not inherently rely on physics, although a minimum of physics-informed domain knowledge is somewhat necessary)

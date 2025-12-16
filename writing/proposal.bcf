@@ -3075,6 +3075,11 @@
     <bcf:citekey order="3" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
     <bcf:citekey order="4" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
     <bcf:citekey order="5" intorder="1">kim2025comprehensive</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">Russell1839Experimental</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">Dong_2023</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">Wang_2022</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">froude1955papers</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
