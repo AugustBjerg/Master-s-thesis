@@ -1,0 +1,867 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{Coraddu2019}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=744a5fdbd36ad70cdd6c385024ecaf72}{%
+           family={Coraddu},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ac1aad6cfc103482fc43476932564a3}{%
+           family={Oneto},
+           familyi={O\bibinitperiod},
+           given={Luca},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1d3e2f52c11e0a85fbbace7bbdb338f}{%
+           family={Baldi},
+           familyi={B\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=76c370eb4eaa2a43fd57d48138498e40}{%
+           family={Cipollini},
+           familyi={C\bibinitperiod},
+           given={Francesca},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d46365aacd65c7de0bcdb6f0370c3cf7}{%
+           family={Atlar},
+           familyi={A\bibinitperiod},
+           given={Mehmet},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fdd8948210ea312a4d9b9506480e497e}{%
+           family={Savio},
+           familyi={S\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{fullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{fullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \strng{bibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorbibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authornamehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{authorfullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorfullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven ship digital twin for estimating the speed loss caused by the marine fouling}
+      \field{volume}{186}
+      \field{year}{2019}
+      \field{pages}{106063}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2019.05.045
+      \endverb
+    \endentry
+    \entry{Dong_2023}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Guohua},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=99d436fc3cbe3eeef7905e4945b9569c}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Jianghao},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08efd89ba572999fe83cc3ab39a30650}{%
+           family={Yao},
+           familyi={Y\bibinitperiod},
+           given={Chaobang},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5933bbdc43f2cc45e2773e496dc65805}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Dakui},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b81dc5d82137dbb71d256bec6de73cd}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Fanliang},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{fullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{fullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{bibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorbibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authornamehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{authorfullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorfullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IOP Conference Series: Materials Science and Engineering}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Numerical study of second-order wave forces using a Rankine panel method}
+      \field{volume}{1288}
+      \field{year}{2023}
+      \field{pages}{012028}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
+    \entry{Duan2024}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=6cef52a2fed52a6ef80cf6aca6917e5d}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Kuiquan},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49310272ed2a04e25c91154f7b40764}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qingbo},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fef154b792626b810d59ba9166b45439}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yanxin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a86e69c2f3e044207235167c7d61d1cb}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Han},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9c9203300a0f1ec2844a9f423ad6b93}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a112636cb4be6bf302c111598f16e0de}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Manxia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{fullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{fullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \strng{bibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorbibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authornamehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{authorfullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorfullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven approach to evaluate the impact of hull roughness on main engine load of river-sea ships}
+      \field{volume}{312}
+      \field{year}{2024}
+      \field{pages}{119239}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2024.119239
+      \endverb
+    \endentry
+    \entry{froude1955papers}{book}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
+           family={Froude},
+           familyi={F\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b3a58d9ff86759ae6a39749fd829dd32}{%
+           family={Abell},
+           familyi={A\bibinitperiod},
+           given={Sir\bibnamedelima Westcott},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7aa79129b13cd78611297a56330790d7}{%
+           family={Gawn},
+           familyi={G\bibinitperiod},
+           given={RWL},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=803d7f27f8554b53cba8dbde92139712}{%
+           family={Duckworth},
+           familyi={D\bibinitperiod},
+           given={AD},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institution of Naval Architects}%
+      }
+      \strng{namehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{fullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{fullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \strng{bibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorbibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authornamehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{authorfullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorfullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
+      \field{year}{1955}
+    \endentry
+    \entry{kim2025comprehensive}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Youngrong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1464d6b3a8d2b3388e6a45013c518d35}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Prateek},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7429d7b064aca1ab1cefe1bfb85333bd}{%
+           family={Steen},
+           familyi={S\bibinitperiod},
+           given={Sverre},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{fullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{fullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{bibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorbibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authornamehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{authorfullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorfullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Applied Ocean Research}
+      \field{title}{A comprehensive review of data processing for ship performance analysis}
+      \field{volume}{162}
+      \field{year}{2025}
+      \field{pages}{104737}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.apor.2025.104737
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+    \endentry
+    \entry{Russell1839Experimental}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
+           family={Russell},
+           familyi={R\bibinitperiod},
+           given={John\bibnamedelima Scott},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{bibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorbibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authornamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions of the Royal Society of Edinburgh}
+      \field{number}{1}
+      \field{title}{III.—Experimental Researches into the Laws of Certain Hydrodynamical Phenomena that accompany the Motion of Floating Bodies, and have not previously been reduced into conformity with the known Laws of the Resistance of Fluids}
+      \field{volume}{14}
+      \field{year}{1839}
+      \field{pages}{47\bibrangedash 109}
+      \range{pages}{63}
+      \verb{doi}
+      \verb 10.1017/S0080456800021451
+      \endverb
+    \endentry
+    \entry{Schultz2007EffectsOfCoating}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
+           family={Schultz},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{bibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorbibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authornamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biofouling}
+      \field{month}{02}
+      \field{title}{Effects of coating roughness and biofouling on ship resistance and powering}
+      \field{volume}{23}
+      \field{year}{2007}
+      \field{pages}{331\bibrangedash 41}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1080/08927010701461974
+      \endverb
+    \endentry
+    \entry{Wang_2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=3564ba11823006ef6188baafdf155a0f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xujie},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02454d900cdd2c3d835cbf2003af5a43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ri},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc9895337565b86a51d8526b71d6f73d}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c51839f2cd11216a0d92cf870f4442d}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Pengfei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{fullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{fullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{bibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorbibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authornamehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{authorfullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorfullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Ocean University of China}
+      \field{month}{06}
+      \field{title}{Study on Wave Added Resistance of Ships in Oblique Waves Based on Panel Method}
+      \field{volume}{21}
+      \field{year}{2022}
+      \field{pages}{773\bibrangedash 781}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1007/s11802-022-5074-3
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{Coraddu2019}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=744a5fdbd36ad70cdd6c385024ecaf72}{%
+           family={Coraddu},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ac1aad6cfc103482fc43476932564a3}{%
+           family={Oneto},
+           familyi={O\bibinitperiod},
+           given={Luca},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1d3e2f52c11e0a85fbbace7bbdb338f}{%
+           family={Baldi},
+           familyi={B\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=76c370eb4eaa2a43fd57d48138498e40}{%
+           family={Cipollini},
+           familyi={C\bibinitperiod},
+           given={Francesca},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d46365aacd65c7de0bcdb6f0370c3cf7}{%
+           family={Atlar},
+           familyi={A\bibinitperiod},
+           given={Mehmet},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fdd8948210ea312a4d9b9506480e497e}{%
+           family={Savio},
+           familyi={S\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{fullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{fullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \strng{bibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorbibnamehash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authornamehash}{4e3c64b9cdb2dd18531bbee3c1fd603f}
+      \strng{authorfullhash}{d37295253e983a1a47c91bb133556c76}
+      \strng{authorfullhashraw}{d37295253e983a1a47c91bb133556c76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven ship digital twin for estimating the speed loss caused by the marine fouling}
+      \field{volume}{186}
+      \field{year}{2019}
+      \field{pages}{106063}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2019.05.045
+      \endverb
+    \endentry
+    \entry{Dong_2023}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Guohua},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=99d436fc3cbe3eeef7905e4945b9569c}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Jianghao},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08efd89ba572999fe83cc3ab39a30650}{%
+           family={Yao},
+           familyi={Y\bibinitperiod},
+           given={Chaobang},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5933bbdc43f2cc45e2773e496dc65805}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Dakui},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b81dc5d82137dbb71d256bec6de73cd}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Fanliang},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{fullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{fullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{bibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorbibnamehash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authornamehash}{9d9b22448327c70a484e4e811ed7041b}
+      \strng{authorfullhash}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \strng{authorfullhashraw}{0c96f4c1d31e678a0a5d6f96d5b6b327}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IOP Conference Series: Materials Science and Engineering}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Numerical study of second-order wave forces using a Rankine panel method}
+      \field{volume}{1288}
+      \field{year}{2023}
+      \field{pages}{012028}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/1757-899X/1288/1/012028
+      \endverb
+    \endentry
+    \entry{Duan2024}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=6cef52a2fed52a6ef80cf6aca6917e5d}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Kuiquan},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49310272ed2a04e25c91154f7b40764}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qingbo},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fef154b792626b810d59ba9166b45439}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yanxin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a86e69c2f3e044207235167c7d61d1cb}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Han},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9c9203300a0f1ec2844a9f423ad6b93}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a112636cb4be6bf302c111598f16e0de}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Manxia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{fullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{fullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \strng{bibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorbibnamehash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authornamehash}{dda46896700a1cc67a229e993b5157ad}
+      \strng{authorfullhash}{712a498911231f32f2d10bea14a9dfef}
+      \strng{authorfullhashraw}{712a498911231f32f2d10bea14a9dfef}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Data-driven approach to evaluate the impact of hull roughness on main engine load of river-sea ships}
+      \field{volume}{312}
+      \field{year}{2024}
+      \field{pages}{119239}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.oceaneng.2024.119239
+      \endverb
+    \endentry
+    \entry{froude1955papers}{book}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
+           family={Froude},
+           familyi={F\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b3a58d9ff86759ae6a39749fd829dd32}{%
+           family={Abell},
+           familyi={A\bibinitperiod},
+           given={Sir\bibnamedelima Westcott},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7aa79129b13cd78611297a56330790d7}{%
+           family={Gawn},
+           familyi={G\bibinitperiod},
+           given={RWL},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=803d7f27f8554b53cba8dbde92139712}{%
+           family={Duckworth},
+           familyi={D\bibinitperiod},
+           given={AD},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institution of Naval Architects}%
+      }
+      \strng{namehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{fullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{fullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \strng{bibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorbibnamehash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authornamehash}{d9e6cded9484e8e25ddea77316b70df9}
+      \strng{authorfullhash}{267e91345b7d1371c1047ce362a14670}
+      \strng{authorfullhashraw}{267e91345b7d1371c1047ce362a14670}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
+      \field{year}{1955}
+    \endentry
+    \entry{kim2025comprehensive}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b5292dbcce80cab336f38c91c42c32fb}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Youngrong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1464d6b3a8d2b3388e6a45013c518d35}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Prateek},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7429d7b064aca1ab1cefe1bfb85333bd}{%
+           family={Steen},
+           familyi={S\bibinitperiod},
+           given={Sverre},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{fullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{fullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{bibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorbibnamehash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authornamehash}{0ca20db81362bfff3e8bda5d638f56d0}
+      \strng{authorfullhash}{564b1e481f2eb596c9b9fc656e82f509}
+      \strng{authorfullhashraw}{564b1e481f2eb596c9b9fc656e82f509}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Applied Ocean Research}
+      \field{title}{A comprehensive review of data processing for ship performance analysis}
+      \field{volume}{162}
+      \field{year}{2025}
+      \field{pages}{104737}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.apor.2025.104737
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.apor.2025.104737
+      \endverb
+    \endentry
+    \entry{Russell1839Experimental}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
+           family={Russell},
+           familyi={R\bibinitperiod},
+           given={John\bibnamedelima Scott},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{fullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{bibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorbibnamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authornamehash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhash}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \strng{authorfullhashraw}{e4bc1fc932cbcf2277ff1e3e78d7542e}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions of the Royal Society of Edinburgh}
+      \field{number}{1}
+      \field{title}{III.—Experimental Researches into the Laws of Certain Hydrodynamical Phenomena that accompany the Motion of Floating Bodies, and have not previously been reduced into conformity with the known Laws of the Resistance of Fluids}
+      \field{volume}{14}
+      \field{year}{1839}
+      \field{pages}{47\bibrangedash 109}
+      \range{pages}{63}
+      \verb{doi}
+      \verb 10.1017/S0080456800021451
+      \endverb
+    \endentry
+    \entry{Schultz2007EffectsOfCoating}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
+           family={Schultz},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{fullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{bibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorbibnamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authornamehash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhash}{6f171fa33cab356311c58fb82ea8a5bb}
+      \strng{authorfullhashraw}{6f171fa33cab356311c58fb82ea8a5bb}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biofouling}
+      \field{month}{02}
+      \field{title}{Effects of coating roughness and biofouling on ship resistance and powering}
+      \field{volume}{23}
+      \field{year}{2007}
+      \field{pages}{331\bibrangedash 41}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1080/08927010701461974
+      \endverb
+    \endentry
+    \entry{Wang_2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=3564ba11823006ef6188baafdf155a0f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xujie},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02454d900cdd2c3d835cbf2003af5a43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ri},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc9895337565b86a51d8526b71d6f73d}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c51839f2cd11216a0d92cf870f4442d}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Pengfei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{fullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{fullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{bibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorbibnamehash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authornamehash}{52c85792b8c0638181080d79dd53b25e}
+      \strng{authorfullhash}{042ffb25818659644ef4d1a485d88f4b}
+      \strng{authorfullhashraw}{042ffb25818659644ef4d1a485d88f4b}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Ocean University of China}
+      \field{month}{06}
+      \field{title}{Study on Wave Added Resistance of Ships in Oblique Waves Based on Panel Method}
+      \field{volume}{21}
+      \field{year}{2022}
+      \field{pages}{773\bibrangedash 781}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1007/s11802-022-5074-3
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

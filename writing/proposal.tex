@@ -69,7 +69,7 @@ August Bjerg-Heise (114300315)
 \end{titlepage}
 \clearpage
 
-\section{Introduction (0.75 page)}
+\section{Introduction}
 
 The operational efficiency of a vessel can largely be defined as its ability to achieve the highest transport work for the lowest fuel consumption. (source)
 
@@ -101,9 +101,9 @@ Empirical naval architecture (ENA) models estimate the speed–power relationshi
 Data-science approaches model operational efficiency directly from observed data, typically without imposing any physical constraints. However, physics-informed feature choice and engineering remain necessary to avoid spurious inference. Recent work leverages increasingly dense IoT (sensor) data streams to estimate performance baselines and degradation signals, for example by building data-driven digital twins that predict “expected” speed and then interpret systematic deviations as fouling-induced speed loss \parencite{Coraddu2019}. Related studies fuse operational logs with metocean data and apply machine-learning regressors to quantify hull condition, enabling counterfactual evaluation of cleaning timing under controlled operating scenarios \parencite{Duan2024}. The main strength of these methods is flexibility in capturing ship-specific, nonlinear relationships at scale as data availability and ML toolchains have improved, but their central limitation is dependence of very high volume, frequency and quality of data \parencite{kim2025comprehensive}. From a research perspective, exploring new avenues within data-science based approaches is a particularly interesting due to the recent rapid developments in the quantity and quality of data.
 
 \section{Theoretical Framework (1.5 pages)}
-\subsection{[...]} %TODO: update this
 
-\subsection{Approach}
+1: Some ship specifics?
+2: Data-science based approach to identify sources of inefficiency
 
 \subsection{Hypotheses}
 
@@ -114,33 +114,26 @@ Data-science approaches model operational efficiency directly from observed data
 
 \subsection{Contents}
 
-\section{Methodology (1.5 pages)}
+\section{Methodology}
+
+\label{sec:modelling_framework}
+\subsection{Modelling framework}
+
+It is intended to use statistical modelling to separate an estimated “optimal” operating speed from observed performance. First, an “optimal-speed” benchmark will be constructed by fitting a predictive model of vessel speed using data from a period in which operation can reasonably be assumed close to optimal, such as the first month following a hull and propeller cleaning event. This benchmark model will then be used to compute speed loss at each operating point as the difference between predicted optimal speed and observed speed. Second, a separate explanatory model will be estimated on data from a later, non-optimal period, in which fouling, engine depreciation, and other degradation mechanisms are expected to be present, with the dependent variable defined as the estimated speed loss and the regressors given by operational and environmental covariates in the dataset. The latter will be built for an inferential purpose, i.e., the primary purpose will be to deconstruct to infer what variables led to a given prediction. This will allow for the attribution of developments in inefficiency to certain variables and, in extension, parts of the ship. The approach to modelling is shown in \ref{fig:outdated_approach_viz}.
+    
+\begin{figure}[htbp]
+   \centering
+   \captionsetup{font=scriptsize,justification=centering}
+   \includegraphics[width=0.85\linewidth]{figures/proposal/outdated_approach_viz.png}
+   \caption{Visualisation of approach}
+   \label{fig:outdated_approach_viz}
+\end{figure}
+
+\subsection{models}
+
+To predict the speed loss, It is suggested to employ and compare multiple models of varying complexity for two reasons. Firstly, it increases the likelihood of achieving a satisfactory predictive power. Secondly, it allows for the evaluation of the accuracy/complexity trade-off which is particularly relevant in edge computing scenarios such as onboard deployment. Applying three different models are suggested as a starting point. As a simple baseline model, it is suggested to use a linear regression due to its simplicity and intuitive interpretation of coefficients. As a natural progression of complexity, it is suggested to use a decision tree since it can model more complex relationships while still staying relatively interpretable. Lastly, it is suggested to include neural network-based model to have a high complexity benchmark to inform the complexity/trade-off analysis. For the latter two model choices is suggested to use SHapley Additive exPlanations (SHAP) values for attribution. The best predictive model should be chosen for a inferential analysis as described in \ref{sec:modelling_framework}. It is suggested to take an experimental approach and also look into other models to find the best model.
 
 \section{Expected Results and Applications (1.5 page)}
-
-% Example of including a figure
-% \begin{figure}[htbp]
-%   \centering
-%   \captionsetup{font=scriptsize,justification=centering}
-%   \includegraphics[width=0.9\linewidth]{your_figure.png}
-%   \caption{Your figure caption}
-%   \label{fig:your_label}
-% \end{figure}
-
-% Example of including a table
-% \begin{table}[H]
-%   \centering
-%   \begin{tabular}{@{}lrr@{}}
-%     \toprule
-%     Column 1 & Column 2 & Column 3 \\
-%     \midrule
-%     Data 1   & Data 2   & Data 3   \\ 
-%     Data 4   & Data 5   & Data 6   \\ 
-%     \bottomrule
-%   \end{tabular}
-%   \caption{Your table caption}
-%   \label{tab:your_label}
-% \end{table}
 
 \clearpage
 
