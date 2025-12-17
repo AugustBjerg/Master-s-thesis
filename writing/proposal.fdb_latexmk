@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber proposal"] 1765961095.86201 "proposal.bcf" "proposal.bbl" "proposal" 1765962832.65895 0
-  "proposal.bcf" 1765962832 134845 65a636fe711f47e4f9d42d2b0675b073 "pdflatex"
+["biber proposal"] 1765961095.86201 "proposal.bcf" "proposal.bbl" "proposal" 1765963535.00328 0
+  "proposal.bcf" 1765963534 134845 65a636fe711f47e4f9d42d2b0675b073 "pdflatex"
   "references/proposal.bib" 1765870373 3137 0a0244bc2b5230dabd812180424d92e9 ""
   (generated)
   "proposal.bbl"
   "proposal.blg"
   (rewritten before read)
-["pdflatex"] 1765962829.60167 "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" "proposal.pdf" "proposal" 1765962832.66028 0
+["pdflatex"] 1765963531.92948 "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" "proposal.pdf" "proposal" 1765963535.00457 0
   "C:/Users/August Bjerg-Heise/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765785555 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/August Bjerg-Heise/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1741858261 12042417 e0ee36f5a72c34dfe7f2677e7808e0a5 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -135,14 +135,14 @@
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" 1765962824 11700 6817552c630ed2b24eef212d2c77fb4d ""
+  "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" 1765963531 12676 950b64d0d700f339e976aafa9158900e ""
   "figures/proposal/example_spd_pwr_curve.png" 1765854621 159555 1101b2607c93ebdd06c4c3911f7999dc ""
   "figures/proposal/outdated_approach_viz.png" 1765959444 72104 e1a1fc850b32f5b74572ab03d04ae64c ""
-  "proposal.aux" 1765962832 5556 a9a9c297b3c7896c9b9eb34fab37140d "pdflatex"
+  "proposal.aux" 1765963534 5433 7187c280cf907250918b38d74e689262 "pdflatex"
   "proposal.bbl" 1765961106 35515 9c7243451b2c41d40526b82e23c2d7c0 "biber proposal"
-  "proposal.out" 1765962832 1905 1aa9fe300a9a685748f5248514a85262 "pdflatex"
-  "proposal.run.xml" 1765962832 2464 5e4d5b9f6b996cad2a28bca8ec07c4a8 "pdflatex"
-  "proposal.tex" 1765962824 11700 6817552c630ed2b24eef212d2c77fb4d ""
+  "proposal.out" 1765963534 1764 baed7e9816c2ee29592fb68f8c3b7f6f "pdflatex"
+  "proposal.run.xml" 1765963534 2464 5e4d5b9f6b996cad2a28bca8ec07c4a8 "pdflatex"
+  "proposal.tex" 1765963531 12676 950b64d0d700f339e976aafa9158900e ""
   (generated)
   "proposal.aux"
   "proposal.bcf"

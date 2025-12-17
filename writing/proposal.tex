@@ -102,7 +102,8 @@ Data-science approaches model operational efficiency directly from observed data
 
 \section{Theoretical Framework (1.5 pages)}
 
-1: Some ship specifics?
+1: Some shipping- specific theory about operational inefficiency?
+- Maybe some theory that leads us to how we can i) quantify it and ii) identify sources of it
 2: Data-science based approach to identify sources of inefficiency
 
 \subsection{Hypotheses}
@@ -110,7 +111,8 @@ Data-science approaches model operational efficiency directly from observed data
 \section{Dataset (1 page)}
 \subsection{Origin}
 
-\subsection{Ship particulars}
+- background on the workshop
+- Quick high-level rundown of a couple relevant ship particulars
 
 \subsection{Contents}
 
@@ -131,7 +133,9 @@ It is intended to use statistical modelling to separate an estimated â€œoptimalâ
 
 \subsection{models}
 
-To predict the speed loss, It is suggested to employ and compare multiple models of varying complexity for two reasons. Firstly, it increases the likelihood of achieving a satisfactory predictive power. Secondly, it allows for the evaluation of the accuracy/complexity trade-off which is particularly relevant in edge computing scenarios such as onboard deployment. Applying three different models are suggested as a starting point. As a simple baseline model, it is suggested to use a linear regression due to its simplicity and intuitive interpretation of coefficients. As a natural progression of complexity, it is suggested to use a decision tree since it can model more complex relationships while still staying relatively interpretable. Lastly, it is suggested to include neural network-based model to have a high complexity benchmark to inform the complexity/trade-off analysis. For the latter two model choices is suggested to use SHapley Additive exPlanations (SHAP) values for attribution. The best predictive model should be chosen for a inferential analysis as described in \ref{sec:modelling_framework}. It is suggested to take an experimental approach and also look into other models to find the best model.
+To predict the speed loss, It is suggested to employ and compare multiple models of varying complexity for two reasons. Firstly, it increases the likelihood of achieving a satisfactory predictive power. Secondly, it allows for the evaluation of the accuracy/complexity trade-off which is particularly relevant in edge computing scenarios such as onboard deployment. Applying three different models are suggested as a starting point. As a simple baseline model, it is suggested to use a linear regression due to its simplicity and intuitive interpretation of coefficients. As a natural progression of complexity, it is suggested to use a decision tree since it can model more complex relationships while still staying relatively interpretable. Lastly, it is suggested to include neural network-based model to have a high complexity benchmark to inform the complexity/trade-off analysis. The best predictive model should be chosen for a inferential analysis as described in \ref{sec:modelling_framework}. It is suggested to take an experimental approach and also look into other models to find the best model.
+
+For interpretation and attribution, the inferential analysis will be tied to the best-performing predictive model, while maintaining a consistent attribution framework across model classes. For the linear regression, attribution follows directly from estimated coefficients, interpreted as marginal associations conditional on the included covariates and modelling assumptions. For the decision tree model, local and global drivers of predicted speed loss will be quantified using TreeSHAP, which decomposes each prediction into additive feature contributions while preserving consistency properties for tree-based models. For the neural-network model, SHAP values will be used analogously to obtain feature-level contributions to each predicted speed-loss outcome, enabling a comparable attribution of operational and environmental drivers even under highly nonlinear specifications.
 
 \section{Expected Results and Applications (1.5 page)}
 
