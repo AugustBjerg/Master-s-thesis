@@ -119,21 +119,14 @@ Based on reviewed literature and the theoretical considerations above, the follo
    \item \textbf{H3}: Statistical methods will at least match traditional methods in their ability to predict and attribute operational inefficiencies in real-time
 \end{itemize}
 
-\section{Dataset (1 page)}
+\section{Dataset}
 \subsection{Origin}
 
-Paragraph 1: Reason for choosing a case study approach
-- It is proposed to take a case-study approach for two reasons
-   1. The shipping industry has yet to agree on a global standard for data formats and collection practices, making cross-vessel analysis difficult and subject to unobservable biases \parencite{ISO19030-2-2016}
-   2. Most vessels are not equipped with the necessary sensors to collect the data required for this type of analysis, meaning that obtaining a quality cross-vessel dataset is somewhat unrealistic \parencite{Kim2023ShipEnergyEfficiencyData}
+A case-study approach is adopted for two reasons. First, the shipping industry lacks a globally agreed standard for data formats and collection practices, which makes cross-vessel analysis difficult and increases the risk of unobservable biases in comparative datasets \parencite{ISO19030-2-2016}. Second, many vessels are not equipped with the sensor infrastructure required for high-frequency operational performance modelling, making the construction of a consistent, high-quality multi-vessel dataset unrealistic in practice \parencite{kim2025comprehensive}.
 
-   A dataset containing time-series data from a bulk carrier in operation has been obtained
-- Stems from the “Real Vessel Data Challenge” – workshop, hosted by the Mærsk McKinney-Møller Center for Zero Carbon Shipping\footnote{Since this is the project I will do for my master's thesis, I can confirm that i have received this data and started working on it. However, the data and workshop specifications are not be accesible to the public} \parencite{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}.  
-- 
+The dataset used in this study consists of one year of time-series measurements from a bulk carrier in operation. It was provided through the “Real Vessel Data Challenge”, a workshop hosted by the Mærsk McKinney-Møller Center for Zero Carbon Shipping.\footnote{Since this is the research i will conduct for my master’s thesis, access to the dataset and workshop specifications has been granted, but these materials are not publicly accessible.} \parencite{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}. The data cover both voyages and port operations in roughly equal shares, while the vessel’s identity and routes remain undisclosed.
 
-- Quick high-level rundown of a couple relevant ship particulars
-
-\subsection{Contents}
+The dataset combines ship particulars with operational time-series data and external conditions. Key ship particulars include length overall (224.92 m), breadth (32.25 m), typical operating drafts (about 12.2 m at design and 14.25 m at scantling), main engine maximum continuous rating (SMCR) of 9,500 kW at 105 rpm, and a propeller diameter of 6.8 m. The operational dataset contains 33 variables, with ship-internal measurements recorded at 15-second intervals, including speed over ground, speed through water, shaft power, shaft rpm, shaft torque, fuel oil mass flow, and draft. External conditions are provided at 1-hour intervals and include wind speed and direction, significant wave height, swell significant height, wave period, sea-water temperature, and current components \parencite{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}.
 
 \section{Methodology}
 

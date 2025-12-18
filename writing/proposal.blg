@@ -1,23 +1,22 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
-[1] Config.pm:311> INFO - Logfile is 'proposal.blg'
-[226] biber-MSWIN64:340> INFO - === 
-[293] Biber.pm:420> INFO - Reading 'proposal.bcf'
-[583] Biber.pm:994> INFO - Found 15 citekeys in bib section 0
-[635] Biber.pm:4463> INFO - Processing section 0
-[659] Biber.pm:4654> INFO - Looking for bibtex file 'references/proposal.bib' for section 0
-[732] bibtex.pm:1713> INFO - LaTeX decoding ...
-[764] bibtex.pm:1519> INFO - Found BibTeX data source 'references/proposal.bib'
-[1141] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1141] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1141] Biber.pm:4283> INFO - Sorting list 'apa/apasortcite//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[1141] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[1221] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1221] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1221] Biber.pm:4283> INFO - Sorting list 'apa/global//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[1222] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[1268] bbl.pm:676> INFO - Writing 'proposal.bbl' with encoding 'UTF-8'
-[1341] bbl.pm:779> INFO - Output to proposal.bbl
-[1341] Biber.pm:131> WARN - legacy month field 'aug' in entry 'Dong_2023' is not an integer - this will probably not sort properly.
-[1341] Biber.pm:131> WARN - legacy month field 'Sep.' in entry 'Meiliana_Syahab_Wulandari_Utama_2024' is not an integer - this will probably not sort properly.
-[1341] Biber.pm:131> WARN - I didn't find a database entry for 'Kim2023ShipEnergyEfficiencyData' (section 0)
-[1341] Biber.pm:133> INFO - WARNINGS: 3
+[0] Config.pm:311> INFO - Logfile is 'proposal.blg'
+[191] biber-MSWIN64:340> INFO - === 
+[257] Biber.pm:420> INFO - Reading 'proposal.bcf'
+[468] Biber.pm:994> INFO - Found 14 citekeys in bib section 0
+[499] Biber.pm:4463> INFO - Processing section 0
+[516] Biber.pm:4654> INFO - Looking for bibtex file 'references/proposal.bib' for section 0
+[668] bibtex.pm:1713> INFO - LaTeX decoding ...
+[736] bibtex.pm:1519> INFO - Found BibTeX data source 'references/proposal.bib'
+[1007] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1007] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1008] Biber.pm:4283> INFO - Sorting list 'apa/apasortcite//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[1008] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1076] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1076] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1076] Biber.pm:4283> INFO - Sorting list 'apa/global//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[1077] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1122] bbl.pm:676> INFO - Writing 'proposal.bbl' with encoding 'UTF-8'
+[1187] bbl.pm:779> INFO - Output to proposal.bbl
+[1188] Biber.pm:131> WARN - legacy month field 'aug' in entry 'Dong_2023' is not an integer - this will probably not sort properly.
+[1188] Biber.pm:131> WARN - legacy month field 'Sep.' in entry 'Meiliana_Syahab_Wulandari_Utama_2024' is not an integer - this will probably not sort properly.
+[1188] Biber.pm:133> INFO - WARNINGS: 2
