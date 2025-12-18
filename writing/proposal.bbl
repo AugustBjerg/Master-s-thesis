@@ -83,6 +83,172 @@
       \verb 10.1016/j.oceaneng.2019.05.045
       \endverb
     \endentry
+    \entry{Crippa_etal_2025_GHG_emissions_world_countries}{report}{}{}
+      \name{author}{21}{}{%
+        {{un=0,uniquepart=base,hash=a5460a929626ce4953480db226afe604}{%
+           family={Crippa},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f8536329f0e230992b325f3b8f138866}{%
+           family={Guizzardi},
+           familyi={G\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=416107be2ab54761783acf64d561e317}{%
+           family={Pagani},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5b6bb4dbcb6778996dcf5d063efb9a3}{%
+           family={Banja},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f05152e7d8cfa279a2a1bd24f7af6517}{%
+           family={Muntean},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4973967ac7988e0931c62da4954d472d}{%
+           family={Schaaf},
+           familyi={S\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=588f7975b3a1d06a4c0d8d79a7ffecda}{%
+           family={Quadrelli},
+           familyi={Q\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fe01eb96b75d576dfa57ff41f81b621d}{%
+           family={Risquez\bibnamedelima Martin},
+           familyi={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6f0dd0fa9cad36644291d39e0937af43}{%
+           family={Taghavi-Moharamli},
+           familyi={T\bibinithyphendelim M\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b30958c5c9d1bdb4633d681aa700a264}{%
+           family={K{"o}ykk{"a}},
+           familyi={K\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=179c40869deaacf9bf01d77be0f76dca}{%
+           family={Grassi},
+           familyi={G\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c3d909358c900fb2415bf2c9eca014a}{%
+           family={Rossi},
+           familyi={R\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cf29ca70de7e24ca1467f4603e8b6cb9}{%
+           family={Melo},
+           familyi={M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42417b62592fb5f49784d44bb06167bd}{%
+           family={Oom},
+           familyi={O\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7746178162c4250a1882f496e3cc41ec}{%
+           family={Branco},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bb3600ed91453f884ca92e2af5e2b61a}{%
+           family={Su{'a}rez-Moreno},
+           familyi={S\bibinithyphendelim M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05de50954695b5c2f5142fbec1153e79}{%
+           family={Sedano},
+           familyi={S\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2017d3ad54ebe377c48ff317ac257c92}{%
+           family={San-Miguel},
+           familyi={S\bibinithyphendelim M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4f862cd513a89f258d18274c522f5641}{%
+           family={Manca},
+           familyi={M\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ff91fb967095b5b8d9c6ec1ad365d27}{%
+           family={Pisoni},
+           familyi={P\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=592766521edde797ca97c154a90fb7e8}{%
+           family={Pekar},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Publications Office of the European Union}%
+      }
+      \list{location}{1}{%
+        {Luxembourg}%
+      }
+      \strng{namehash}{6ff0362e829968c17e572b495a27ff55}
+      \strng{fullhash}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{fullhashraw}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{bibnamehash}{1f7b0cdfb57126c14c58fecf73a35bd8}
+      \strng{authorbibnamehash}{1f7b0cdfb57126c14c58fecf73a35bd8}
+      \strng{authornamehash}{6ff0362e829968c17e572b495a27ff55}
+      \strng{authorfullhash}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{authorfullhashraw}{7fca21ead0813493af9763f0ccf7506a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-92-68-31401-2}
+      \field{note}{JRC/IEA Report, EUR 40443}
+      \field{number}{JRC143227}
+      \field{title}{{GHG emissions of all world countries -- 2025 Report}}
+      \field{type}{JRC Science for Policy Report}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.2760/9816914
+      \endverb
+      \verb{urlraw}
+      \verb https://data.europa.eu/doi/10.2760/9816914
+      \endverb
+      \verb{url}
+      \verb https://data.europa.eu/doi/10.2760/9816914
+      \endverb
+    \endentry
     \entry{Dong_2023}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
@@ -216,6 +382,226 @@
       \verb 10.1016/j.oceaneng.2024.119239
       \endverb
     \endentry
+    \entry{IMO2020FourthGHGStudy}{report}{}{}
+      \name{author}{31}{}{%
+        {{un=0,uniquepart=base,hash=e8c25f45a0326e69121ce598c1d555d9}{%
+           family={Faber},
+           familyi={F\bibinitperiod},
+           given={Jasper},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7e929bd96fc3c929c1cd9cf26144dea0}{%
+           family={Hanayama},
+           familyi={H\bibinitperiod},
+           given={Shinichi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b0e12eee0463ac9ff036ddfad8bcc943}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f3b77d3e08bff898152356cf394a3887}{%
+           family={Pereda},
+           familyi={P\bibinitperiod},
+           given={Paula},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=51c9cf0ccd0678067d6b8922953628f4}{%
+           family={Comer},
+           familyi={C\bibinitperiod},
+           given={Bryan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2a15bbbcca57e3e248df61365db68a02}{%
+           family={Hauerhof},
+           familyi={H\bibinitperiod},
+           given={Elena},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70568004d4c2805a78ac9c118ba38b4e}{%
+           family={Schim\bibnamedelimb van\bibnamedelimb der\bibnamedelima Loeff},
+           familyi={S\bibinitperiod\bibinitdelim v\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Wendela},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6d8bdc4625ba142accf5fad2c2bb19c}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Tristan},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28f91f3a4b62ce57b7a533e742e8aae1}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c2030dca6a93790d9c858a124f65e40e}{%
+           family={Kosaka},
+           familyi={K\bibinitperiod},
+           given={Hiroyuko},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=228d91383152a6abeded1d23db9286dc}{%
+           family={Adachi},
+           familyi={A\bibinitperiod},
+           given={Masaki},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=887c261c4b6c516d6cbc9226f58c9d1f}{%
+           family={Bonello},
+           familyi={B\bibinitperiod},
+           given={Jean-Marc},
+           giveni={J\bibinithyphendelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=52ea938ac7033a281163bc13a5946eee}{%
+           family={Galbraith},
+           familyi={G\bibinitperiod},
+           given={Connor},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55592967f00eabf77501619d2043f6ed}{%
+           family={Gong},
+           familyi={G\bibinitperiod},
+           given={Ziheng},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=313bde87317a7595451fdde0c1c67c60}{%
+           family={Hirata},
+           familyi={H\bibinitperiod},
+           given={Koichi},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=17a15594338e70f299bc98db1a1d752a}{%
+           family={Hummels},
+           familyi={H\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95a248b56768f250923ee04ec474cf6c}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={David\bibnamedelima S.},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7f15471519026ffe8cd1f6652324b48}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yiming},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d221621293b940d69def022d688bc6d2}{%
+           family={Lucchesi},
+           familyi={L\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c63ddbdedb55986f7693635c49cd7aa}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Xiaoli},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d677565e5631a36a0645e1f8d9110510}{%
+           family={Muraoka},
+           familyi={M\bibinitperiod},
+           given={Eiichi},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b20ab95d9f681b6219ca6ccfa1b0b69c}{%
+           family={Osipova},
+           familyi={O\bibinitperiod},
+           given={Liudmila},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0223b3bbfb84f310d980c82e1f8c9eb5}{%
+           family={Qian},
+           familyi={Q\bibinitperiod},
+           given={Haoqi},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8574bb104295c7b10c9ef1ce3ef78fb4}{%
+           family={Rutherford},
+           familyi={R\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd3528fc68938b0a66e1a76e3269e859}{%
+           family={Suárez\bibnamedelimb de\bibnamedelimb la\bibnamedelima Fuente},
+           familyi={S\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim l\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Santiago},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59813eb9e56928c2f8b60003480d9740}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Haichao},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0b58315e9421263e79d50f35fe09ac8b}{%
+           family={Velandia\bibnamedelima Perico},
+           familyi={V\bibinitperiod\bibinitdelim P\bibinitperiod},
+           given={Camilo},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ad7c78ed9cd30f5aab7166a59de148e4}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Libo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e42d26d4255fa7051d72384b87d61439}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Deping},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8c3bac23ea182193a062bdb5abb0fed6}{%
+           family={Yoo},
+           familyi={Y\bibinitperiod},
+           given={Dong-Hoon},
+           giveni={D\bibinithyphendelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be65b1dd0409bc91315b6187275b8d61}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Hui},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {International Maritime Organization}%
+      }
+      \list{location}{1}{%
+        {London, United Kingdom}%
+      }
+      \strng{namehash}{ae515583531eaba807992e304ff7e68a}
+      \strng{fullhash}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{fullhashraw}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{bibnamehash}{2ed5ebd782321f2cfd82b64acad03351}
+      \strng{authorbibnamehash}{2ed5ebd782321f2cfd82b64acad03351}
+      \strng{authornamehash}{ae515583531eaba807992e304ff7e68a}
+      \strng{authorfullhash}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{authorfullhashraw}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Published 2021}
+      \field{title}{Fourth {IMO} {GHG} Study 2020: Full report and annexes}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20IMO%20GHG%20Study%202020%20-%20Full%20report%20and%20annexes.pdf
+      \endverb
+      \verb{url}
+      \verb https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20IMO%20GHG%20Study%202020%20-%20Full%20report%20and%20annexes.pdf
+      \endverb
+    \endentry
     \entry{froude1955papers}{book}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
@@ -263,6 +649,38 @@
       \field{labeltitlesource}{title}
       \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
       \field{year}{1955}
+    \endentry
+    \entry{ISO19030-2-2016}{standard}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7058e4bd76f877c52b621c942b30613c}{%
+           family={{International Organization for Standardization}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Geneva, Switzerland}%
+      }
+      \list{organization}{1}{%
+        {International Organization for Standardization}%
+      }
+      \strng{namehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhashraw}{7058e4bd76f877c52b621c942b30613c}
+      \strng{bibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorbibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authornamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhashraw}{7058e4bd76f877c52b621c942b30613c}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{ISO 19030-2:2016}
+      \field{title}{{ISO 19030-2:2016} Ships and marine technology --- Measurement of changes in hull and propeller performance --- Part 2: Data collection and analysis}
+      \field{type}{Standard}
+      \field{year}{2016}
     \endentry
     \entry{kim2025comprehensive}{article}{}{}
       \name{author}{3}{}{%
@@ -316,6 +734,66 @@
       \verb https://doi.org/10.1016/j.apor.2025.104737
       \endverb
     \endentry
+    \entry{Meiliana_Syahab_Wulandari_Utama_2024}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=4593528e6498509c97a77006487d7305}{%
+           family={Meiliana},
+           familyi={M\bibinitperiod},
+           given={SW},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05d7ae94e6f0c09007ff39f4451ceec8}{%
+           family={Syahab},
+           familyi={S\bibinitperiod},
+           given={H},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=abe110a2c8f5c20d9d17243fe7db1757}{%
+           family={Wulandari},
+           familyi={W\bibinitperiod},
+           given={AI},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=27072720cc81c91ef125e9442b3e849d}{%
+           family={Utama},
+           familyi={U\bibinitperiod},
+           given={IKAP},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{32a46ef7903ee72d655b4a83ebccbe18}
+      \strng{fullhash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{fullhashraw}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{bibnamehash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authorbibnamehash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authornamehash}{32a46ef7903ee72d655b4a83ebccbe18}
+      \strng{authorfullhash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authorfullhashraw}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Marine-Earth Science and Technology}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{THE INFLUENCE OF SLOW STEAMING ON FUEL USAGE AND CARBON EMISSIONS OF CONTAINER SHIPS: A CASE STUDY OF THE SURABAYA-MAKASSAR ROUTE}
+      \field{volume}{5}
+      \field{year}{2024}
+      \field{pages}{62\bibrangedash 68}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.12962/j27745449.v5i3.1426
+      \endverb
+      \verb{urlraw}
+      \verb https://journal.its.ac.id/index.php/jmest/article/view/1426
+      \endverb
+      \verb{url}
+      \verb https://journal.its.ac.id/index.php/jmest/article/view/1426
+      \endverb
+    \endentry
     \entry{Russell1839Experimental}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
@@ -351,6 +829,54 @@
       \verb 10.1017/S0080456800021451
       \endverb
     \endentry
+    \entry{ScheerEtAl2021_TPIShippingMethodology}{misc}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=b09f43de60a08159976fbaf1e4b7e2d9}{%
+           family={Scheer},
+           familyi={S\bibinitperiod},
+           given={Simon\bibnamedelima Dietz},
+           giveni={S\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e6a1e4a8ca62a1495ee3e358cc859b7}{%
+           family={Hastreiter},
+           familyi={H\bibinitperiod},
+           given={Rhoda\bibnamedelima Byrne},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b2e13b25270ce2bac94b9d4c6f64cb1d}{%
+           family={Komar},
+           familyi={K\bibinitperiod},
+           given={Nikolaus},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=557a60a18d879fcd506eccb9a85958d5}{%
+           family={Antonina},
+           familyi={A\bibinitperiod},
+           given={Vitaliy},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e66f548ad8a819015c06b3bfc23027a0}
+      \strng{fullhash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{fullhashraw}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{bibnamehash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authorbibnamehash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authornamehash}{e66f548ad8a819015c06b3bfc23027a0}
+      \strng{authorfullhash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authorfullhashraw}{89bbceb4238d6fe620dc5f67a4619e54}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://transitionpathwayinitiative.org/publications/uploads/2022-carbon-performance-assessment-of-international-shipping-note-on-methodology}}
+      \field{month}{11}
+      \field{note}{Transition Pathway Initiative}
+      \field{title}{Carbon Performance Assessment of International Shipping: Methodology Note}
+      \field{year}{2021}
+    \endentry
     \entry{Schultz2007EffectsOfCoating}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
@@ -385,6 +911,46 @@
       \verb{doi}
       \verb 10.1080/08927010701461974
       \endverb
+    \endentry
+    \entry{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}{unpublished}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=17bde33447d824c721d576ee1be18714}{%
+           family={Tsarsitalidis},
+           familyi={T\bibinitperiod},
+           given={Vasileios},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=343606ffc60a1cec75f012706b0b503b}{%
+           family={Ponkratov},
+           familyi={P\bibinitperiod},
+           given={Dmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0b71c70b3321a8e029c51a229f26fc85}{%
+           family={Tsoulakos},
+           familyi={T\bibinitperiod},
+           given={Nikolaos},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1546355fb55f52f6353914ff840f9a30}
+      \strng{fullhash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{fullhashraw}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{bibnamehash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authorbibnamehash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authornamehash}{1546355fb55f52f6353914ff840f9a30}
+      \strng{authorfullhash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authorfullhashraw}{26604f316770ad4ea92f67472f9edb5d}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Unpublished internal workshop paper; not publicly available. Accessed via internal distribution (confidential).}
+      \field{title}{Real Vessel Data Challenge: A First-of-a-Kind Workshop on Modeling, Insights and Actionable Outcome}
+      \field{year}{2025}
     \endentry
     \entry{Wang_2022}{article}{}{}
       \name{author}{4}{}{%
@@ -505,6 +1071,172 @@
       \verb 10.1016/j.oceaneng.2019.05.045
       \endverb
     \endentry
+    \entry{Crippa_etal_2025_GHG_emissions_world_countries}{report}{}{}
+      \name{author}{21}{}{%
+        {{un=0,uniquepart=base,hash=a5460a929626ce4953480db226afe604}{%
+           family={Crippa},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f8536329f0e230992b325f3b8f138866}{%
+           family={Guizzardi},
+           familyi={G\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=416107be2ab54761783acf64d561e317}{%
+           family={Pagani},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5b6bb4dbcb6778996dcf5d063efb9a3}{%
+           family={Banja},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f05152e7d8cfa279a2a1bd24f7af6517}{%
+           family={Muntean},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4973967ac7988e0931c62da4954d472d}{%
+           family={Schaaf},
+           familyi={S\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=588f7975b3a1d06a4c0d8d79a7ffecda}{%
+           family={Quadrelli},
+           familyi={Q\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fe01eb96b75d576dfa57ff41f81b621d}{%
+           family={Risquez\bibnamedelima Martin},
+           familyi={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6f0dd0fa9cad36644291d39e0937af43}{%
+           family={Taghavi-Moharamli},
+           familyi={T\bibinithyphendelim M\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b30958c5c9d1bdb4633d681aa700a264}{%
+           family={K{"o}ykk{"a}},
+           familyi={K\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=179c40869deaacf9bf01d77be0f76dca}{%
+           family={Grassi},
+           familyi={G\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c3d909358c900fb2415bf2c9eca014a}{%
+           family={Rossi},
+           familyi={R\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cf29ca70de7e24ca1467f4603e8b6cb9}{%
+           family={Melo},
+           familyi={M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42417b62592fb5f49784d44bb06167bd}{%
+           family={Oom},
+           familyi={O\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7746178162c4250a1882f496e3cc41ec}{%
+           family={Branco},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bb3600ed91453f884ca92e2af5e2b61a}{%
+           family={Su{'a}rez-Moreno},
+           familyi={S\bibinithyphendelim M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05de50954695b5c2f5142fbec1153e79}{%
+           family={Sedano},
+           familyi={S\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2017d3ad54ebe377c48ff317ac257c92}{%
+           family={San-Miguel},
+           familyi={S\bibinithyphendelim M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4f862cd513a89f258d18274c522f5641}{%
+           family={Manca},
+           familyi={M\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ff91fb967095b5b8d9c6ec1ad365d27}{%
+           family={Pisoni},
+           familyi={P\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=592766521edde797ca97c154a90fb7e8}{%
+           family={Pekar},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Publications Office of the European Union}%
+      }
+      \list{location}{1}{%
+        {Luxembourg}%
+      }
+      \strng{namehash}{6ff0362e829968c17e572b495a27ff55}
+      \strng{fullhash}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{fullhashraw}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{bibnamehash}{1f7b0cdfb57126c14c58fecf73a35bd8}
+      \strng{authorbibnamehash}{1f7b0cdfb57126c14c58fecf73a35bd8}
+      \strng{authornamehash}{6ff0362e829968c17e572b495a27ff55}
+      \strng{authorfullhash}{7fca21ead0813493af9763f0ccf7506a}
+      \strng{authorfullhashraw}{7fca21ead0813493af9763f0ccf7506a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-92-68-31401-2}
+      \field{note}{JRC/IEA Report, EUR 40443}
+      \field{number}{JRC143227}
+      \field{title}{{GHG emissions of all world countries -- 2025 Report}}
+      \field{type}{JRC Science for Policy Report}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.2760/9816914
+      \endverb
+      \verb{urlraw}
+      \verb https://data.europa.eu/doi/10.2760/9816914
+      \endverb
+      \verb{url}
+      \verb https://data.europa.eu/doi/10.2760/9816914
+      \endverb
+    \endentry
     \entry{Dong_2023}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=86219268732a283170e90dcf6743371b}{%
@@ -638,6 +1370,226 @@
       \verb 10.1016/j.oceaneng.2024.119239
       \endverb
     \endentry
+    \entry{IMO2020FourthGHGStudy}{report}{}{}
+      \name{author}{31}{}{%
+        {{un=0,uniquepart=base,hash=e8c25f45a0326e69121ce598c1d555d9}{%
+           family={Faber},
+           familyi={F\bibinitperiod},
+           given={Jasper},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7e929bd96fc3c929c1cd9cf26144dea0}{%
+           family={Hanayama},
+           familyi={H\bibinitperiod},
+           given={Shinichi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b0e12eee0463ac9ff036ddfad8bcc943}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f3b77d3e08bff898152356cf394a3887}{%
+           family={Pereda},
+           familyi={P\bibinitperiod},
+           given={Paula},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=51c9cf0ccd0678067d6b8922953628f4}{%
+           family={Comer},
+           familyi={C\bibinitperiod},
+           given={Bryan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2a15bbbcca57e3e248df61365db68a02}{%
+           family={Hauerhof},
+           familyi={H\bibinitperiod},
+           given={Elena},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70568004d4c2805a78ac9c118ba38b4e}{%
+           family={Schim\bibnamedelimb van\bibnamedelimb der\bibnamedelima Loeff},
+           familyi={S\bibinitperiod\bibinitdelim v\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Wendela},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6d8bdc4625ba142accf5fad2c2bb19c}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Tristan},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28f91f3a4b62ce57b7a533e742e8aae1}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c2030dca6a93790d9c858a124f65e40e}{%
+           family={Kosaka},
+           familyi={K\bibinitperiod},
+           given={Hiroyuko},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=228d91383152a6abeded1d23db9286dc}{%
+           family={Adachi},
+           familyi={A\bibinitperiod},
+           given={Masaki},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=887c261c4b6c516d6cbc9226f58c9d1f}{%
+           family={Bonello},
+           familyi={B\bibinitperiod},
+           given={Jean-Marc},
+           giveni={J\bibinithyphendelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=52ea938ac7033a281163bc13a5946eee}{%
+           family={Galbraith},
+           familyi={G\bibinitperiod},
+           given={Connor},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55592967f00eabf77501619d2043f6ed}{%
+           family={Gong},
+           familyi={G\bibinitperiod},
+           given={Ziheng},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=313bde87317a7595451fdde0c1c67c60}{%
+           family={Hirata},
+           familyi={H\bibinitperiod},
+           given={Koichi},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=17a15594338e70f299bc98db1a1d752a}{%
+           family={Hummels},
+           familyi={H\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95a248b56768f250923ee04ec474cf6c}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={David\bibnamedelima S.},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7f15471519026ffe8cd1f6652324b48}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yiming},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d221621293b940d69def022d688bc6d2}{%
+           family={Lucchesi},
+           familyi={L\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c63ddbdedb55986f7693635c49cd7aa}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Xiaoli},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d677565e5631a36a0645e1f8d9110510}{%
+           family={Muraoka},
+           familyi={M\bibinitperiod},
+           given={Eiichi},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b20ab95d9f681b6219ca6ccfa1b0b69c}{%
+           family={Osipova},
+           familyi={O\bibinitperiod},
+           given={Liudmila},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0223b3bbfb84f310d980c82e1f8c9eb5}{%
+           family={Qian},
+           familyi={Q\bibinitperiod},
+           given={Haoqi},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8574bb104295c7b10c9ef1ce3ef78fb4}{%
+           family={Rutherford},
+           familyi={R\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd3528fc68938b0a66e1a76e3269e859}{%
+           family={Suárez\bibnamedelimb de\bibnamedelimb la\bibnamedelima Fuente},
+           familyi={S\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim l\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Santiago},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59813eb9e56928c2f8b60003480d9740}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Haichao},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0b58315e9421263e79d50f35fe09ac8b}{%
+           family={Velandia\bibnamedelima Perico},
+           familyi={V\bibinitperiod\bibinitdelim P\bibinitperiod},
+           given={Camilo},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ad7c78ed9cd30f5aab7166a59de148e4}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Libo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e42d26d4255fa7051d72384b87d61439}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Deping},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8c3bac23ea182193a062bdb5abb0fed6}{%
+           family={Yoo},
+           familyi={Y\bibinitperiod},
+           given={Dong-Hoon},
+           giveni={D\bibinithyphendelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be65b1dd0409bc91315b6187275b8d61}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Hui},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {International Maritime Organization}%
+      }
+      \list{location}{1}{%
+        {London, United Kingdom}%
+      }
+      \strng{namehash}{ae515583531eaba807992e304ff7e68a}
+      \strng{fullhash}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{fullhashraw}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{bibnamehash}{2ed5ebd782321f2cfd82b64acad03351}
+      \strng{authorbibnamehash}{2ed5ebd782321f2cfd82b64acad03351}
+      \strng{authornamehash}{ae515583531eaba807992e304ff7e68a}
+      \strng{authorfullhash}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \strng{authorfullhashraw}{dc0dd4cca67dabd45e2eed097fabd89e}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Published 2021}
+      \field{title}{Fourth {IMO} {GHG} Study 2020: Full report and annexes}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20IMO%20GHG%20Study%202020%20-%20Full%20report%20and%20annexes.pdf
+      \endverb
+      \verb{url}
+      \verb https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20IMO%20GHG%20Study%202020%20-%20Full%20report%20and%20annexes.pdf
+      \endverb
+    \endentry
     \entry{froude1955papers}{book}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=638ee05205b96b50fb87d1548baf4e98}{%
@@ -685,6 +1637,38 @@
       \field{labeltitlesource}{title}
       \field{title}{The Papers of William Froude, 1810-1879: With a Memoir by Sir Westcott Abell and an Evaluation of William Froude's Work by RWL Gawn: Collected Into One Volume}
       \field{year}{1955}
+    \endentry
+    \entry{ISO19030-2-2016}{standard}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7058e4bd76f877c52b621c942b30613c}{%
+           family={{International Organization for Standardization}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Geneva, Switzerland}%
+      }
+      \list{organization}{1}{%
+        {International Organization for Standardization}%
+      }
+      \strng{namehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhashraw}{7058e4bd76f877c52b621c942b30613c}
+      \strng{bibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorbibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authornamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhashraw}{7058e4bd76f877c52b621c942b30613c}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{ISO 19030-2:2016}
+      \field{title}{{ISO 19030-2:2016} Ships and marine technology --- Measurement of changes in hull and propeller performance --- Part 2: Data collection and analysis}
+      \field{type}{Standard}
+      \field{year}{2016}
     \endentry
     \entry{kim2025comprehensive}{article}{}{}
       \name{author}{3}{}{%
@@ -738,6 +1722,66 @@
       \verb https://doi.org/10.1016/j.apor.2025.104737
       \endverb
     \endentry
+    \entry{Meiliana_Syahab_Wulandari_Utama_2024}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=4593528e6498509c97a77006487d7305}{%
+           family={Meiliana},
+           familyi={M\bibinitperiod},
+           given={SW},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05d7ae94e6f0c09007ff39f4451ceec8}{%
+           family={Syahab},
+           familyi={S\bibinitperiod},
+           given={H},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=abe110a2c8f5c20d9d17243fe7db1757}{%
+           family={Wulandari},
+           familyi={W\bibinitperiod},
+           given={AI},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=27072720cc81c91ef125e9442b3e849d}{%
+           family={Utama},
+           familyi={U\bibinitperiod},
+           given={IKAP},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{32a46ef7903ee72d655b4a83ebccbe18}
+      \strng{fullhash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{fullhashraw}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{bibnamehash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authorbibnamehash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authornamehash}{32a46ef7903ee72d655b4a83ebccbe18}
+      \strng{authorfullhash}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \strng{authorfullhashraw}{b75b99bd2cbde107eb0b703e373ac1aa}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Marine-Earth Science and Technology}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{THE INFLUENCE OF SLOW STEAMING ON FUEL USAGE AND CARBON EMISSIONS OF CONTAINER SHIPS: A CASE STUDY OF THE SURABAYA-MAKASSAR ROUTE}
+      \field{volume}{5}
+      \field{year}{2024}
+      \field{pages}{62\bibrangedash 68}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.12962/j27745449.v5i3.1426
+      \endverb
+      \verb{urlraw}
+      \verb https://journal.its.ac.id/index.php/jmest/article/view/1426
+      \endverb
+      \verb{url}
+      \verb https://journal.its.ac.id/index.php/jmest/article/view/1426
+      \endverb
+    \endentry
     \entry{Russell1839Experimental}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=e4bc1fc932cbcf2277ff1e3e78d7542e}{%
@@ -773,6 +1817,54 @@
       \verb 10.1017/S0080456800021451
       \endverb
     \endentry
+    \entry{ScheerEtAl2021_TPIShippingMethodology}{misc}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=b09f43de60a08159976fbaf1e4b7e2d9}{%
+           family={Scheer},
+           familyi={S\bibinitperiod},
+           given={Simon\bibnamedelima Dietz},
+           giveni={S\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e6a1e4a8ca62a1495ee3e358cc859b7}{%
+           family={Hastreiter},
+           familyi={H\bibinitperiod},
+           given={Rhoda\bibnamedelima Byrne},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b2e13b25270ce2bac94b9d4c6f64cb1d}{%
+           family={Komar},
+           familyi={K\bibinitperiod},
+           given={Nikolaus},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=557a60a18d879fcd506eccb9a85958d5}{%
+           family={Antonina},
+           familyi={A\bibinitperiod},
+           given={Vitaliy},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e66f548ad8a819015c06b3bfc23027a0}
+      \strng{fullhash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{fullhashraw}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{bibnamehash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authorbibnamehash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authornamehash}{e66f548ad8a819015c06b3bfc23027a0}
+      \strng{authorfullhash}{89bbceb4238d6fe620dc5f67a4619e54}
+      \strng{authorfullhashraw}{89bbceb4238d6fe620dc5f67a4619e54}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://transitionpathwayinitiative.org/publications/uploads/2022-carbon-performance-assessment-of-international-shipping-note-on-methodology}}
+      \field{month}{11}
+      \field{note}{Transition Pathway Initiative}
+      \field{title}{Carbon Performance Assessment of International Shipping: Methodology Note}
+      \field{year}{2021}
+    \endentry
     \entry{Schultz2007EffectsOfCoating}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=6f171fa33cab356311c58fb82ea8a5bb}{%
@@ -807,6 +1899,46 @@
       \verb{doi}
       \verb 10.1080/08927010701461974
       \endverb
+    \endentry
+    \entry{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}{unpublished}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=17bde33447d824c721d576ee1be18714}{%
+           family={Tsarsitalidis},
+           familyi={T\bibinitperiod},
+           given={Vasileios},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=343606ffc60a1cec75f012706b0b503b}{%
+           family={Ponkratov},
+           familyi={P\bibinitperiod},
+           given={Dmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0b71c70b3321a8e029c51a229f26fc85}{%
+           family={Tsoulakos},
+           familyi={T\bibinitperiod},
+           given={Nikolaos},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1546355fb55f52f6353914ff840f9a30}
+      \strng{fullhash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{fullhashraw}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{bibnamehash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authorbibnamehash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authornamehash}{1546355fb55f52f6353914ff840f9a30}
+      \strng{authorfullhash}{26604f316770ad4ea92f67472f9edb5d}
+      \strng{authorfullhashraw}{26604f316770ad4ea92f67472f9edb5d}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Unpublished internal workshop paper; not publicly available. Accessed via internal distribution (confidential).}
+      \field{title}{Real Vessel Data Challenge: A First-of-a-Kind Workshop on Modeling, Insights and Actionable Outcome}
+      \field{year}{2025}
     \endentry
     \entry{Wang_2022}{article}{}{}
       \name{author}{4}{}{%
@@ -862,6 +1994,7 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{Kim2023ShipEnergyEfficiencyData}
 \endrefsection
 \endinput
 

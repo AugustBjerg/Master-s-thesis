@@ -3070,19 +3070,33 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">references/proposal.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">Russell1839Experimental</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">froude1955papers</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">kim2025comprehensive</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">Russell1839Experimental</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">Dong_2023</bcf:citekey>
-    <bcf:citekey order="7" intorder="2">Wang_2022</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">froude1955papers</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">Coraddu2019</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">Duan2024</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">kim2025comprehensive</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">IMO2020FourthGHGStudy</bcf:citekey>
+    <bcf:citekey order="1" intorder="2">Crippa_etal_2025_GHG_emissions_world_countries</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">ScheerEtAl2021_TPIShippingMethodology</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">Coraddu2019</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">Duan2024</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">Russell1839Experimental</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">froude1955papers</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">kim2025comprehensive</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">Russell1839Experimental</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">Dong_2023</bcf:citekey>
+    <bcf:citekey order="11" intorder="2">Wang_2022</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">froude1955papers</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">Coraddu2019</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">Duan2024</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">kim2025comprehensive</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">Meiliana_Syahab_Wulandari_Utama_2024</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">Coraddu2019</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">Schultz2007EffectsOfCoating</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">Coraddu2019</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">ISO19030-2-2016</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">Coraddu2019</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">ISO19030-2-2016</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">Kim2023ShipEnergyEfficiencyData</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

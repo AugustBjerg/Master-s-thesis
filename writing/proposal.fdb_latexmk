@@ -1,18 +1,19 @@
 # Fdb version 4
-["biber proposal"] 1765961095.86201 "proposal.bcf" "proposal.bbl" "proposal" 1765963535.00328 0
-  "proposal.bcf" 1765963534 134845 65a636fe711f47e4f9d42d2b0675b073 "pdflatex"
-  "references/proposal.bib" 1765870373 3137 0a0244bc2b5230dabd812180424d92e9 ""
+["biber proposal"] 1766027098.4113 "proposal.bcf" "proposal.bbl" "proposal" 1766027115.34415 0
+  "proposal.bcf" 1766027114 135967 95a567096fae49da5c1e3e2176a9dec3 "pdflatex"
+  "references/proposal.bib" 1766027086 6906 a08117f917c30ec1f3e94c7ddcb8b20e ""
   (generated)
   "proposal.bbl"
   "proposal.blg"
   (rewritten before read)
-["pdflatex"] 1765963531.92948 "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" "proposal.pdf" "proposal" 1765963535.00457 0
+["pdflatex"] 1766027111.4153 "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" "proposal.pdf" "proposal" 1766027115.34582 0
   "C:/Users/August Bjerg-Heise/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765785555 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/August Bjerg-Heise/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1741858261 12042417 e0ee36f5a72c34dfe7f2677e7808e0a5 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768654 2172 fd0c924230362ff848a33632ed45dc23 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768654 4524 6bce29db5bc272ba5f332261583fee9c ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmr7t.tfm" 1136768654 2124 2601a75482e9426d33db523edf23570a ""
+  "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmr8c.tfm" 1136768654 1352 fa28a7e6d323c65ce7d13d5342ff6be2 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmr8r.tfm" 1136768654 4408 25b74d011a4c66b7f212c0cc3c90061b ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmri7t.tfm" 1136768654 2288 f478fc8fed18759effb59f3dad7f3084 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/times/ptmri8r.tfm" 1136768654 4640 532ca3305aad10cc01d769f3f91f1029 ""
@@ -26,6 +27,7 @@
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb" 1136849748 45458 504e2b06fa82109d168c7a0afb09e145 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmb7t.vf" 1136768654 1372 788387fea833ef5963f4c5bffe33eb89 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmr7t.vf" 1136768654 1380 0ea3a3370054be6da6acd929ec569f06 ""
+  "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmr8c.vf" 1136768654 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmri7t.vf" 1136768654 1384 a9d8adaf491ce34e5fba99dc7bbe5f39 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/generic/atbegshi/atbegshi.sty" 1575571100 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
@@ -125,6 +127,7 @@
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/omxztmcm.fd" 1585253778 346 c8cddcc90b6f567b28408eb374773c9c ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585253778 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1ztmcm.fd" 1585253778 346 aee7226812ba4138ac67a018466b488d ""
+  "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ts1ptm.fd" 1585253778 653 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576433952 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty" 1670403145 22490 8cac309b79a4c53a4ffce4b1b07aead0 ""
@@ -135,14 +138,14 @@
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" 1765963531 12676 950b64d0d700f339e976aafa9158900e ""
+  "c:/Users/August Bjerg-Heise/OneDrive - CBS - Copenhagen Business School/Desktop/MSc Business Admin & Data Science/Master's Thesis/05 Repo/Master's thesis/writing/proposal.tex" 1766027086 18160 9df105a16871c1602230371312f44273 ""
   "figures/proposal/example_spd_pwr_curve.png" 1765854621 159555 1101b2607c93ebdd06c4c3911f7999dc ""
   "figures/proposal/outdated_approach_viz.png" 1765959444 72104 e1a1fc850b32f5b74572ab03d04ae64c ""
-  "proposal.aux" 1765963534 5433 7187c280cf907250918b38d74e689262 "pdflatex"
-  "proposal.bbl" 1765961106 35515 9c7243451b2c41d40526b82e23c2d7c0 "biber proposal"
-  "proposal.out" 1765963534 1764 baed7e9816c2ee29592fb68f8c3b7f6f "pdflatex"
-  "proposal.run.xml" 1765963534 2464 5e4d5b9f6b996cad2a28bca8ec07c4a8 "pdflatex"
-  "proposal.tex" 1765963531 12676 950b64d0d700f339e976aafa9158900e ""
+  "proposal.aux" 1766027114 8356 b0f95d13ca7a50870503fa48da7a08bc "pdflatex"
+  "proposal.bbl" 1766027102 83272 8da73f042f308dccc8e4ca1e0875273d "biber proposal"
+  "proposal.out" 1766027114 1665 5157d442e1dafbc2d88f42f07b14f6f5 "pdflatex"
+  "proposal.run.xml" 1766027114 2464 5e4d5b9f6b996cad2a28bca8ec07c4a8 "pdflatex"
+  "proposal.tex" 1766027086 18160 9df105a16871c1602230371312f44273 ""
   (generated)
   "proposal.aux"
   "proposal.bcf"

@@ -275,6 +275,9 @@ INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmri7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri8r.tfm
 INPUT .\figures\proposal\example_spd_pwr_curve.png
 INPUT .\figures\proposal\example_spd_pwr_curve.png
 INPUT .\figures\proposal\example_spd_pwr_curve.png
@@ -285,18 +288,15 @@ INPUT .\figures\proposal\example_spd_pwr_curve.png
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1ptm.fd
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8c.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr8c.vf
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT .\figures\proposal\outdated_approach_viz.png
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ztmcm.fd
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ztmcm.fd
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1ztmcm.fd
@@ -325,8 +325,40 @@ INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
 INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmri7t.vf
-INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7m.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7m.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7m.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7y.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7y.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7y.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7v.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7v.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\zptmcm7v.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri7t.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT .\figures\proposal\outdated_approach_viz.png
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT proposal.aux
 INPUT .\proposal.out
 INPUT .\proposal.out

@@ -71,14 +71,20 @@ August Bjerg-Heise (114300315)
 
 \section{Introduction}
 
-The operational efficiency of a vessel can largely be defined as its ability to achieve the highest transport work for the lowest fuel consumption. (source)
+Maritime transport of physical goods (henceforth “shipping”) is the backbone of the economy that has enabled unprecedented economic development in the last two centuries. Making shipping as efficient as possible is thus of almost universal interest to the people, governments and companies of the world. This is not only the case from a cost perspective, but perhaps even more so from an environmental perspective. Shipping constitutes 3\% of global CO2 emissions, which is more than the country of Indonesia \parencite{IMO2020FourthGHGStudy, Crippa_etal_2025_GHG_emissions_world_countries}. With 87\% of shipping emissions and 50\% of voyage costs coming from the combustion of mostly fossil fuels, operational efficiency is imperative for both economic development and the sustainability of our planet \parencite{ScheerEtAl2021_TPIShippingMethodology}. 
 
-With maritime transport constituting 3\% of global CO2 emissions, this is a pressing issue that goes beyond the shipping industry
-% Comment on the magnitude of the problem (Shipping -> x% of global emissions / equal to X country -> fuel x% of shipping emissions -> decreasing fuel use by x% would be equivalent to decarbonising the entire (X country, maybe Taiwan))
+In shipping, operational efficiency is largely a question of minimizing the amount of fuel spent to complete a voyage within a certain amount of time \parencite{Coraddu2019}. A myriad of factors such as wind conditions, engine state, cargo load and marine life influence this efficiency, making it an extremely difficult to determine the optimal operating mode of a ship at any given point in time. This often leads to methodological corner-cutting, causing most ships to operate sub-optimally. It is estimated that ships, on average, burn 15\% more fuel than what is necessary per voyage \parencite{Duan2024}. Therefore, this proposal aims to present a framework for answering the following research questions:
 
-% Include a comment on the scope of the proposal (e.g., not to evaluate new tech or retrofittings)
+\textit{What are the causes and implications of operational inefficiency in maritime transport, and what can be done to mitigate it?}
 
-% Include RQs:
+\begin{enumerate}
+  \item \textit{How can operational inefficiencies in shipping be quantified?}
+  \item \textit{How significant are the operational inefficiencies on a vessel in operation?}
+  \item \textit{What are the main causes of operational inefficiencies?}
+  \item \textit{What changes can shipping companies make to optimize the operational efficiency of vessels?}
+\end{enumerate}
+
+The aim is thus \textit{not} to evaluate the viability or impact of new technologies, such as green fuels, although these are recognised as necessary components of the decarbonization of the shipping sector.
 
 \section{Literature Review}
 
@@ -100,18 +106,31 @@ Empirical naval architecture (ENA) models estimate the speed–power relationshi
 
 Data-science approaches model operational efficiency directly from observed data, typically without imposing any physical constraints. However, physics-informed feature choice and engineering remain necessary to avoid spurious inference. Recent work leverages increasingly dense IoT (sensor) data streams to estimate performance baselines and degradation signals, for example by building data-driven digital twins that predict “expected” speed and then interpret systematic deviations as fouling-induced speed loss \parencite{Coraddu2019}. Related studies fuse operational logs with metocean data and apply machine-learning regressors to quantify hull condition, enabling counterfactual evaluation of cleaning timing under controlled operating scenarios \parencite{Duan2024}. The main strength of these methods is flexibility in capturing ship-specific, nonlinear relationships at scale as data availability and ML toolchains have improved, but their central limitation is dependence of very high volume, frequency and quality of data \parencite{kim2025comprehensive}. From a research perspective, exploring new avenues within data-science based approaches is a particularly interesting due to the recent rapid developments in the quantity and quality of data.
 
-\section{Theoretical Framework (1.5 pages)}
+\section{Theoretical Framework and Hypotheses}
+Given the cubic relationship between speed and propulsion power, fuel costs are usually the main barrier to the speed at which a ship completes a voyage. This was especially clear during the 1970s oil crisis and the 2008 financial crisis, where the practice of “slow steaming”, i.e., operating below design speed to cut costs, was widely adopted \parencite{Meiliana_Syahab_Wulandari_Utama_2024}. This means that quantifying operational efficiency is not trivial, as it is not only a question of how much fuel is used, but also how fast the ship completes the voyage (and thus the shipping costs that the shipping company can charge). However, it is widely agreed that anything that can be said to shift the speed-power curve left (i.e., less power required for a given speed) is an improvement in operational efficiency \parencite{Coraddu2019}. This means that quantifying inefficiency at a given point in time is complex, since the speed-power curve gradually changes based on the ship’s condition and state \parencite{Schultz2007EffectsOfCoating}. Scholars often circumvent this issue by comparing performance to a baseline model representing the theoretically optimal speed of the vessel \parencite{Coraddu2019} at a given time.
 
-1: Some shipping- specific theory about operational inefficiency?
-- Maybe some theory that leads us to how we can i) quantify it and ii) identify sources of it
-2: Data-science based approach to identify sources of inefficiency
+Contemporary baseline models for vessel performance are, with few exceptions, derived from physics-based representations of ship resistance and propulsion, where the baseline speed–power relation is constructed from an assumed functional form and calibrated coefficients \parencite{ ISO19030-2-2016}. In practice, these formulations typically decompose the required propulsive power into a small set of components representing the dominant resistance contributions and propulsion efficiency terms, and they are then evaluated under reference conditions to define an “expected” speed or power level. By contrast, a purely data-driven baseline relies on two prerequisites. First, the dataset must contain sufficient information to represent the main processes that drive speed loss, which in turn requires broad sensor coverage and consistent recording of operational and environmental variables. Second, the data must include a period that can credibly be treated as near-optimal operation, so that the estimated baseline reflects the vessel’s dynamics in the absence of the inefficiencies under study rather than embedding them into the reference \parencite{Coraddu2019}.
 
-\subsection{Hypotheses}
+Based on reviewed literature and the theoretical considerations above, the following hypotheses are proposed:
+
+\begin{itemize}
+   \item \textbf{H1}: A ship in operation sails about 15\% slower than what is theoretically possible at a given fuel consumption
+   \item \textbf{H2}: The main sources of inefficiencies are biofouling, weather conditions and engine depreciation
+   \item \textbf{H3}: Statistical methods will at least match traditional methods in their ability to predict and attribute operational inefficiencies in real-time
+\end{itemize}
 
 \section{Dataset (1 page)}
 \subsection{Origin}
 
-- background on the workshop
+Paragraph 1: Reason for choosing a case study approach
+- It is proposed to take a case-study approach for two reasons
+   1. The shipping industry has yet to agree on a global standard for data formats and collection practices, making cross-vessel analysis difficult and subject to unobservable biases \parencite{ISO19030-2-2016}
+   2. Most vessels are not equipped with the necessary sensors to collect the data required for this type of analysis, meaning that obtaining a quality cross-vessel dataset is somewhat unrealistic \parencite{Kim2023ShipEnergyEfficiencyData}
+
+   A dataset containing time-series data from a bulk carrier in operation has been obtained
+- Stems from the “Real Vessel Data Challenge” – workshop, hosted by the Mærsk McKinney-Møller Center for Zero Carbon Shipping\footnote{Since this is the project I will do for my master's thesis, I can confirm that i have received this data and started working on it. However, the data and workshop specifications are not be accesible to the public} \parencite{TsarsitalidisPonkratovTsoulakos2025RealVesselDataChallenge}.  
+- 
+
 - Quick high-level rundown of a couple relevant ship particulars
 
 \subsection{Contents}
@@ -133,7 +152,7 @@ It is intended to use statistical modelling to separate an estimated “optimal�
 
 \subsection{models}
 
-To predict the speed loss, It is suggested to employ and compare multiple models of varying complexity for two reasons. Firstly, it increases the likelihood of achieving a satisfactory predictive power. Secondly, it allows for the evaluation of the accuracy/complexity trade-off which is particularly relevant in edge computing scenarios such as onboard deployment. Applying three different models are suggested as a starting point. As a simple baseline model, it is suggested to use a linear regression due to its simplicity and intuitive interpretation of coefficients. As a natural progression of complexity, it is suggested to use a decision tree since it can model more complex relationships while still staying relatively interpretable. Lastly, it is suggested to include neural network-based model to have a high complexity benchmark to inform the complexity/trade-off analysis. The best predictive model should be chosen for a inferential analysis as described in \ref{sec:modelling_framework}. It is suggested to take an experimental approach and also look into other models to find the best model.
+To predict the speed loss, It is suggested to employ and compare multiple models of varying complexity for two reasons. Firstly, it increases the likelihood of achieving a satisfactory predictive power. Secondly, it allows for the evaluation of the accuracy/complexity trade-off which is particularly relevant in edge computing scenarios such as onboard deployment. Applying three different models are suggested as a starting point. As a simple baseline model, it is suggested to use a linear regression due to its simplicity and intuitive interpretation of coefficients. As a natural progression of complexity, it is suggested to use a decision tree since it can model more complex relationships while still staying relatively interpretable. Lastly, it is suggested to include neural network-based model to have a high complexity benchmark to inform the complexity/trade-off analysis. The best predictive model should be chosen for a inferential analysis as described in Section \ref{sec:modelling_framework}. It is suggested to take an experimental approach and also look into other models to find the best model.
 
 For interpretation and attribution, the inferential analysis will be tied to the best-performing predictive model, while maintaining a consistent attribution framework across model classes. For the linear regression, attribution follows directly from estimated coefficients, interpreted as marginal associations conditional on the included covariates and modelling assumptions. For the decision tree model, local and global drivers of predicted speed loss will be quantified using TreeSHAP, which decomposes each prediction into additive feature contributions while preserving consistency properties for tree-based models. For the neural-network model, SHAP values will be used analogously to obtain feature-level contributions to each predicted speed-loss outcome, enabling a comparable attribution of operational and environmental drivers even under highly nonlinear specifications.
 
