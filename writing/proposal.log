@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.3.13)  18 DEC 2025 11:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.3.13)  23 DEC 2025 17:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1190,17 +1190,17 @@ Package biblatex Info: Reference segment=0 on input line 49.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.88 
+l.84 
       [1
 
 ]
-<figures/proposal/example_spd_pwr_curve.png, id=74, 853.1875pt x 605.26125pt>
+<figures/proposal/example_spd_pwr_curve.png, id=78, 853.1875pt x 605.26125pt>
 File: figures/proposal/example_spd_pwr_curve.png Graphic file (type png)
 <use figures/proposal/example_spd_pwr_curve.png>
-Package pdftex.def Info: figures/proposal/example_spd_pwr_curve.png  used on input line 96.
+Package pdftex.def Info: figures/proposal/example_spd_pwr_curve.png  used on input line 92.
 (pdftex.def)             Requested size: 294.42636pt x 208.87076pt.
 
-Overfull \hbox (3.87964pt too wide) in paragraph at lines 101--102
+Overfull \hbox (3.87964pt too wide) in paragraph at lines 97--98
 []\OT1/ptm/m/n/12 As mea-sure-ment and com-pu-ta-tion ma-tured, sub-se-quent re-search in-creas-ingly com-bined physics-
  []
 
@@ -1209,54 +1209,54 @@ Overfull \hbox (3.87964pt too wide) in paragraph at lines 101--102
 [2 <./figures/proposal/example_spd_pwr_curve.png>]
 
 [3]
-Overfull \hbox (5.17566pt too wide) in paragraph at lines 112--113
+Overfull \hbox (5.17566pt too wide) in paragraph at lines 108--109
 \OT1/ptm/m/n/12 physics-based rep-re-sen-ta-tions of ship re-sis-tance and propul-sion, where the base-line speed{power
  []
 
 
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 117.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 113.
  (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [5]
-LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 127.
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 124.
  (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 127.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 124.
  (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 127.
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 124.
  (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 127.
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 124.
  (C:\Users\August Bjerg-Heise\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
 
 
 [6]
-<figures/proposal/outdated_approach_viz.png, id=132, 963.6pt x 474.27188pt>
+<figures/proposal/outdated_approach_viz.png, id=136, 963.6pt x 474.27188pt>
 File: figures/proposal/outdated_approach_viz.png Graphic file (type png)
 <use figures/proposal/outdated_approach_viz.png>
-Package pdftex.def Info: figures/proposal/outdated_approach_viz.png  used on input line 141.
+Package pdftex.def Info: figures/proposal/outdated_approach_viz.png  used on input line 138.
 (pdftex.def)             Requested size: 385.02547pt x 189.50276pt.
 
 
@@ -1264,23 +1264,25 @@ Package pdftex.def Info: figures/proposal/outdated_approach_viz.png  used on inp
 
 [8]
 
+[9]
+
 Package biblatex Warning: No driver for 'standard'.
-(biblatex)                Using fallback driver on input line 156.
+(biblatex)                Using fallback driver on input line 159.
 
 
 
-[9
+[10
 
 ]
 
-[10]
+[11]
 
 Package caption Warning: Unused \captionsetup[table] on input line 26.
 See the caption package documentation for explanation.
 
 
 
-[11
+[12
 
 ] (proposal.aux)
  ***********
@@ -1288,26 +1290,26 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `proposal.out' has not changed.
-(rerunfilecheck)             Checksum: C1B5C4C9BB17B8811B791711D1C3A227;1510.
+(rerunfilecheck)             Checksum: 426CE573463B8B26618E9EE7AF94D139;1536.
 Package logreq Info: Writing requests to 'proposal.run.xml'.
 \openout1 = `proposal.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24215 strings out of 473523
- 439360 string characters out of 5708302
- 1437397 words of memory out of 5000000
- 47084 multiletter control sequences out of 15000+600000
+ 24218 strings out of 473523
+ 439397 string characters out of 5708302
+ 1437403 words of memory out of 5000000
+ 47085 multiletter control sequences out of 15000+600000
  591769 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,8n,101p,1508b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,8n,101p,1509b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 <C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/August Bjerg-Heise/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on proposal.pdf (12 pages, 279587 bytes).
+Output written on proposal.pdf (13 pages, 282147 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 43 named destinations out of 1000 (max. 500000)
- 99 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 208 PDF objects out of 1000 (max. 8388607)
+ 45 named destinations out of 1000 (max. 500000)
+ 107 words of extra memory for PDF output out of 10000 (max. 10000000)
 
