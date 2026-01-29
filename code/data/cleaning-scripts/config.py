@@ -13,4 +13,22 @@ NOON_REPORT_QIDS = {
     'Sea Direction' : "0::0::0::0_0::0::0::0::0_0::0::0::0_11" ,
     'Wind Direction' : "0::0::0::0_0::0::0::0::0_0::0::0::0_12" ,
     'Consumption for Propulsion' : "0::0::0::0_0::0::0::0::0_0::0::0::0_13" ,
-    'Fuel' : "0::0::0::0_0::0::0::0::0_0::0::0::0_14" }
+    'Fuel' : "0::0::0::0_0::0::0::0::0_0::0::0::0_14"
+    }
+
+NOON_REPORT_UNITS = {
+    'Slip' : "%" ,
+    'Fwd Draft' : "m" ,
+    'Mid Draft' : "m" ,
+    'Aft Draft' : "m" ,
+    'Displacement' : "t" ,
+    'Air Temp' : "°C" ,
+    'Bar Pressure' : "hPa" ,
+    'Sea State' : "Douglas scale" ,
+    'Wind Force' : "Beaufort" ,
+    'Sea Temp' : "°C" ,
+    'Sea Direction' : "°" ,
+    'Wind Direction' : "°" ,
+    'Consumption for Propulsion' : "t" ,
+    'Fuel' : "categorical"
+    }
