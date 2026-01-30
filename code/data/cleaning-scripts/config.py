@@ -29,6 +29,6 @@ NOON_REPORT_UNITS = {
     'Sea Temp' : "°C" ,
     'Sea Direction' : "°" ,
     'Wind Direction' : "°" ,
-    'Consumption for Propulsion' : "t" ,
+    'Consumption for Propulsion' : "MT/day" ,
     'Fuel' : "categorical"
     }
