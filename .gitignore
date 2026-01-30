@@ -2,6 +2,8 @@
 .venv
 
 # data folder
+code/data/appended
 code/data/raw
 code/data/metadata
 code/data/cleaned
+writing/

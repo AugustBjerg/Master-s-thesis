@@ -5,7 +5,7 @@ import numpy as np
 from loguru import logger
 from config import EXPECTED_SENSOR_OBSERVATIONS
 
-# -- STEP 1: append all monthly observation files into a single dataframe --
+# -- STEP 1: append all monthly observation files into a single dataframe   --
 
 # Defining prerequisites for appending loop
 columns = [
