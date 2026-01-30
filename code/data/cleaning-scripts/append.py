@@ -51,6 +51,9 @@ appended_df = appended_df.merge(
 
 logger.info(f'Added sensor metadata columns. Final shape: {appended_df.shape}')
 
+# convert uct_timestamp to datetime if not already
+appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp'])
+
 # Sort by timestamp for consistency
 appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
 

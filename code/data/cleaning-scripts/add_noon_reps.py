@@ -27,7 +27,7 @@ for i, file in enumerate(glob.glob(os.path.join(raw_noon_reports_dir, '*.csv')))
     logger.info(f'Reading noon reports for month ({i+1}) with shape: {df.shape}')
     
     # rewrite the "date" column to be called "utc_timestamp" and parsed as datetime objects with time set to noon/12PM
-    df['utc_timestamp'] = pd.to_datetime(df['Date'], format='%d/%m/%Y') + pd.Timedelta(hours=12)
+    df['utc_timestamp'] = pd.to_datetime(df['Date'], format='%d/%m/%Y') + pd.Timedelta(hours=12, microseconds=0)
     df = df.drop(columns=['Date'])
     
     # melt the dataframe so that each column (except utc_timestamp) is turned into a row
@@ -47,9 +47,29 @@ for i, file in enumerate(glob.glob(os.path.join(raw_noon_reports_dir, '*.csv')))
 # add a "source_name" column with value "Noon Report"
 appended_df['source_name'] = 'Noon Report'
 
-# TODO: add a unit (use dict but check that each of them make sense)
+# add a "unit" column by mapping the quantity_name column to the units in the NOON_REPORT_UNITS dictionary
 appended_df['unit'] = appended_df['quantity_name'].map(noon_rep_units_dict)
+
+# save the noon report data only as a separate csv file for reference
+appended_df.to_csv(os.path.join(appended_data_dir, 'noon_reports_only.csv'), index=False)
 
 # load the dataframe containing all the appended sensor observations
 excl_noon_reps_df = pd.read_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'))
+logger.info(f'Loaded appended sensor observations excl. noon reports with shape: {excl_noon_reps_df.shape}')
+
+# Parse sensor data timestamps to preserve microsecond precision
+excl_noon_reps_df['utc_timestamp'] = pd.to_datetime(excl_noon_reps_df['utc_timestamp'], format='ISO8601')
+
+# append all the noon report observations to the dataframe containing all the sensor observations
+full_appended_df = pd.concat([excl_noon_reps_df, appended_df], ignore_index=True)
+logger.info(f'Appended noon reports. New shape: {full_appended_df.shape}')
+
+# sort by utc_timestamp for consistency
+full_appended_df = full_appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
+logger.info(f'Sorted full appended dataframe by utc_timestamp.')
+
+# save the full appended dataframe to the appended data folder
+full_appended_df.to_csv(os.path.join(appended_data_dir, 'incl_noon_reports.csv'), index=False)
+logger.info(f'Saved full appended dataframe with noon reports to CSV.')
+
 
