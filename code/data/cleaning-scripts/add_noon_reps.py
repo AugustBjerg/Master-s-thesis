@@ -28,6 +28,7 @@ for i, file in enumerate(glob.glob(os.path.join(raw_noon_reports_dir, '*.csv')))
     
     # rewrite the "date" column to be called "utc_timestamp" and parsed as datetime objects with time set to noon/12PM
     df['utc_timestamp'] = pd.to_datetime(df['Date'], format='%d/%m/%Y') + pd.Timedelta(hours=12, microseconds=0)
+    df['utc_timestamp'] = df['utc_timestamp'].dt.tz_localize('UTC')
     df = df.drop(columns=['Date'])
     
     # melt the dataframe so that each column (except utc_timestamp) is turned into a row
