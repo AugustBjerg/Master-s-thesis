@@ -6,6 +6,10 @@ from loguru import logger
 from config import NOON_REPORT_QIDS, NOON_REPORT_UNITS
 
 # Defining prerequisites for appending loop
+# Get the directory where THIS script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Defining prerequisites for appending loop
 columns = [
     'utc_timestamp',
     'qid_mapping',
@@ -13,11 +17,12 @@ columns = [
     'quantity_name',
 ]
 appended_df = pd.DataFrame(columns=columns)
-parent_dir = os.path.dirname(os.getcwd())
-appended_data_dir = os.path.join(parent_dir, 'Master\'s Thesis', 'code', 'data', 'appended')
+
+# Define paths relative to script location
+appended_data_dir = os.path.join(script_dir, '..', 'appended')
 noon_rep_qid_dict = NOON_REPORT_QIDS
 noon_rep_units_dict = NOON_REPORT_UNITS
-raw_noon_reports_dir = os.path.join(parent_dir, 'Master\'s Thesis', 'code', 'data', 'raw', 'unzipped', 'Noon Reports')
+raw_noon_reports_dir = os.path.join(script_dir, '..', 'raw', 'unzipped', 'Noon Reports')
 
 # write a loop that: 
 # 1. loops through all the files in the noon reports folder
