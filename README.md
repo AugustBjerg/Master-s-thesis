@@ -4,6 +4,8 @@ This guide explains how to connect your local VSCode installation to a UCloud Co
 Prerequisites
 Windows PowerShell (Administrator access)
 
+
+
 Visual Studio Code installed locally
 
 UCloud account with access to Coder application
