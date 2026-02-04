@@ -61,4 +61,5 @@ appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp'])
 appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
 
 # Save this version of the appended df (excl. noon report data) to the folder
+os.makedirs(appended_data_dir, exist_ok=True)
 appended_df.to_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'), index=False)
