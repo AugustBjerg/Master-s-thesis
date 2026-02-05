@@ -48,7 +48,15 @@ for i, file in enumerate(glob.glob(os.path.join(raw_noon_reports_dir, '*.csv')))
     # append that to the running dataframe
     appended_df = pd.concat([appended_df, melted_df], ignore_index=True)    
 
+# drop rows where the value is NaN
+logger.info(f'Shape before dropping NaN values: {appended_df.shape}')
+appended_df = appended_df.dropna(subset=['value'])
+logger.info(f'Dropped NaN values. Shape is now: {appended_df.shape}')
+
 # add needed columns to match excl. noon reports dataframe
+
+# Change utc_timestamp column to to datetime datatype with no timezone info
+appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp']).dt.tz_localize(None)
 
 # add a "source_name" column with value "Noon Report"
 appended_df['source_name'] = 'Noon Report'
@@ -67,9 +75,6 @@ appended_df.to_csv(os.path.join(appended_data_dir, 'noon_reports_only.csv'), ind
 # load the dataframe containing all the appended sensor observations
 excl_noon_reps_df = pd.read_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'))
 logger.info(f'Loaded appended sensor observations excl. noon reports with shape: {excl_noon_reps_df.shape}')
-
-# Parse sensor data timestamps to preserve microsecond precision
-excl_noon_reps_df['utc_timestamp'] = pd.to_datetime(excl_noon_reps_df['utc_timestamp'], format='ISO8601')
 
 # append all the noon report observations to the dataframe containing all the sensor observations
 full_appended_df = pd.concat([excl_noon_reps_df, appended_df], ignore_index=True)
