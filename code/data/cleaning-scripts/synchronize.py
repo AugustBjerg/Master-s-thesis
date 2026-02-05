@@ -1,0 +1,1 @@
+# TODO: create a boolean mask representing clean stretches of data 
