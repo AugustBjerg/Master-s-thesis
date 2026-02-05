@@ -77,7 +77,7 @@ excl_noon_reps_df = pd.read_csv(os.path.join(appended_data_dir, 'excl_noon_repor
 logger.info(f'Loaded appended sensor observations excl. noon reports with shape: {excl_noon_reps_df.shape}')
 
 # set the column "utc_timestamp" to datetime with UTC timezone if not already
-excl_noon_reps_df['utc_timestamp'] = pd.to_datetime(excl_noon_reps_df['utc_timestamp']).dt.tz_convert('UTC')
+excl_noon_reps_df['utc_timestamp'] = pd.to_datetime(excl_noon_reps_df['utc_timestamp'], format='ISO8601').dt.tz_convert('UTC')
 
 # append all the noon report observations to the dataframe containing all the sensor observations
 full_appended_df = pd.concat([excl_noon_reps_df, appended_df], ignore_index=True)
