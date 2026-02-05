@@ -55,8 +55,8 @@ logger.info(f'Dropped NaN values. Shape is now: {appended_df.shape}')
 
 # add needed columns to match excl. noon reports dataframe
 
-# Change utc_timestamp column to to datetime datatype with no timezone info
-appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp']).dt.tz_localize(None)
+# Change utc_timestamp column to datetime with UTC (for consistency), although timezones are not known
+appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp']).dt.tz_convert('UTC')
 
 # add a "source_name" column with value "Noon Report"
 appended_df['source_name'] = 'Noon Report'
@@ -76,9 +76,16 @@ appended_df.to_csv(os.path.join(appended_data_dir, 'noon_reports_only.csv'), ind
 excl_noon_reps_df = pd.read_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'))
 logger.info(f'Loaded appended sensor observations excl. noon reports with shape: {excl_noon_reps_df.shape}')
 
+# set the column "utc_timestamp" to datetime with UTC timezone if not already
+excl_noon_reps_df['utc_timestamp'] = pd.to_datetime(excl_noon_reps_df['utc_timestamp']).dt.tz_convert('UTC')
+
 # append all the noon report observations to the dataframe containing all the sensor observations
 full_appended_df = pd.concat([excl_noon_reps_df, appended_df], ignore_index=True)
 logger.info(f'Appended noon reports. New shape: {full_appended_df.shape}')
+logger.info(f'Columns in appended dataframe excl. sensors: {appended_df.columns.tolist()}')
+logger.info(f'Columns in appended dataframe excl. noon reports: {excl_noon_reps_df.columns.tolist()}')
+logger.info(f'Columns in full appended dataframe: {full_appended_df.columns.tolist()}')
+logger.info(f'distribution of dtypes in utc_timestamp columns: {full_appended_df["utc_timestamp"].apply(type).value_counts()}')
 
 # sort by utc_timestamp for consistency
 full_appended_df = full_appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
