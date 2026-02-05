@@ -60,6 +60,11 @@ appended_df['utc_timestamp'] = pd.to_datetime(appended_df['utc_timestamp'])
 # Sort by timestamp for consistency
 appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
 
+# add a column for time delta between observations for each variable (measuring only the difference between a given observation and the last observation of that qid_mapping)
+logger.info(f'shape before adding time_delta: {appended_df.shape}')
+appended_df['time_delta_sec'] = appended_df.groupby('qid_mapping')['utc_timestamp'].diff().dt.total_seconds()
+logger.info(f'Added time_delta column to appended dataframe. Shape is now: {appended_df.shape}')
+
 # Save this version of the appended df (excl. noon report data) to the folder
 os.makedirs(appended_data_dir, exist_ok=True)
 appended_df.to_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'), index=False)

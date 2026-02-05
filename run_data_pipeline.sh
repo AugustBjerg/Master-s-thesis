@@ -9,6 +9,9 @@ echo "append.py executed"
 python code/data/cleaning-scripts/add_noon_reps.py
 echo "add_noon_reps.py executed"
 
+python code/data/cleaning-scripts/synchronize.py
+echo "synchronize.py executed"
+
 python code/data/cleaning-scripts/pre_agg_clean.py
 echo "pre_agg_clean.py executed"
 

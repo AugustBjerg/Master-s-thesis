@@ -56,6 +56,11 @@ appended_df['source_name'] = 'Noon Report'
 # add a "unit" column by mapping the quantity_name column to the units in the NOON_REPORT_UNITS dictionary
 appended_df['unit'] = appended_df['quantity_name'].map(noon_rep_units_dict)
 
+# add a column for time delta between observations for each variable (measuring only the difference between a given observation and the last observation of that qid_mapping)
+logger.info(f'shape before adding time_delta: {appended_df.shape}')
+appended_df['time_delta_sec'] = appended_df.groupby('qid_mapping')['utc_timestamp'].diff().dt.total_seconds()
+logger.info(f'Added time_delta column to noon reports dataframe. Shape is now: {appended_df.shape}')
+
 # save the noon report data only as a separate csv file for reference
 appended_df.to_csv(os.path.join(appended_data_dir, 'noon_reports_only.csv'), index=False)
 
