@@ -1,0 +1,1 @@
+# Mainly physics-based sanity checks. If anything looks inconsistent, investigate further.
