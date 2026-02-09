@@ -142,13 +142,17 @@ logger.info(f'utc_timestamp column data type in first 15s and 1h dataframe: {val
 
 # -- PART 3 -- Linear interpolation for each segment
 
-# Test interpolation on the first segment's 15s dataframe
-logger.info('Testing interpolation on first segment (15s grid)...')
-
 # Get the first segment's dataframe and its segment ID
 first_df_15s = valid_segment_dataframes[0][0].copy()
 first_seg_id = first_df_15s['seg_id'].iloc[0]
 
+seg_start_time = valid_segments_info.iloc[0]['start_time']
+seg_end_time = valid_segments_info.iloc[0]['end_time']
+seg_duration = seg_end_time - seg_start_time
+
+# Test interpolation on the first segment's 15s dataframe
+logger.info(f'Testing interpolation on first segment with duration {seg_duration} (15s grid)... ')
+logger.info(f'Number of timestamps in this segment: {len(valid_segment_dataframes[0][0])}. Expected from calculation: {int(seg_duration.total_seconds() / 15) + 1}')
 logger.info(f'First segment ID: {first_seg_id}, shape before interpolation: {first_df_15s.shape}')
 logger.info(f'Sample of empty grid (first 3 rows):\n{first_df_15s.head(3)}')
 
@@ -174,11 +178,13 @@ df_segment_pivot = df_segment.pivot_table(
 
 logger.info(f'Pivoted segment data shape: {df_segment_pivot.shape}')
 
-# Combine the empty grid timestamps with the actual observations
-combined = first_df_15s.set_index('utc_timestamp').combine_first(df_segment_pivot).reset_index()
+# Reindex the pivoted data onto the empty grid's timestamps
+combined = df_segment_pivot.reindex(first_df_15s['utc_timestamp']).reset_index()
 
-# Keep only the columns we need (utc_timestamp, seg_id, and qid columns)
-combined['seg_id'] = first_seg_id
+# Add the seg_id column
+combined.insert(1, 'seg_id', first_seg_id)
+
+# Ensure column order matches
 combined = combined[all_columns_15s]
 
 # Apply linear interpolation for each qid column
@@ -191,7 +197,7 @@ logger.info(f'NaN counts per column after interpolation:\n{combined[qid_columns]
 
 # Check a specific qid to see interpolation results
 sample_qid = qid_columns[0]
-logger.info(f'Sample qid "{sample_qid}" - first 10 observations:\n{combined[["utc_timestamp", sample_qid]].head(10)}')
+logger.info(f'Sample qid "{sample_qid}" - first observations:\n{combined[["utc_timestamp", sample_qid]].head(30)}')
 
 
 # for each of the dataframes, follow this approach:
