@@ -165,13 +165,15 @@ df_segment = df[
 ]
 
 # Pivot the segment data so each qid is a column with timestamp as index
-df_segment_pivot = df_segment.pivot_table(
-    index='utc_timestamp', 
-    columns='qid_mapping', 
-    values='value', 
-    aggfunc='first'  # In case of duplicate timestamps, take first
-)
+has_duplicates = df_segment.duplicated(subset=['utc_timestamp', 'qid_mapping']).any()
 
+if has_duplicates:
+    df_segment_pivot = df_segment.pivot_table(
+        index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+else:
+    df_segment_pivot = df_segment.pivot(
+        index='utc_timestamp', columns='qid_mapping', values='value')
+    
 logger.info(f'Pivoted segment data shape: {df_segment_pivot.shape}')
 
 # Combine the actual observation timestamps with the grid timestamps
@@ -182,7 +184,7 @@ combined = df_segment_pivot.reindex(all_timestamps).sort_index()
 
 # Apply linear interpolation to fill values at grid points
 qid_columns = [col for col in combined.columns]
-combined[qid_columns] = combined[qid_columns].interpolate(method='linear', limit_area='inside', inplace=True)
+combined.interpolate(method='linear', limit_area='inside', inplace=True)
 
 combined = (
     combined
@@ -222,12 +224,16 @@ df_segment_1h = df[
 logger.info(f'Filtered original data for segment {first_seg_id} (1h qids only): {df_segment_1h.shape[0]} observations')
 
 # Pivot the segment data so each qid is a column with timestamp as index
-df_segment_1h_pivot = df_segment_1h.pivot_table(
-    index='utc_timestamp', 
-    columns='qid_mapping', 
+has_duplicates_1h = df_segment_1h.duplicated(subset=['utc_timestamp', 'qid_mapping']).any()
+
+if has_duplicates_1h:
+    df_segment_1h_pivot = df_segment_1h.pivot_table(
+        index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+else:   
+    df_segment_1h_pivot = df_segment_1h.pivot(
+        index='utc_timestamp', columns='qid_mapping', values='value')
     values='value', 
     aggfunc='first'  # In case of duplicate timestamps, take first
-)
 
 logger.info(f'Pivoted 1h segment data shape: {df_segment_1h_pivot.shape}')
 
@@ -236,7 +242,7 @@ combined_1h = df_segment_1h_pivot.reindex(df_segment_1h_pivot.index.union(first_
 
 # Apply linear interpolation to fill values at grid points
 qid_columns_1h = [col for col in combined_1h.columns]
-combined_1h[qid_columns_1h] = combined_1h[qid_columns_1h].interpolate(method='linear', limit_area='inside')
+combined_1h.interpolate(method='linear', limit_area='inside', inplace=True)
 
 # Now extract ONLY the grid timestamps
 combined_1h = combined_1h.loc[first_df_1h['utc_timestamp']].reset_index()
