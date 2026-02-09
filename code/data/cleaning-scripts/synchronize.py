@@ -191,7 +191,8 @@ logger.info(f'NaN counts per column after interpolation:\n{combined[qid_columns]
 
 # Check a specific qid to see interpolation results
 sample_qid = qid_columns[0]
-logger.info(f'Sample qid "{sample_qid}" - first 10 values:\n{combined[sample_qid].head(10)}')
+logger.info(f'Sample qid "{sample_qid}" - first 10 observations:\n{combined[["utc_timestamp", sample_qid]].head(10)}')
+
 
 # for each of the dataframes, follow this approach:
     # 1. For each of the rows (point in time) linearly interpolate the value of each qid (columns) by looking at the first observation before and after that point in time for that qid.
