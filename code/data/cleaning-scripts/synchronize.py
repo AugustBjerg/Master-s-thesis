@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import json
+import time
 from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH_SECONDS, DROP_TRANDUCER_DEPTH
 from loguru import logger
 
@@ -9,17 +10,30 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 appended_data_dir = os.path.join(script_dir, '..', 'appended')
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
 
+script_start = time.perf_counter()
+
 # create synchronized data directory if it does not exist
 if not os.path.exists(synchronized_data_dir):
     os.makedirs(synchronized_data_dir)
 else:
     logger.info(f'synchronized data directory already exists: {synchronized_data_dir}')
 
+    # clear the directory
+    for filename in os.listdir(synchronized_data_dir):
+        file_path = os.path.join(synchronized_data_dir, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+                logger.info(f'Deleted file: {file_path}')
+        except Exception as e:
+            logger.error(f'Error deleting file {file_path}: {e}')
+    logger.info(f'Cleared synchronized data directory: {synchronized_data_dir}')
+
 # load the appended dataframe
 df = pd.read_csv(
     os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
     parse_dates=['utc_timestamp'],
-    nrows=1000000 # for testing, remove this line for full dataset
+    nrows=10000000 # for testing, remove this line for full dataset
     )
 
 # find the start and end time of the dataset
@@ -204,8 +218,6 @@ for i, (grid_15s, grid_1h) in enumerate(valid_segment_dataframes):
         .reindex(columns=all_columns_1h)
     )
 
-    logger.info(f'1h interpolation: {combined_1h.shape[0]} rows, {combined_1h.isna().sum().sum()} total NaNs')
-
     # -- Combine 15s and 1h dataframes into one segment dataframe --
 
     df_segment_combined = pd.merge(
@@ -215,14 +227,13 @@ for i, (grid_15s, grid_1h) in enumerate(valid_segment_dataframes):
         how='outer'
     )
 
-    logger.info(f'Combined shape: {df_segment_combined.shape}')
-
     # Save the combined segment dataframe
     start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
     end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
     segment_filepath = os.path.join(synchronized_data_dir, f'synced_{start_str}_to_{end_str}.csv')
     df_segment_combined.to_csv(segment_filepath, index=False)
-    logger.info(f'Saved to: {segment_filepath}')
+
+    logger.info(f'Saved synchronized segment dataframe number {i+1}/{len(valid_segment_dataframes)} to: {segment_filepath}')
 
 logger.info(f'\nFinished processing all {len(valid_segment_dataframes)} segments')
 
@@ -239,7 +250,12 @@ metadata = {
     'total_valid_duration': str(total_valid_duration)
 }
 
-# Save the synchronized dataframe with time gap flags
-output_file = os.path.join(synchronized_data_dir, 'synchronized.csv')
-# df_filtered.to_csv(output_file, index=False)
-logger.info(f'Synchronized dataframe saved to: {output_file}') 
+# save metadata to json file
+metadata_filepath = os.path.join(synchronized_data_dir, 'synchronization_metadata.json')
+with open(metadata_filepath, 'w') as f:
+    json.dump(metadata, f)
+logger.info(f'Saved metadata to: {metadata_filepath}')
+
+script_end = time.perf_counter()
+elapsed_time = script_end - script_start
+logger.info(f'Total synchronization time: {elapsed_time:.2f} seconds')
