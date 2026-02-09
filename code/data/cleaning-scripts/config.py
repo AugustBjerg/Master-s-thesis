@@ -93,3 +93,6 @@ INTENDED_SAMPLING_INTERVALS_SECONDS = {
 }
 
 THRESHOLD_FACTOR = 0.5
+
+# Minimum number of timestamps a continuous segment must have to be retained
+MIN_SEGMENT_LENGTH = 1
