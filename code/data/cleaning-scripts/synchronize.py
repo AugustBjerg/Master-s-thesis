@@ -143,7 +143,7 @@ logger.info(f'utc_timestamp column data type in first 15s and 1h dataframe: {val
 # -- PART 3 -- Linear interpolation for each segment
 
 # Get the first segment's dataframe and its segment ID
-first_df_15s = valid_segment_dataframes[0][0].copy()
+first_df_15s = valid_segment_dataframes[0][0]
 first_seg_id = first_df_15s['seg_id'].iloc[0]
 
 seg_start_time = valid_segments_info.iloc[0]['start_time']
@@ -152,9 +152,6 @@ seg_duration = seg_end_time - seg_start_time
 
 # Test interpolation on the first segment's 15s dataframe
 logger.info(f'Testing interpolation on first segment with duration {seg_duration} (15s grid)... ')
-logger.info(f'Number of timestamps in this segment: {len(valid_segment_dataframes[0][0])}. Expected from calculation: {int(seg_duration.total_seconds() / 15) + 1}')
-logger.info(f'First segment ID: {first_seg_id}, shape before interpolation: {first_df_15s.shape}')
-logger.info(f'Sample of empty grid (first 3 rows):\n{first_df_15s.head(3)}')
 
 # Get the actual observations from the original data for this segment
 seg_start_time = valid_segments_info.loc[first_seg_id, 'start_time']
@@ -166,7 +163,6 @@ df_segment = df[
     (df['utc_timestamp'] <= seg_end_time) &
     (df['qid_mapping'].isin(qids_15s))
 ]
-logger.info(f'Filtered original data for segment {first_seg_id} (15s qids only): {df_segment.shape[0]} observations')
 
 # Pivot the segment data so each qid is a column with timestamp as index
 df_segment_pivot = df_segment.pivot_table(
@@ -178,26 +174,106 @@ df_segment_pivot = df_segment.pivot_table(
 
 logger.info(f'Pivoted segment data shape: {df_segment_pivot.shape}')
 
-# Reindex the pivoted data onto the empty grid's timestamps
-combined = df_segment_pivot.reindex(first_df_15s['utc_timestamp']).reset_index()
+# Combine the actual observation timestamps with the grid timestamps
+all_timestamps = df_segment_pivot.index.union(first_df_15s['utc_timestamp'])
 
-# Add the seg_id column
-combined.insert(1, 'seg_id', first_seg_id)
+# Reindex to include both actual observations AND grid points
+combined = df_segment_pivot.reindex(all_timestamps).sort_index()
 
-# Ensure column order matches
-combined = combined[all_columns_15s]
+# Apply linear interpolation to fill values at grid points
+qid_columns = [col for col in combined.columns]
+combined[qid_columns] = combined[qid_columns].interpolate(method='linear', limit_area='inside', inplace=True)
 
-# Apply linear interpolation for each qid column
-qid_columns = [col for col in combined.columns if col not in ['utc_timestamp', 'seg_id']]
-combined[qid_columns] = combined[qid_columns].interpolate(method='linear', limit_area='inside')
+combined = (
+    combined
+    .loc[first_df_15s['utc_timestamp']]
+    .reset_index()
+    .assign(seg_id=first_seg_id)
+    .reindex(columns=all_columns_15s)
+)
 
 logger.info(f'After interpolation, shape: {combined.shape}')
-logger.info(f'Sample of interpolated data (first 3 rows):\n{combined.head(3)}')
-logger.info(f'NaN counts per column after interpolation:\n{combined[qid_columns].isna().sum()}')
+logger.info(f'Number of columns with more than 2 NaNs:\n {combined[qid_columns].isna().sum()[combined[qid_columns].isna().sum() > 2]}')
 
 # Check a specific qid to see interpolation results
 sample_qid = qid_columns[0]
 logger.info(f'Sample qid "{sample_qid}" - first observations:\n{combined[["utc_timestamp", sample_qid]].head(30)}')
+
+# Store the 15s result (just rename, no copy needed)
+df_15s_interpolated = combined
+
+# -- Process 1h dataframe for the same segment
+
+logger.info(f'\nTesting interpolation on first segment (1h grid)...')
+
+# Get the first segment's 1h dataframe
+first_df_1h = valid_segment_dataframes[0][1]
+
+logger.info(f'First segment ID: {first_seg_id}, shape before interpolation: {first_df_1h.shape}')
+logger.info(f'Sample of empty grid (first 3 rows):\n{first_df_1h.head(3)}')
+logger.info(f'Number of timestamps in 1h grid: {len(first_df_1h)}')
+
+# Filter original data to this segment's time range and only 1h qids
+df_segment_1h = df[
+    (df['utc_timestamp'] >= seg_start_time) & 
+    (df['utc_timestamp'] <= seg_end_time) &
+    (df['qid_mapping'].isin(qids_1h))
+]
+logger.info(f'Filtered original data for segment {first_seg_id} (1h qids only): {df_segment_1h.shape[0]} observations')
+
+# Pivot the segment data so each qid is a column with timestamp as index
+df_segment_1h_pivot = df_segment_1h.pivot_table(
+    index='utc_timestamp', 
+    columns='qid_mapping', 
+    values='value', 
+    aggfunc='first'  # In case of duplicate timestamps, take first
+)
+
+logger.info(f'Pivoted 1h segment data shape: {df_segment_1h_pivot.shape}')
+
+# Combine the actual observation timestamps with the grid timestamps and reindex
+combined_1h = df_segment_1h_pivot.reindex(df_segment_1h_pivot.index.union(first_df_1h['utc_timestamp'])).sort_index()
+
+# Apply linear interpolation to fill values at grid points
+qid_columns_1h = [col for col in combined_1h.columns]
+combined_1h[qid_columns_1h] = combined_1h[qid_columns_1h].interpolate(method='linear', limit_area='inside')
+
+# Now extract ONLY the grid timestamps
+combined_1h = combined_1h.loc[first_df_1h['utc_timestamp']].reset_index()
+
+# Add the seg_id column
+combined_1h.insert(1, 'seg_id', first_seg_id)
+
+# Ensure column order matches
+combined_1h = combined_1h[all_columns_1h]
+
+logger.info(f'After interpolation, shape: {combined_1h.shape}')
+logger.info(f'Sample of interpolated 1h data (first 3 rows):\n{combined_1h.head(3)}')
+logger.info(f'NaN counts per column after interpolation:\n{combined_1h[qid_columns_1h].isna().sum()}')
+
+# Check a specific qid to see interpolation results
+sample_qid_1h = qid_columns_1h[0]
+logger.info(f'Sample 1h qid "{sample_qid_1h}" - all observations:\n{combined_1h[["utc_timestamp", sample_qid_1h]]}')
+
+# Store the 1h result (just rename, no copy needed)
+df_1h_interpolated = combined_1h
+
+# -- Combine 15s and 1h dataframes into one segment dataframe
+
+logger.info(f'\nCombining 15s and 1h dataframes for segment {first_seg_id}...')
+
+# Merge on utc_timestamp and seg_id
+df_segment_combined = pd.merge(
+    df_15s_interpolated,
+    df_1h_interpolated,
+    on=['utc_timestamp', 'seg_id'],
+    how='outer'
+)
+
+logger.info(f'Combined segment dataframe shape: {df_segment_combined.shape}')
+logger.info(f'Combined dataframe columns: {df_segment_combined.columns.tolist()}')
+logger.info(f'Sample of combined data (first 5 rows):\n{df_segment_combined.head(5)}')
+logger.info(f'NaN count by column in combined dataframe:\n{df_segment_combined.isna().sum()}')
 
 
 # for each of the dataframes, follow this approach:
