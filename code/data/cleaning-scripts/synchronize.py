@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import json
-from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH
+from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH, DROP_TRANDUCER_DEPTH
 from loguru import logger
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +21,14 @@ df = pd.read_csv(
     parse_dates=['utc_timestamp'],
     nrows=100000 # for testing, remove this line for full dataset
     )
+
+# If chosen in config file, drop all transducer depth variables (this is way more unreliable and creates a lot of unnecessary time gaps, for a relatively low return in terms of data value)
+if DROP_TRANDUCER_DEPTH:
+    df = df[~df['qid_mapping'].isin("2::0::4::0_1::1::0::2::0_37::0::2::0_8")]
+    logger.info(f'Dropped transducer depth variable. Remaining variables: {df["qid_mapping"].unique()}')
+else:
+    logger.info(f'Keeping transducer depth variable. Variables: {df["qid_mapping"].unique()}')
+
 
 logger.info(f'Synchronizing dataframe with shape: {df.shape}')
 logger.info(f'number of unique time stamps: {df["utc_timestamp"].nunique()}')
@@ -81,17 +89,20 @@ for id, segment in valid_segments_info.iterrows():
     end_time = segment['end_time']
     
     # Create a time grid with 15-second intervals
-    time_grid_15s = pd.date_range(start=start_time, end=end_time, freq='15S')
+    time_grid_15s = pd.date_range(start=start_time, end=end_time, freq='15s')
     df_15s = pd.DataFrame({'utc_timestamp': time_grid_15s})
     
     # Create a time grid with 1-hour intervals
-    time_grid_1h = pd.date_range(start=start_time, end=end_time, freq='1H')
+    time_grid_1h = pd.date_range(start=start_time, end=end_time, freq='1h')
     df_1h = pd.DataFrame({'utc_timestamp': time_grid_1h})
     
     valid_segment_dataframes.append((df_15s, df_1h))
 
-# check that the date format is correct
+# Check that there is the right amount of dataframes and that the time grids are correct
+logger.info(f'Created {len(valid_segment_dataframes)} valid segment dataframes with 15s and 1h time grids. shapes of list items: {[ (df_15s.shape, df_1h.shape) for df_15s, df_1h in valid_segment_dataframes[:5] ]}')
 
+# check that the date format is correct (utc timestamps should be in datetime format)
+logger.info(f'utc_timestamp column data type in first 15s and 1h dataframe: {valid_segment_dataframes[0][0]["utc_timestamp"].dtype} and {valid_segment_dataframes[0][1]["utc_timestamp"].dtype}')
 
 
 

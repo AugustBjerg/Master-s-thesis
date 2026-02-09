@@ -96,3 +96,5 @@ THRESHOLD_FACTOR = 0.5
 
 # Minimum number of timestamps a continuous segment must have to be retained
 MIN_SEGMENT_LENGTH = 1
+
+DROP_TRANDUCER_DEPTH = True
