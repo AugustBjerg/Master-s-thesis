@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import json
-from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH, DROP_TRANDUCER_DEPTH
+from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH_SECONDS, DROP_TRANDUCER_DEPTH
 from loguru import logger
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +24,7 @@ df = pd.read_csv(
 
 # If chosen in config file, drop all transducer depth variables (this is way more unreliable and creates a lot of unnecessary time gaps, for a relatively low return in terms of data value)
 if DROP_TRANDUCER_DEPTH:
-    df = df[~df['qid_mapping'].isin("2::0::4::0_1::1::0::2::0_37::0::2::0_8")]
+    df = df.drop(df[df['qid_mapping'].str.contains('"2::0::4::0_1::1::0::2::0_37::0::2::0_8"')]['qid_mapping'].unique(), axis=0)
     logger.info(f'Dropped transducer depth variable. Remaining variables: {df["qid_mapping"].unique()}')
 else:
     logger.info(f'Keeping transducer depth variable. Variables: {df["qid_mapping"].unique()}')
@@ -67,16 +67,15 @@ gap_segments = time_gap_mask.to_frame().assign(seg_id=seg_id)
 
 logger.info(f'Created {seg_id.max()} continuous segments before filtering')
 
-# Filter segments by minimum length
-segment_sizes = gap_segments.groupby('seg_id').size()
-valid_segments = segment_sizes[segment_sizes >= MIN_SEGMENT_LENGTH].index
-
 # Create an object that stores the beginning and end of each valid segment
-valid_segments_info = gap_segments[gap_segments['seg_id'].isin(valid_segments)].groupby('seg_id').agg(start_time=('is_gap_any', 'idxmin'), end_time=('is_gap_any', 'idxmax'))
+valid_segments_info = gap_segments[gap_segments['seg_id'].isin(gap_segments)].groupby('seg_id').agg(start_time=('is_gap_any', 'idxmin'), end_time=('is_gap_any', 'idxmax'))
 
-logger.info(f'gap segment info (shape: {gap_segments.shape}):\n{gap_segments.head()}')
+# Filter out segments that are too short (i.e. shorter than the minimum segment length defined in config file)
+segment_sizes = valid_segments_info['end_time'] - valid_segments_info['start_time']
+valid_segments = segment_sizes >= pd.Timedelta(seconds=MIN_SEGMENT_LENGTH_SECONDS)
+
 logger.info(f'valid segments info (shape: {valid_segments_info.shape}):\n{valid_segments_info.head()}')
-logger.info(f'Minimum segment length: {MIN_SEGMENT_LENGTH} timestamps / observations')
+logger.info(f'Minimum segment length: {MIN_SEGMENT_LENGTH_SECONDS} seconds')
 logger.info(f'Segments after filtering: {len(valid_segments)}/{len(segment_sizes)} ({len(valid_segments)/len(segment_sizes)*100:.4f}%)')
 logger.info(f'Valid segment size distribution:\n{segment_sizes[valid_segments].describe()}')
 
