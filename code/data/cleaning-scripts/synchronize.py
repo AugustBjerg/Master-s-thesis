@@ -46,8 +46,8 @@ for qid in df['qid_mapping'].unique():
     qid_total = qid_mask.sum()
     logger.info(f'  {qid}: {qid_time_gaps}/{qid_total} ({qid_time_gaps / qid_total * 100:.2f}%)')
 
-# Create a boolean mask representing clean stretches of data
-# True indicates clean data (no time gap), False indicates a time gap
+# create an ideal and aligned time fra of observations and 
+
 
 # Save the synchronized dataframe with time gap flags
 output_file = os.path.join(synchronized_data_dir, 'synchronized.csv')
