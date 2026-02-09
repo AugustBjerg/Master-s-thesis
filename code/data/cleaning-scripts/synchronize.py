@@ -15,7 +15,11 @@ else:
     logger.info(f'synchronized data directory already exists: {synchronized_data_dir}')
 
 # load the appended dataframe
-df = pd.read_csv(os.path.join(appended_data_dir, 'appended_data.csv'), parse_dates=['utc_timestamp'])
+df = pd.read_csv(
+    os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
+    parse_dates=['utc_timestamp'],
+#    nrows=100000 # for testing, remove this line for full dataset
+    )
 
 logger.info(f'Synchronizing dataframe with shape: {df.shape}')
 logger.info(f'Threshold factor for synchronization: {THRESHOLD_FACTOR}')
