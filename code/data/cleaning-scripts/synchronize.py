@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import json
 from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR
 from loguru import logger
 
@@ -36,17 +37,8 @@ df['tolerance_threshold'] = THRESHOLD_FACTOR * df['nominal_dt']
 # True indicates a time gap (violation of the intended sampling interval)
 df['is_time_gap'] = np.abs(df['time_delta_sec'] - df['nominal_dt']) > df['tolerance_threshold']
 
-# Log statistics about time gaps
-logger.info(f'Total observations: {len(df)}')
-logger.info(f'Time gaps identified: {df["is_time_gap"].sum()} ({df["is_time_gap"].sum() / len(df) * 100:.2f}%)')
-logger.info(f'Time gap distribution by sensor (qid_mapping):')
-for qid in df['qid_mapping'].unique():
-    qid_mask = df['qid_mapping'] == qid
-    qid_time_gaps = df.loc[qid_mask, 'is_time_gap'].sum()
-    qid_total = qid_mask.sum()
-    logger.info(f'  {qid}: {qid_time_gaps}/{qid_total} ({qid_time_gaps / qid_total * 100:.2f}%)')
+# create an ideal and aligned time frame of observations
 
-# create an ideal and aligned time fra of observations and 
 
 
 # Save the synchronized dataframe with time gap flags
