@@ -91,3 +91,5 @@ INTENDED_SAMPLING_INTERVALS_SECONDS = {
     "1::0::14::0_1::2::0::8::0_3::0::3::0_8" : 15, # Main Engine Scavenging Air Pressure (Transducer Pressure)
     "1::0::15::0_1::2::0::3::0_1::0::6::0_8" : 15, # Main Engine Turbocharger Rotational Speed (Transducer RPM)
 }
+
+THRESHOLD_FACTOR = 0.5
