@@ -41,8 +41,17 @@ else:
 df = pd.read_csv(
     os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
     parse_dates=['utc_timestamp'],
- #   nrows=100000 # for testing, remove this line for full dataset
+    nrows=1000000 # for testing, remove this line for full dataset
     )
+
+noon_rep_df = pd.read_csv(
+    os.path.join(appended_data_dir, 'noon_reports_only.csv'),
+    parse_dates=['utc_timestamp'],
+    )
+
+noon_rep_df['utc_timestamp'] = noon_rep_df['utc_timestamp'].dt.tz_localize('UTC')
+
+logger.info(f'QIDs in appended data: {df["qid_mapping"].unique()}')
 
 # find the start and end time of the dataset
 df['utc_timestamp'] = pd.to_datetime(df['utc_timestamp'], format='ISO8601')
@@ -53,11 +62,12 @@ logger.info(f'Dataset time range: {df_start_time} to {df_end_time} (duration: {t
 
 # If chosen in config file, drop all transducer depth variables (this is way more unreliable and creates a lot of unnecessary time gaps, for a relatively low return in terms of data value)
 if DROP_TRANDUCER_DEPTH:
-    df = df.drop(df[df['qid_mapping'].str.contains('"2::0::4::0_1::1::0::2::0_37::0::2::0_8"')]['qid_mapping'].unique(), axis=0)
-    logger.info(f'Dropped transducer depth variable')
+    # Drop rows where qid_mapping is the transducer depth variable (in-place)
+    initial_shape = df.shape
+    df.drop(df[df['qid_mapping'] == '2::0::4::0_1::1::0::2::0_37::0::2::0_8'].index, inplace=True)
+    logger.info(f'Dropped transducer depth variable. Shape: {initial_shape} -> {df.shape}')
 else:
     logger.info(f'Keeping transducer depth variable. Variables: {df["qid_mapping"].unique()}')
-
 
 logger.info(f'Synchronizing dataframe with shape: {df.shape}')
 logger.info(f'number of unique time stamps: {df["utc_timestamp"].nunique()}')
