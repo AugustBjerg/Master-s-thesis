@@ -4,31 +4,43 @@ import pandas as pd
 import numpy as np
 from loguru import logger
 from config import EXPECTED_SENSOR_OBSERVATIONS
+from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # -- STEP 1: append all monthly observation files into a single dataframe   --
 
-# Defining prerequisites for appending loop
+# Defining prerequisites for appending
 columns = [
     'utc_timestamp',
     'qid_mapping',
     'value',
 ]
-appended_df = pd.DataFrame(columns=columns)
 parent_dir = os.path.dirname(os.getcwd())
 appended_data_dir = os.path.join(script_dir, '..', 'appended')
 sensor_dictionary_path = os.path.join(script_dir, '..', 'metadata', 'Metrics registration.csv')
 
-# Loop itself
+# Parallel file reading function
+def read_csv_file(file_path):
+    df = pd.read_csv(file_path, names=columns, parse_dates=['utc_timestamp'], date_format='ISO8601')
+    logger.info(f'Read file: {file_path} with shape: {df.shape}')
+    return df
+
+# Get all CSV files from month directories (1-12 only)
+all_files = []
 for month in range(1, 13):
-    input_pattern = os.path.join(script_dir, '..', 'raw', 'unzipped', str(month), str(month) + '.csv')
-    
-    for file_path in glob.glob(input_pattern):
-        df = pd.read_csv(file_path, names=columns, parse_dates=['utc_timestamp'])
-        appended_df = pd.concat([appended_df, df], ignore_index=True)
-        logger.info(f'Appended file: {file_path} with shape: {df.shape}')
+    input_pattern = os.path.join(script_dir, '..', 'raw', 'unzipped', str(month), '*.csv')
+    all_files.extend(glob.glob(input_pattern))
+logger.info(f'Found {len(all_files)} files to process')
+
+# Read files in parallel using all CPU cores minus 1
+with Pool(cpu_count() - 1) as pool:
+    dfs = pool.map(read_csv_file, all_files)
+
+# Concatenate all dataframes at once (much faster than iterative concat)
+appended_df = pd.concat(dfs, ignore_index=True)
+logger.info(f'Successfully appended all files. Total shape: {appended_df.shape}')
 
 # check if there is the right number of sensor observations
 if appended_df.shape[0] != EXPECTED_SENSOR_OBSERVATIONS or appended_df.shape[1] != len(columns):

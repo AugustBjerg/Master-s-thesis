@@ -4,19 +4,19 @@ import pandas as pd
 import numpy as np
 from loguru import logger
 from config import NOON_REPORT_QIDS, NOON_REPORT_UNITS
+from multiprocessing import Pool, cpu_count
 
 # Defining prerequisites for appending loop
 # Get the directory where THIS script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Defining prerequisites for appending loop
+# Defining prerequisites for appending
 columns = [
     'utc_timestamp',
     'qid_mapping',
     'value',
     'quantity_name',
 ]
-appended_df = pd.DataFrame(columns=columns)
 
 # Define paths relative to script location
 appended_data_dir = os.path.join(script_dir, '..', 'appended')
@@ -24,29 +24,39 @@ noon_rep_qid_dict = NOON_REPORT_QIDS
 noon_rep_units_dict = NOON_REPORT_UNITS
 raw_noon_reports_dir = os.path.join(script_dir, '..', 'raw', 'unzipped', 'Noon Reports')
 
-# write a loop that: 
-# 1. loops through all the files in the noon reports folder
-for i, file in enumerate(glob.glob(os.path.join(raw_noon_reports_dir, '*.csv'))):
-    # read the file
-    df = pd.read_csv(file)
-    logger.info(f'Reading noon reports for month ({i+1}) with shape: {df.shape}')
+# Parallel file reading and processing function
+def process_noon_report_file(file_path):
+    # Read the file
+    df = pd.read_csv(file_path)
+    logger.info(f'Reading noon report file: {file_path} with shape: {df.shape}')
     
-    # rewrite the "date" column to be called "utc_timestamp" and parsed as datetime objects with time set to noon/12PM
-    df['utc_timestamp'] = pd.to_datetime(df['Date'], format='%d/%m/%Y') + pd.Timedelta(hours=12, microseconds=0)
+    # Rewrite the "date" column to be called "utc_timestamp" and parsed as datetime objects with time set to noon/12PM
+    df['utc_timestamp'] = pd.to_datetime(df['Date'], format='%d/%m/%Y') + pd.Timedelta(hours=12)
     df['utc_timestamp'] = df['utc_timestamp'].dt.tz_localize('UTC')
     df = df.drop(columns=['Date'])
     
-    # melt the dataframe so that each column (except utc_timestamp) is turned into a row
+    # Melt the dataframe so that each column (except utc_timestamp) is turned into a row
     melted_df = df.melt(id_vars=['utc_timestamp'], var_name='quantity_name', value_name='value')
     
-    # add a column called "qid_mapping" that contains maps the quantity names to their QID dummies
+    # Add a column called "qid_mapping" that contains maps the quantity names to their QID dummies
     melted_df['qid_mapping'] = melted_df['quantity_name'].map(noon_rep_qid_dict)
     
     # Arrange the columns in the same order as specified in the columns list
     melted_df = melted_df[['utc_timestamp', 'qid_mapping', 'value', 'quantity_name']]
     
-    # append that to the running dataframe
-    appended_df = pd.concat([appended_df, melted_df], ignore_index=True)    
+    return melted_df
+
+# Get all noon report files
+all_files = glob.glob(os.path.join(raw_noon_reports_dir, '*.csv'))
+logger.info(f'Found {len(all_files)} noon report files to process')
+
+# Read and process files in parallel
+with Pool(min(cpu_count() - 1, len(all_files))) as pool:
+    dfs = pool.map(process_noon_report_file, all_files)
+
+# Concatenate all dataframes at once (much faster than iterative concat)
+appended_df = pd.concat(dfs, ignore_index=True)
+logger.info(f'Successfully processed all noon reports. Total shape: {appended_df.shape}')    
 
 # drop rows where the value is NaN
 logger.info(f'Shape before dropping NaN values: {appended_df.shape}')
