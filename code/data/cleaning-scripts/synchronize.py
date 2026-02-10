@@ -33,7 +33,7 @@ else:
 df = pd.read_csv(
     os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
     parse_dates=['utc_timestamp'],
-    nrows=10000000 # for testing, remove this line for full dataset
+#    nrows=10000000 # for testing, remove this line for full dataset
     )
 
 # find the start and end time of the dataset
