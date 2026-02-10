@@ -9,6 +9,7 @@ from loguru import logger
 script_dir = os.path.dirname(os.path.abspath(__file__))
 appended_data_dir = os.path.join(script_dir, '..', 'appended')
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
+sync_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'synchronization')
 
 script_start = time.perf_counter()
 
@@ -28,6 +29,12 @@ else:
         except Exception as e:
             logger.error(f'Error deleting file {file_path}: {e}')
     logger.info(f'Cleared synchronized data directory: {synchronized_data_dir}')
+
+# create output directory if it doesnt already exist
+if not os.path.exists(sync_output_dir_dir):
+    os.makedirs(sync_output_dir_dir)
+else:
+    logger.info(f'synchronized data directory already exists: {sync_output_dir_dir}')
 
 # load the appended dataframe
 df = pd.read_csv(
@@ -251,7 +258,7 @@ metadata = {
 }
 
 # save metadata to json file
-metadata_filepath = os.path.join(synchronized_data_dir, 'synchronization_metadata.json')
+metadata_filepath = os.path.join(sync_output_dir, f'synchronization_metadata_{script_start}.json') # script start time is close enough
 with open(metadata_filepath, 'w') as f:
     json.dump(metadata, f)
 logger.info(f'Saved metadata to: {metadata_filepath}')
