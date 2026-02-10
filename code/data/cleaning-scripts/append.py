@@ -57,6 +57,9 @@ sensor_dict_df.loc[sensor_dict_df['quantity_name'] == 'Vessel Propeller Shaft Re
 # save it to a csv file again to keep the correction
 sensor_dict_df.to_csv(sensor_dictionary_path, index=False)
 
+logger.info(f'number of variables in sensor dictionary: {sensor_dict_df["qid_mapping"].nunique()}')
+logger.info(f' is 2::0::25::0_1::2::0::3::0_1::0::6::0_8 in sensor dictionary? {"2::0::25::0_1::2::0::3::0_1::0::6::0_8" in sensor_dict_df["qid_mapping"].values}')
+
 # Merge sensor metadata onto the appended dataframe
 appended_df = appended_df.merge(
     sensor_dict_df[['qid_mapping', 'quantity_name', 'source_name', 'unit']], 
@@ -64,6 +67,7 @@ appended_df = appended_df.merge(
     how='left'
 )
 
+logger.info(f'number of variables after merge: {appended_df["qid_mapping"].nunique()}')
 logger.info(f'Added sensor metadata columns. Final shape: {appended_df.shape}')
 
 # convert uct_timestamp to datetime if not already
