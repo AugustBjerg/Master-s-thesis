@@ -3,6 +3,7 @@ import numpy as np
 import os
 import json
 import time
+from multiprocessing import Pool
 from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH_SECONDS, DROP_TRANDUCER_DEPTH
 from loguru import logger
 
@@ -31,16 +32,16 @@ else:
     logger.info(f'Cleared synchronized data directory: {synchronized_data_dir}')
 
 # create output directory if it doesnt already exist
-if not os.path.exists(sync_output_dir_dir):
-    os.makedirs(sync_output_dir_dir)
+if not os.path.exists(sync_output_dir):
+    os.makedirs(sync_output_dir)
 else:
-    logger.info(f'synchronized data directory already exists: {sync_output_dir_dir}')
+    logger.info(f'synchronized data directory already exists: {sync_output_dir}')
 
 # load the appended dataframe
 df = pd.read_csv(
     os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
     parse_dates=['utc_timestamp'],
-#    nrows=10000000 # for testing, remove this line for full dataset
+ #   nrows=100000 # for testing, remove this line for full dataset
     )
 
 # find the start and end time of the dataset
@@ -137,6 +138,90 @@ logger.info(f'QIDs with 1h sampling interval: {len(qids_1h)}')
 all_columns_15s = ['utc_timestamp', 'seg_id'] + list(qids_15s)
 all_columns_1h = ['utc_timestamp', 'seg_id'] + list(qids_1h)
 
+# Define function to process a single segment (for multiprocessing)
+def process_single_segment(args):
+    """
+    Process a single segment with interpolation and saving.
+    
+    Args:
+        args: Tuple containing (i, grid_15s, grid_1h, seg_info, df_segment_data, 
+                                 qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir)
+    
+    Returns:
+        Tuple of (segment_index, seg_id, shape, filepath)
+    """
+    i, grid_15s, grid_1h, seg_info, df_segment_data, qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir = args
+    
+    seg_id = seg_info['seg_id']
+    seg_start_time = seg_info['start_time']
+    seg_end_time = seg_info['end_time']
+    seg_duration = seg_end_time - seg_start_time
+    
+    # -- 15s interpolation --
+    
+    # Filter segment data to only 15s qids
+    df_segment_15s = df_segment_data[df_segment_data['qid_mapping'].isin(qids_15s)]
+    
+    # Pivot the segment data so each qid is a column with timestamp as index
+    if df_segment_15s.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
+        pivot_15s = df_segment_15s.pivot_table(
+            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+    else:
+        pivot_15s = df_segment_15s.pivot(
+            index='utc_timestamp', columns='qid_mapping', values='value')
+    
+    # Combine actual observation timestamps with the grid, interpolate, extract grid points
+    combined_15s = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
+    combined_15s.interpolate(method='linear', limit_area='inside', inplace=True)
+    combined_15s = (
+        combined_15s
+        .loc[grid_15s['utc_timestamp']]
+        .reset_index()
+        .assign(seg_id=seg_id)
+        .reindex(columns=all_columns_15s)
+    )
+    
+    # -- 1h interpolation --
+    
+    # Filter segment data to only 1h qids
+    df_segment_1h = df_segment_data[df_segment_data['qid_mapping'].isin(qids_1h)]
+    
+    # Pivot the segment data so each qid is a column with timestamp as index
+    if df_segment_1h.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
+        pivot_1h = df_segment_1h.pivot_table(
+            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+    else:
+        pivot_1h = df_segment_1h.pivot(
+            index='utc_timestamp', columns='qid_mapping', values='value')
+    
+    # Combine actual observation timestamps with the grid, interpolate, extract grid points
+    combined_1h = pivot_1h.reindex(pivot_1h.index.union(grid_1h['utc_timestamp'])).sort_index()
+    combined_1h.interpolate(method='linear', limit_area='inside', inplace=True)
+    combined_1h = (
+        combined_1h
+        .loc[grid_1h['utc_timestamp']]
+        .reset_index()
+        .assign(seg_id=seg_id)
+        .reindex(columns=all_columns_1h)
+    )
+    
+    # -- Combine 15s and 1h dataframes into one segment dataframe --
+    
+    df_segment_combined = pd.merge(
+        combined_15s,
+        combined_1h,
+        on=['utc_timestamp', 'seg_id'],
+        how='outer'
+    )
+    
+    # Save the combined segment dataframe
+    start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
+    end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
+    segment_filepath = os.path.join(synchronized_data_dir, f'synced_{start_str}_to_{end_str}.csv')
+    df_segment_combined.to_csv(segment_filepath, index=False)
+    
+    return i, seg_id, df_segment_combined.shape, segment_filepath
+
 valid_segment_dataframes = []
 
 for seg_id, segment in valid_segments_info.iterrows():
@@ -161,108 +246,101 @@ logger.info(f'Created {len(valid_segment_dataframes)} valid segment dataframes w
 # check that the date format is correct (utc timestamps should be in datetime format)
 logger.info(f'utc_timestamp column data type in first 15s and 1h dataframe: {valid_segment_dataframes[0][0]["utc_timestamp"].dtype} and {valid_segment_dataframes[0][1]["utc_timestamp"].dtype}')
 
-# -- PART 3 -- Linear interpolation for each segment
+# -- PART 3 -- Linear interpolation for each segment (using multiprocessing)
 
+# Prepare arguments for parallel processing
+logger.info(f'Preparing {len(valid_segment_dataframes)} segments for parallel processing...')
+
+segment_args = []
 for i, (grid_15s, grid_1h) in enumerate(valid_segment_dataframes):
     seg_id = grid_15s['seg_id'].iloc[0]
     seg_start_time = valid_segments_info.loc[seg_id, 'start_time']
     seg_end_time = valid_segments_info.loc[seg_id, 'end_time']
-    seg_duration = seg_end_time - seg_start_time
+    
+    # Pre-filter the main dataframe for this segment's time range to reduce memory overhead
+    df_segment_data = df.query(
+        'utc_timestamp >= @seg_start_time and utc_timestamp <= @seg_end_time'
+    ).copy()
+    
+    seg_info = {
+        'seg_id': seg_id,
+        'start_time': seg_start_time,
+        'end_time': seg_end_time
+    }
+    
+    segment_args.append((
+        i, grid_15s.copy(), grid_1h.copy(), seg_info, df_segment_data,
+        qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir
+    ))
 
-    logger.info(f'\n--- Segment {i+1}/{len(valid_segment_dataframes)} (ID: {seg_id}, duration: {seg_duration}) ---')
+# Determine number of CPU cores to use (leave one free for system)
+num_cores = max(1, os.cpu_count() - 1)
+logger.info(f'Processing {len(segment_args)} segments using {num_cores} CPU cores in parallel')
 
-    # -- 15s interpolation --
+# Process segments in parallel
+with Pool(processes=num_cores) as pool:
+    results = pool.map(process_single_segment, segment_args)
 
-    # Filter original data to this segment's time range and only 15s qids
-    df_segment_15s = df.query(
-        'utc_timestamp >= @seg_start_time and utc_timestamp <= @seg_end_time and qid_mapping in @qids_15s'
-    )
+# Log results
+for i, seg_id, shape, filepath in results:
+    logger.info(f'Segment {i+1}/{len(results)} (ID: {seg_id}): shape {shape}, saved to {os.path.basename(filepath)}')
 
-    # Pivot the segment data so each qid is a column with timestamp as index
-    if df_segment_15s.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
-        pivot_15s = df_segment_15s.pivot_table(
-            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
-    else:
-        pivot_15s = df_segment_15s.pivot(
-            index='utc_timestamp', columns='qid_mapping', values='value')
+logger.info(f'\nFinished processing all {len(results)} segments')
 
-    # Combine actual observation timestamps with the grid, interpolate, extract grid points
-    combined_15s = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
-    combined_15s.interpolate(method='linear', limit_area='inside', inplace=True)
-    combined_15s = (
-        combined_15s
-        .loc[grid_15s['utc_timestamp']]
-        .reset_index()
-        .assign(seg_id=seg_id)
-        .reindex(columns=all_columns_15s)
-    )
 
-    logger.info(f'15s interpolation: {combined_15s.shape[0]} rows, {combined_15s.isna().sum().sum()} total NaNs')
+script_end = time.perf_counter()
+elapsed_time = script_end - script_start
 
-    # -- 1h interpolation --
-
-    # Filter original data to this segment's time range and only 1h qids
-    df_segment_1h = df.query(
-        'utc_timestamp >= @seg_start_time and utc_timestamp <= @seg_end_time and qid_mapping in @qids_1h'
-    )
-
-    # Pivot the segment data so each qid is a column with timestamp as index
-    if df_segment_1h.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
-        pivot_1h = df_segment_1h.pivot_table(
-            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
-    else:
-        pivot_1h = df_segment_1h.pivot(
-            index='utc_timestamp', columns='qid_mapping', values='value')
-
-    # Combine actual observation timestamps with the grid, interpolate, extract grid points
-    combined_1h = pivot_1h.reindex(pivot_1h.index.union(grid_1h['utc_timestamp'])).sort_index()
-    combined_1h.interpolate(method='linear', limit_area='inside', inplace=True)
-    combined_1h = (
-        combined_1h
-        .loc[grid_1h['utc_timestamp']]
-        .reset_index()
-        .assign(seg_id=seg_id)
-        .reindex(columns=all_columns_1h)
-    )
-
-    # -- Combine 15s and 1h dataframes into one segment dataframe --
-
-    df_segment_combined = pd.merge(
-        combined_15s,
-        combined_1h,
-        on=['utc_timestamp', 'seg_id'],
-        how='outer'
-    )
-
-    # Save the combined segment dataframe
-    start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
-    end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
-    segment_filepath = os.path.join(synchronized_data_dir, f'synced_{start_str}_to_{end_str}.csv')
-    df_segment_combined.to_csv(segment_filepath, index=False)
-
-    logger.info(f'Saved synchronized segment dataframe number {i+1}/{len(valid_segment_dataframes)} to: {segment_filepath}')
-
-logger.info(f'\nFinished processing all {len(valid_segment_dataframes)} segments')
-
+# Calculate segment duration statistics
+segment_durations = (valid_segments_info['end_time'] - valid_segments_info['start_time']).dt.total_seconds()
 
 # Save all relevant metadata/statistics that has been collected during synchronization to a json file for later reference
 metadata = {
-    'total_observations': len(df),
-    'unique_timestamps': df['utc_timestamp'].nunique(),
-    'intended_sampling_intervals_distribution': pd.Series(INTENDED_SAMPLING_INTERVALS_SECONDS).value_counts().to_dict(),
-    'number_of_time_gaps': time_gap_mask.sum(),
-    'tolerance_factor': THRESHOLD_FACTOR,
-    'valid_segments_info': valid_segments_info.to_dict(orient='records'),
-    'total_duration': str(total_duration),
-    'total_valid_duration': str(total_valid_duration)
+    'dataset_info': {
+        'start_time': df_start_time.strftime('%Y-%m-%d %H:%M:%S'),
+        'end_time': df_end_time.strftime('%Y-%m-%d %H:%M:%S'),
+        'total_duration_seconds': float(total_duration.total_seconds()),
+        'total_observations': int(len(df)),
+        'unique_timestamps': int(df['utc_timestamp'].nunique()),
+    },
+    'configuration': {
+        'tolerance_factor': float(THRESHOLD_FACTOR),
+        'min_segment_length_seconds': int(MIN_SEGMENT_LENGTH_SECONDS),
+        'drop_transducer_depth': bool(DROP_TRANDUCER_DEPTH),
+    },
+    'variables': {
+        'total_unique_qids': int(len(unique_qids)),
+        'qids_15s_count': int(len(qids_15s)),
+        'qids_1h_count': int(len(qids_1h)),
+        'intended_sampling_intervals_distribution': {k: int(v) for k, v in pd.Series(INTENDED_SAMPLING_INTERVALS_SECONDS).value_counts().to_dict().items()},
+    },
+    'segmentation': {
+        'number_of_time_gaps': int(time_gap_mask.sum()),
+        'segments_before_filtering': int(len(valid_segments_mask)),
+        'segments_after_filtering': int(valid_segments_mask.sum()),
+        'total_valid_duration_seconds': float(total_valid_duration.total_seconds()),
+        'valid_duration_percentage': float(total_valid_duration / total_duration * 100),
+        'segment_duration_stats': {
+            'min_seconds': float(segment_durations.min()),
+            'max_seconds': float(segment_durations.max()),
+            'mean_seconds': float(segment_durations.mean()),
+            'median_seconds': float(segment_durations.median()),
+        },
+    },
+    'execution': {
+        'elapsed_time_seconds': float(elapsed_time),
+        'segments_saved': int(len(valid_segment_dataframes)),
+    },
+    'valid_segments_info': valid_segments_info.assign(
+        start_time=valid_segments_info['start_time'].dt.strftime('%Y-%m-%d %H:%M:%S'),
+        end_time=valid_segments_info['end_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
+    ).to_dict(orient='records'),
 }
 
 # save metadata to json file
 metadata_filepath = os.path.join(sync_output_dir, f'synchronization_metadata_{script_start}.json') # script start time is close enough
 with open(metadata_filepath, 'w') as f:
-    json.dump(metadata, f)
+    json.dump(metadata, f, indent=2)
 logger.info(f'Saved metadata to: {metadata_filepath}')
 
-script_end = time.perf_counter()
-elapsed_time = script_end - script_start
 logger.info(f'Total synchronization time: {elapsed_time:.2f} seconds')
