@@ -3,8 +3,8 @@ import numpy as np
 import os
 from datetime import datetime
 
-# TODO: (tentative) make a dummy column for each variable that holds "Jump", meaning that the variable contains at least one NaN in that timespan
 
+# TODO: add draft data from noon reports (deemed easier to do after the synced tables area appended to one long table)
 # Determine the granularity
 
 # set aggregation functions for each statistic

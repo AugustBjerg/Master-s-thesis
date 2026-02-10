@@ -33,6 +33,12 @@ NOON_REPORT_UNITS = {
     'Fuel' : "categorical"
     }
 
+INCLUDED_NOON_REPORT_QIDS = NOON_REPORT_QIDS = [
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_2" , # Fwd Draft
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_3" ,
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_4" ,
+    ]
+
 INTENDED_SAMPLING_INTERVALS_SECONDS = {
     # Noon Reports - measured every 24h
     "0::0::0::0_0::0::0::0::0_0::0::0::0_1" : 86400, # Slip

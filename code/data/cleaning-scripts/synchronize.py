@@ -44,13 +44,6 @@ df = pd.read_csv(
     nrows=1000000 # for testing, remove this line for full dataset
     )
 
-noon_rep_df = pd.read_csv(
-    os.path.join(appended_data_dir, 'noon_reports_only.csv'),
-    parse_dates=['utc_timestamp'],
-    )
-
-noon_rep_df['utc_timestamp'] = noon_rep_df['utc_timestamp'].dt.tz_localize('UTC')
-
 logger.info(f'QIDs in appended data: {df["qid_mapping"].unique()}')
 
 # find the start and end time of the dataset
@@ -223,7 +216,7 @@ def process_single_segment(args):
         on=['utc_timestamp', 'seg_id'],
         how='outer'
     )
-    
+
     # Save the combined segment dataframe
     start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
     end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
