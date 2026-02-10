@@ -41,7 +41,7 @@ else:
 df = pd.read_csv(
     os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
     parse_dates=['utc_timestamp'],
-    nrows=1000000 # for testing, remove this line for full dataset
+#    nrows=1000000 # for testing, remove this line for full dataset
     )
 
 logger.info(f'QIDs in appended data: {df["qid_mapping"].unique()}')
