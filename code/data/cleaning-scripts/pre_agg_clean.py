@@ -12,12 +12,15 @@
 # TODO: remove any signs of a ship "in reverse" or maneuvering
     # 1. Negative speed values (remove rows)
     # 2. negative propeller shaft rotational speed (remove rows)
-    # 3. rows where propeller rotational speed is 0/negative and speed is positive (either sensor fault or reversal). Zero rotation in speed might be possible, but it is unusual and should not be included in a conservative filtering (remove rows)
-    # 4. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 with NaN for both (impossible - remove)
-  
+    # 3. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 with NaN for both (impossible - remove)
+
+    # 4. (optional) remove rows where the ship is "cruising" (propeller turned off but still moving)
+
+
 # TODO: deal with observations with incongruent main engine fuel load and shaft power
 
 # --- Outlier removal ---
+    # 1. Propeller shaft power and propeller shaft rotational speed has some pretty clear outliers with negative values (remove)
 
 # --- NaN imputation ---
 # TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
