@@ -1,12 +1,15 @@
 # --- BEFORE WRITING THIS: WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
 
 # TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
+# TODO: Make sure this plan is represented in onenote
 # TODO: make the below as a function and apply it to each synchronized time segment separately (to avoid interpolating across intervals)
 
 # --- Sentinel / dropout values (no valid measurement) ---
 # TODO: Replace sentinel values with NaN, 
+
 # TODO: replace negative hull over ground speed values with Nan (not possible)
 # TODO: replace negative values of main engine rotation with NaN (it cannot be negative)
+# TODO: replace sea temp = exactly 6 with NaN (obvious sensor dropout)
 
 # --- NaN removal where appropriate ---
 
@@ -28,3 +31,7 @@
 
 # --- NaN imputation ---
 # TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
+
+# TODO: for sea temp: 
+    # if less than 4 in a row and not in the end of a time segment, use linear interpolation
+    # if 4 or more, impute with the median for that time segment (Note in report that it is model convenience / judgment call, not strict practice)
