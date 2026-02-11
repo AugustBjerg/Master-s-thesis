@@ -9,7 +9,7 @@
 # --- NaN removal where appropriate ---
 
 # --- CLEANING of "wrong" data ---
-# TODO: remove any signs of a ship "in reverse"
+# TODO: remove any signs of a ship "in reverse" or maneuvering
     # 1. Negative speed values (remove rows)
     # 2. negative propeller shaft rotational speed (remove rows)
     # 3. rows where propeller rotational speed is 0/negative and speed is positive (either sensor fault or reversal). Zero rotation in speed might be possible, but it is unusual and should not be included in a conservative filtering (remove rows)
