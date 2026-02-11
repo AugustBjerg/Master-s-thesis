@@ -27,10 +27,14 @@
 # TODO: deal with observations with incongruent main engine fuel load and shaft power
 
 # --- Outlier removal ---
+# TODO: for every column, have chat pick obvious (for physical/practical reasons) thresholds that a no-brainer outliers
+# TODO: after that, consider adding additional outlier removal based on statistical methods (e.g. IQR method, z-score method, etc.)
+
     # 1. Propeller shaft power and propeller shaft rotational speed has some pretty clear outliers with negative values (remove)
 
 # --- NaN imputation ---
 # TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
+# TODO: keeo in mind that weather data is supposed to have some NaN data for now, so only impute on the hourly mark
 
 # TODO: for sea temp: 
     # if less than 4 in a row and not in the end of a time segment, use linear interpolation
