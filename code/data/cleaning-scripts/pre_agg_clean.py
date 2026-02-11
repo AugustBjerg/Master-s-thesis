@@ -11,10 +11,11 @@
 
 # --- CLEANING of "wrong" data ---
 # TODO: remove any signs of a ship "in reverse" or maneuvering
-    # 1. Negative speed through water values (remove rows)
-    # 2. negative propeller shaft rotational speed (remove rows)
-    # 3. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 (impossible / inconsistent - remove)
-    # 4. rows where propeller shaft power are negative (is either reversing/maneuvering or a bad measurement - remove). This is done because i want to document a more steady state
+    # 1. Start with a no-brainer like too low stw (below 4 knots according to Dalheim & Stein). This should remove most - the rest is just included as an extra assurance
+    # 2. Negative speed through water values (remove rows)
+    # 3. negative propeller shaft rotational speed (remove rows)
+    # 4. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 (impossible / inconsistent - remove)
+    # 5. rows where propeller shaft power are negative (is either reversing/maneuvering or a bad measurement - remove). This is done because i want to document a more steady state
 
     # 1. (optional) remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
 
