@@ -1,10 +1,10 @@
+# --- BEFORE WRITING THIS: WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
+
 # TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
-# TODO: Replace negative speed values with NaN
 
 # --- Sentinel / dropout values (no valid measurement) ---
 # TODO: Replace sentinel values with NaN, 
 # TODO: replace negative values of main engine rotation with NaN (it cannot be negative)
-
 
 # --- NaN removal where appropriate ---
 
@@ -12,7 +12,9 @@
 # TODO: remove any signs of a ship "in reverse"
     # 1. Negative speed values (remove rows)
     # 2. negative propeller shaft rotational speed (remove rows)
-
+    # 3. rows where propeller rotational speed is 0/negative and speed is positive (either sensor fault or reversal). Zero rotation in speed might be possible, but it is unusual and should not be included in a conservative filtering (remove rows)
+    # 4. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 with NaN for both (impossible - remove)
+  
 # TODO: deal with observations with incongruent main engine fuel load and shaft power
 
 # --- Outlier removal ---
