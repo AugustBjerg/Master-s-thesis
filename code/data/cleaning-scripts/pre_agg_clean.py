@@ -1,6 +1,7 @@
 # --- BEFORE WRITING THIS: WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
 
 # TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
+# TODO: make the below as a function and apply it to each synchronized time segment separately (to avoid interpolating across intervals)
 
 # --- Sentinel / dropout values (no valid measurement) ---
 # TODO: Replace sentinel values with NaN, 
