@@ -2,11 +2,13 @@
 # TODO: Replace negative speed values with NaN
 
 # --- Sentinel / dropout values (no valid measurement) ---
-# TODO: Replace sentinel values with NaN, but add a dummy column that  - i want to retain the information that the sensor was failing, so maybe NaN is not the best option
+# TODO: Replace sentinel values with NaN, 
 
 # --- NaN removal ---
 
-# --- CLEANING / REMOVAL ---
+# --- CLEANING / REMOVAL (including outliers) ---
 # TODO: handle outlier now or after aggregation?
+# TODO: deal with observations with incongruent main engine fuel load and shaft power
 
 # --- NaN imputation ---
+# TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
