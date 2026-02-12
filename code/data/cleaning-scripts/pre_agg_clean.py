@@ -8,6 +8,7 @@
 
 # --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
 # TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values)
+    # Drop draft columns with all 0 measurements
      # 1. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0
      # 2. rows where propeller RPM and Shaft power have different sign (must have the same sign)
     # 3. rows where wave height, wave period, wind speed are negative 
@@ -16,6 +17,7 @@
     # 6. replace negative values of main engine rotation with NaN (it cannot be negative)
      # 1. replace sea temp = exactly 6 with NaN (obvious sensor dropout)
     # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
+
 
 # Optional
     # 7. rows where Vessel External Conditions Eastward AND northward (2 variables) Sea Water Velocity (provider MB) is 0. Consider whether this is likely to just be a "near 0" value
@@ -47,7 +49,7 @@
 
 # --- NaN imputation ---
 # TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
-# TODO: keeo in mind that weather data is supposed to have some NaN data for now, so only impute on the hourly mark
+# TODO: TBD - maybe impute weather data now - maybe wait until aggregation step
 
 # TODO: for sea temp: 
     # if less than 4 in a row and not in the end of a time segment, use linear interpolation
