@@ -1,8 +1,74 @@
-# --- BEFORE WRITING THIS: WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
+# --- TODO: Keep in mind - WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
+
+import pandas as pd
+import numpy as np
+import os
+import json
+import time
+from multiprocessing import Pool
+from loguru import logger
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
+cleaned_not_aggregated_data_dir = os.path.join(script_dir, '..', 'cleaned-not-aggregated')
+pre_agg_clean_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'pre-agg-cleaning')
+
+script_start = time.perf_counter()
+
+def setup_output_directories(output_dir):
+    """
+    Create output directory if it doesn't exist, otherwise log that it already exists.
+    
+    Args:
+        output_dir: Path to the output directory.
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        logger.info(f'Created output directory: {output_dir}')
+    else:
+        logger.info(f'Output directory already exists: {output_dir}')
+
+def load_synchronized_data(data_dir, test_n=None):
+    """
+    Loads all synchronized CSV files from data_dir into a single DataFrame.
+    
+    Args:
+        data_dir: Path to the directory containing synchronized CSV files.
+        test_n: If provided, only load the first n files (for faster testing).
+    
+    Returns:
+        A single concatenated DataFrame containing all loaded files.
+    """
+    all_files = sorted(
+        [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith('.csv')]
+    )
+    logger.info(f'Found {len(all_files)} synchronized CSV files in {data_dir}')
+
+    if test_n is not None:
+        all_files = all_files[:test_n]
+        logger.info(f'Test mode: loading only the first {test_n} file(s)')
+
+    def read_file(file_path):
+        df = pd.read_csv(file_path)
+        logger.info(f'Read {file_path} — shape: {df.shape}')
+        return df
+
+    with Pool(min(os.cpu_count() - 1, len(all_files))) as pool:
+        dfs = pool.map(read_file, all_files)
+
+    combined_df = pd.concat(dfs, ignore_index=True)
+    logger.info(f'Combined DataFrame shape: {combined_df.shape}')
+    return combined_df
+
+setup_output_directories(pre_agg_clean_output_dir)
+
+df = load_synchronized_data(synchronized_data_dir, test_n=3)
+
+df.head()
 
 # TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
 # TODO: Make sure this plan is represented in onenote
-# TODO: make the below as a function and apply it to each synchronized time segment separately (to avoid interpolating across intervals)
+# TODO: make the below as functions and apply them to each synchronized time segment separately, either as seperated files or as gruops in the pd.dataframe (to avoid interpolating across intervals)
 # TODO: every time something is removed, make sure to log the amount of N and % of both the original dataframe length and the current dataframe length that is removed
 
 
@@ -15,7 +81,7 @@
     # 4. Headings / angles outside their defined ranges
     # 5. replace negative hull over ground speed values with Nan
     # 6. replace negative values of main engine rotation with NaN (it cannot be negative)
-     # 1. replace sea temp = exactly 6 with NaN (obvious sensor dropout)
+     # 1. replace sea temp = exactly 6 or below with NaN (obvious sensor dropout - see line graph)
     # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
 
 
