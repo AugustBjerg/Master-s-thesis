@@ -12,6 +12,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
 cleaned_not_aggregated_data_dir = os.path.join(script_dir, '..', 'cleaned-not-aggregated')
 pre_agg_clean_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'pre-agg-cleaning')
+meta_data_dir = os.path.join(script_dir, '..', 'metadata')
 
 script_start = time.perf_counter()
 
@@ -28,12 +29,19 @@ def setup_output_directories(output_dir):
     else:
         logger.info(f'Output directory already exists: {output_dir}')
 
-def load_synchronized_data(data_dir, test_n=None):
+def _read_synchronized_file(file_path):
+    """Helper function for parallel file reading."""
+    df = pd.read_csv(file_path)
+    logger.info(f'Read {file_path} — shape: {df.shape}')
+    return df
+
+def load_synchronized_data(data_dir, column_metadata_df, test_n=None):
     """
     Loads all synchronized CSV files from data_dir into a single DataFrame.
     
     Args:
         data_dir: Path to the directory containing synchronized CSV files.
+        column_metadata_df: DataFrame containing metadata about columns (e.g. qid to name mappings and units).
         test_n: If provided, only load the first n files (for faster testing).
     
     Returns:
@@ -48,29 +56,52 @@ def load_synchronized_data(data_dir, test_n=None):
         all_files = all_files[:test_n]
         logger.info(f'Test mode: loading only the first {test_n} file(s)')
 
-    def read_file(file_path):
-        df = pd.read_csv(file_path)
-        logger.info(f'Read {file_path} — shape: {df.shape}')
-        return df
-
     with Pool(min(os.cpu_count() - 1, len(all_files))) as pool:
-        dfs = pool.map(read_file, all_files)
+        dfs = pool.map(_read_synchronized_file, all_files)
 
     combined_df = pd.concat(dfs, ignore_index=True)
+
+    # rename all the columns from their qids (qid_mapping) to their real names (quantity_name) using the column_metadata_df
+    qid_to_name = dict(zip(column_metadata_df['qid_mapping'], column_metadata_df['quantity_name']))
+    combined_df.rename(columns=qid_to_name, inplace=True)
+
+    # reformat the utc_timestamp column to datetime (utc, ISO 8601 format)
+    combined_df['utc_timestamp'] = pd.to_datetime(combined_df['utc_timestamp'], format='ISO8601',utc=True)
+
     logger.info(f'Combined DataFrame shape: {combined_df.shape}')
     return combined_df
 
+def load_column_metadata(file_path):
+    metadata = pd.read_csv(file_path)
+    return metadata
+
+def _drop_zero_only_columns(df):
+    """ This function removes columns that only have zero or NaN values."""
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    logger.info(f'Checking {len(numeric_cols)} numeric columns for all-zero values')
+    zero_only_cols = [col for col in numeric_cols if (df[col].dropna().values == 0).all()]
+    logger.info(f'Found {len(zero_only_cols)} columns with all zero values: {zero_only_cols}')
+    if zero_only_cols:
+        df.drop(columns=zero_only_cols, inplace=True)
+        logger.info(f'Dropped {len(zero_only_cols)} columns with all zero values: {zero_only_cols}')
+    else:
+        logger.info(f'No columns with all zero values found')
+    return df
+
+def deal_with_dropouts(df):
+    
+    df_no_zero_only = _drop_zero_only_columns(df)
+
+    return df_no_zero_only
+
 setup_output_directories(pre_agg_clean_output_dir)
 
-df = load_synchronized_data(synchronized_data_dir, test_n=3)
+column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
 
-df.head()
+df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=10)
 
-# TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
-# TODO: Make sure this plan is represented in onenote
-# TODO: make the below as functions and apply them to each synchronized time segment separately, either as seperated files or as gruops in the pd.dataframe (to avoid interpolating across intervals)
-# TODO: every time something is removed, make sure to log the amount of N and % of both the original dataframe length and the current dataframe length that is removed
-
+logger.info(f'DataFrame loaded with shape: {df.shape}')
+logger.info(f'Dataframe info:\n{df.info()}')
 
 # --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
 # TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values)
@@ -83,6 +114,18 @@ df.head()
     # 6. replace negative values of main engine rotation with NaN (it cannot be negative)
      # 1. replace sea temp = exactly 6 or below with NaN (obvious sensor dropout - see line graph)
     # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
+
+df_no_dropouts = deal_with_dropouts(df)
+
+logger.info(f'After dealing with dropouts, DataFrame shape: {df_no_dropouts.shape}')
+
+# TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
+# TODO: Make sure this plan is represented in onenote
+# TODO: make the below as functions and apply them to each synchronized time segment separately, either as seperated files or as gruops in the pd.dataframe (to avoid interpolating across intervals)
+# TODO: every time something is removed, make sure to log the amount of N and % of both the original dataframe length and the current dataframe length that is removed
+
+
+
 
 
 # Optional
