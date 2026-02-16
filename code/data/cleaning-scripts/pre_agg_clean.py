@@ -88,25 +88,45 @@ def _drop_zero_only_columns(df):
         logger.info(f'No columns with all zero values found')
     return df
 
+def _replace_inconsistent_propeller_and_engine_rpm(df):
+    """ This function replaces rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 with NaN, as this is an inconsistent state.
+    In non-techincal terms: if the engine is running, the propeller should be as well.
+    negative values for propeller rpm is kept for now since it means the ship is in reverse (not an inconsistent/impossible state)
+    """
+    condition = (df['Vessel Propeller Shaft Rotational Speed'] == 0) & (df['Main Engine Rotational Speed'] > 0)
+    num_inconsistent_rows = condition.sum()
+    df.loc[condition, ['Vessel Propeller Shaft Rotational Speed', 'Main Engine Rotational Speed']] = np.nan
+    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.2f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and main engine rotational speed')
+    return df
+
+def _replace_inconsistent_propeller_rpm_and_shaft_power(df):
+    """rows where propeller RPM and Shaft power have different sign (must have the same sign) are replaced with NaN, as this is an inconsistent state."""
+    condition = (df['Vessel Propeller Shaft Rotational Speed'] > 0) & (df['Vessel Propeller Shaft Mechanical Power'] < 0) | (df['Vessel Propeller Shaft Rotational Speed'] < 0) & (df['Vessel Propeller Shaft Mechanical Power'] > 0)
+    num_inconsistent_rows = condition.sum()
+    df.loc[condition, ['Vessel Propeller Shaft Rotational Speed', 'Vessel Propeller Shaft Mechanical Power']] = np.nan
+    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.2f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and shaft power')
+    return df
+
 def deal_with_dropouts(df):
     
+    # Apply all the wrapped functions in sequence to deal with dropout values
     df_no_zero_only = _drop_zero_only_columns(df)
+    df_no_inconsistent_propeller_engine_rpm = _replace_inconsistent_propeller_and_engine_rpm(df_no_zero_only)
+    df_no_inconsistent_propeller_rpm_and_shaft_power = _replace_inconsistent_propeller_rpm_and_shaft_power(df_no_inconsistent_propeller_engine_rpm)
 
-    return df_no_zero_only
+    return df_no_inconsistent_propeller_rpm_and_shaft_power
 
 setup_output_directories(pre_agg_clean_output_dir)
 
 column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
 
-df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=10)
+df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=30)
 
 logger.info(f'DataFrame loaded with shape: {df.shape}')
-logger.info(f'Dataframe info:\n{df.info()}')
+# logger.info(f'Dataframe info:\n{df.info()}')
 
 # --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
 # TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values)
-    # Drop draft columns with all 0 measurements
-     # 1. rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0
      # 2. rows where propeller RPM and Shaft power have different sign (must have the same sign)
     # 3. rows where wave height, wave period, wind speed are negative 
     # 4. Headings / angles outside their defined ranges
