@@ -23,7 +23,7 @@ NOON_REPORT_UNITS = {
     'Aft Draft' : "m" ,
     'Displacement' : "t" ,
     'Air Temp' : "°C" ,
-    'Bar Pressure' : "hPa" ,
+    'Bar Pressure' : "Millibars" ,
     'Sea State' : "Douglas scale" ,
     'Wind Force' : "Beaufort" ,
     'Sea Temp' : "°C" ,

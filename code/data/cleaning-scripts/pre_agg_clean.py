@@ -5,6 +5,7 @@ import numpy as np
 import os
 import json
 import time
+from typing import Dict
 from multiprocessing import Pool
 from loguru import logger
 
@@ -88,7 +89,7 @@ def _drop_zero_only_columns(df):
         logger.info(f'No columns with all zero values found')
     return df
 
-def _replace_inconsistent_propeller_and_engine_rpm(df):
+def _replace_inconsistent_propeller_and_engine_rpm(df, flag_columns: Dict):
     """ This function replaces rows where propeller shaft rotational speed is 0 AND main engine rotational speed is above 0 with NaN, as this is an inconsistent state.
     In non-techincal terms: if the engine is running, the propeller should be as well.
     negative values for propeller rpm is kept for now since it means the ship is in reverse (not an inconsistent/impossible state)
@@ -96,25 +97,31 @@ def _replace_inconsistent_propeller_and_engine_rpm(df):
     condition = (df['Vessel Propeller Shaft Rotational Speed'] == 0) & (df['Main Engine Rotational Speed'] > 0)
     num_inconsistent_rows = condition.sum()
     df.loc[condition, ['Vessel Propeller Shaft Rotational Speed', 'Main Engine Rotational Speed']] = np.nan
-    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.2f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and main engine rotational speed')
+    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.5f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and main engine rotational speed')
+    flag_column_name = 'Inconsistent Engine and Propeller RPM'
+    df[flag_column_name] = condition.astype(int) # create a flag column for inconsistent rows (1 if inconsistent, 0 if not)
+    flag_columns[flag_column_name] = num_inconsistent_rows # add the number of inconsistent rows to the flag_columns dict for logging later
     return df
 
-def _replace_inconsistent_propeller_rpm_and_shaft_power(df):
+def _replace_inconsistent_propeller_rpm_and_shaft_power(df, flag_columns: Dict):
     """rows where propeller RPM and Shaft power have different sign (must have the same sign) are replaced with NaN, as this is an inconsistent state."""
     condition = (df['Vessel Propeller Shaft Rotational Speed'] > 0) & (df['Vessel Propeller Shaft Mechanical Power'] < 0) | (df['Vessel Propeller Shaft Rotational Speed'] < 0) & (df['Vessel Propeller Shaft Mechanical Power'] > 0)
     num_inconsistent_rows = condition.sum()
     df.loc[condition, ['Vessel Propeller Shaft Rotational Speed', 'Vessel Propeller Shaft Mechanical Power']] = np.nan
-    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.2f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and shaft power')
+    logger.info(f'Replaced {num_inconsistent_rows} ({num_inconsistent_rows / len(df) * 100:.5f}% of df) inconsistent rows with NaN in propeller shaft rotational speed and shaft power')
+    flag_column_name = 'Inconsistent Propeller RPM and Shaft Power'
+    flag_columns[flag_column_name] = num_inconsistent_rows # add the number of inconsistent rows to the flag_columns dict for logging later
+    df[flag_column_name] = condition.astype(int) # create a flag column for inconsistent rows (1 if inconsistent, 0 if not)
     return df
 
-def deal_with_dropouts(df):
+def deal_with_dropouts(df, flag_columns: Dict = {}):
     
     # Apply all the wrapped functions in sequence to deal with dropout values
     df_no_zero_only = _drop_zero_only_columns(df)
-    df_no_inconsistent_propeller_engine_rpm = _replace_inconsistent_propeller_and_engine_rpm(df_no_zero_only)
-    df_no_inconsistent_propeller_rpm_and_shaft_power = _replace_inconsistent_propeller_rpm_and_shaft_power(df_no_inconsistent_propeller_engine_rpm)
+    df_no_inconsistent_propeller_engine_rpm = _replace_inconsistent_propeller_and_engine_rpm(df_no_zero_only, flag_columns=flag_columns)
+    df_no_inconsistent_propeller_rpm_and_shaft_power = _replace_inconsistent_propeller_rpm_and_shaft_power(df_no_inconsistent_propeller_engine_rpm, flag_columns=flag_columns)
 
-    return df_no_inconsistent_propeller_rpm_and_shaft_power
+    return df_no_inconsistent_propeller_rpm_and_shaft_power, flag_columns
 
 setup_output_directories(pre_agg_clean_output_dir)
 
@@ -125,17 +132,20 @@ df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=30)
 logger.info(f'DataFrame loaded with shape: {df.shape}')
 # logger.info(f'Dataframe info:\n{df.info()}')
 
+# TODO: make nested logs for each cleaning step
+
 # --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
-# TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values)
+# TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values). Remember to include flags for any inconsistent values
      # 2. rows where propeller RPM and Shaft power have different sign (must have the same sign)
     # 3. rows where wave height, wave period, wind speed are negative 
     # 4. Headings / angles outside their defined ranges
     # 5. replace negative hull over ground speed values with Nan
     # 6. replace negative values of main engine rotation with NaN (it cannot be negative)
      # 1. replace sea temp = exactly 6 or below with NaN (obvious sensor dropout - see line graph)
+    # replace rows with more than 2% deviation from calculated shaft power (from rpm and torque) with NaN. Include the difference as a variable for good measure
     # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
 
-df_no_dropouts = deal_with_dropouts(df)
+df_no_dropouts, flag_columns = deal_with_dropouts(df, flag_columns={})
 
 logger.info(f'After dealing with dropouts, DataFrame shape: {df_no_dropouts.shape}')
 
@@ -158,10 +168,10 @@ logger.info(f'After dealing with dropouts, DataFrame shape: {df_no_dropouts.shap
 
 # --- CLEANING of "undesirable" data ---
 # TODO: remove any signs of a ship "in reverse" or maneuvering
-    # 1. Start with DNVs method for rolling-window variance for stw and hull heading (include boundaries as config variable for tweaking). This should remove most "unsteady" operations
+    # 1. Start with DNVs method for rolling-window variance for stw and hull heading (include boundaries as config variable for tweaking). This should remove most "unsteady" operations. The threshold for each should be set in config for later variation
     # 2. continue with removing too low speed (below 4 knots according to Dalheim & Stein). A ship could be steady in this region without it being of interest
     # 3. negative propeller shaft rotational speed (remove rows)
-    # 4. rows where propeller shaft power are negative (is either reversing/maneuvering or a bad measurement - remove). This is done because i want to document a more steady state
+    # 4. rows where propeller shaft power are 0 or negative (is either reversing/maneuvering or a bad measurement - remove). This is done because i want to document a more steady state
 
 # TODO: optional
     # 1. (optional) remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
