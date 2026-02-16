@@ -62,8 +62,16 @@ def load_synchronized_data(data_dir, column_metadata_df, test_n=None):
 
     combined_df = pd.concat(dfs, ignore_index=True)
 
-    # rename all the columns from their qids (qid_mapping) to their real names (quantity_name) using the column_metadata_df
-    qid_to_name = dict(zip(column_metadata_df['qid_mapping'], column_metadata_df['quantity_name']))
+    # rename all the columns from their qids (qid_mapping) to their real names (quantity_name) using the column_metadata_df. If the qid starts with anything else than 4, it should just replace it, if it starts with 4, it should append the provider in brackets
+    qid_to_name = {}
+    for _, row in column_metadata_df.iterrows():
+        qid = row['qid_mapping']
+        name = row['quantity_name']
+        provider = row['source_name']
+        if qid.startswith('4'):
+            qid_to_name[qid] = f"{name} ({provider})"
+        else:
+            qid_to_name[qid] = name
     combined_df.rename(columns=qid_to_name, inplace=True)
 
     # reformat the utc_timestamp column to datetime (utc, ISO 8601 format)
@@ -114,42 +122,96 @@ def _replace_inconsistent_propeller_rpm_and_shaft_power(df, flag_columns: Dict):
     df[flag_column_name] = condition.astype(int) # create a flag column for inconsistent rows (1 if inconsistent, 0 if not)
     return df
 
+def _replace_impossible_weather_values(df, flag_columns: Dict):
+    """ This function replaces impossible weather values (e.g. negative wave height, negative wind speed, etc.) with NaN and creates flag columns for each type of impossible value."""
+    # Define conditions for impossible weather values
+    column_mapping = {
+        'Negative Wave Height (Provider MB)': 'Vessel External Conditions Wave Significant Height (Provider MB)',
+        'Negative Wave Height (Provider S)': 'Vessel External Conditions Wave Significant Height (Provider S)',
+        'Negative Wind Speed': 'Vessel External Conditions Wind True Speed (Provider MB)',
+        'Negative Wave Period': 'Vessel External Conditions Wave Period (Provider S)',
+        'Negative Sea Temperature': 'Vessel External Conditions Sea Water Temperature (Provider S)',
+    }
+    
+    for flag_column_name, column_name in column_mapping.items():
+        condition = df[column_name] < 0
+        num_impossible_rows = condition.sum()
+        df.loc[condition, column_name] = np.nan  # Replace only the specific column values
+        logger.info(f'Replaced {num_impossible_rows} ({num_impossible_rows / len(df) * 100:.5f}% of df) impossible rows with NaN for {flag_column_name}')
+        df[flag_column_name] = condition.astype(int)  # Create a flag column for impossible rows (1 if impossible, 0 if not)
+        flag_columns[flag_column_name] = num_impossible_rows  # Add the number of impossible rows to the flag_columns dict for logging later
+    
+    return df
+
+def _replace_negative_hull_over_ground_speed(df, flag_columns: Dict):
+    """ This function replaces negative hull over ground speed values with NaN, as this is an impossible state."""
+    condition = df['Vessel Hull Over Ground Speed'] < 0
+    num_impossible_rows = condition.sum()
+    df.loc[condition, 'Vessel Hull Over Ground Speed'] = np.nan
+    logger.info(f'Replaced {num_impossible_rows} ({num_impossible_rows / len(df) * 100:.5f}% of df) impossible rows with NaN in Vessel Hull Over Ground Speed')
+    flag_column_name = 'Negative Hull Over Ground Speed'
+    df[flag_column_name] = condition.astype(int) # create a flag column for impossible rows (1 if impossible, 0 if not)
+    flag_columns[flag_column_name] = num_impossible_rows # add the number of impossible rows to the flag_columns dict for logging later
+    return df
+
+def _replace_negative_main_engine_rotation(df, flag_columns: Dict):
+    """ This function replaces negative main engine rotational speed values with NaN, as this is an impossible state."""
+    condition = df['Main Engine Rotational Speed'] < 0
+    num_impossible_rows = condition.sum()
+    df.loc[condition, 'Main Engine Rotational Speed'] = np.nan
+    logger.info(f'Replaced {num_impossible_rows} ({num_impossible_rows / len(df) * 100:.5f}% of df) impossible rows with NaN in Main Engine Rotational Speed')
+    flag_column_name = 'Negative Main Engine Rotational Speed'
+    df[flag_column_name] = condition.astype(int) # create a flag column for impossible rows (1 if impossible, 0 if not)
+    flag_columns[flag_column_name] = num_impossible_rows # add the number of impossible rows to the flag_columns dict for logging later
+    return df
+    
+def _replace_sea_temp_dropouts(df, flag_columns: Dict):
+    """ This function replaces sea temperature values that are exactly 6 or below with NaN, as this is an obvious sensor dropout (based on line graph). It also creates a flag column for sea temperature dropouts."""
+    condition = df['Vessel External Conditions Sea Water Temperature (Provider S)'] <= 6
+    num_dropout_rows = condition.sum()
+    df.loc[condition, 'Vessel External Conditions Sea Water Temperature (Provider S)'] = np.nan
+    logger.info(f'Replaced {num_dropout_rows} ({num_dropout_rows / len(df) * 100:.5f}% of df) sea temperature dropout rows with NaN')
+    flag_column_name = 'Sea Temperature Dropout'
+    df[flag_column_name] = condition.astype(int) # create a flag column for sea temperature dropouts (1 if dropout, 0 if not)
+    flag_columns[flag_column_name] = num_dropout_rows # add the number of sea temperature dropout rows to the flag_columns dict for logging later
+    return df
+
+# --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
+# TODO: replace with NaN any impossible / inconsistent data points (based on single values). Remember to include flags for any inconsistent values
+    # 4. Headings / angles outside their defined ranges
+    # replace rows with more than 2% deviation from calculated shaft power (from rpm and torque) with NaN. Include the difference as a variable for good measure
+    # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
+
+
 def deal_with_dropouts(df, flag_columns: Dict = {}):
     
     # Apply all the wrapped functions in sequence to deal with dropout values
-    df_no_zero_only = _drop_zero_only_columns(df)
-    df_no_inconsistent_propeller_engine_rpm = _replace_inconsistent_propeller_and_engine_rpm(df_no_zero_only, flag_columns=flag_columns)
-    df_no_inconsistent_propeller_rpm_and_shaft_power = _replace_inconsistent_propeller_rpm_and_shaft_power(df_no_inconsistent_propeller_engine_rpm, flag_columns=flag_columns)
-
-    return df_no_inconsistent_propeller_rpm_and_shaft_power, flag_columns
+    df = _drop_zero_only_columns(df)
+#    df = _replace_inconsistent_propeller_and_engine_rpm(df, flag_columns=flag_columns)
+#    df = _replace_inconsistent_propeller_rpm_and_shaft_power(df, flag_columns=flag_columns)
+#    df = _replace_impossible_weather_values(df, flag_columns=flag_columns)
+#    df = _replace_negative_hull_over_ground_speed(df, flag_columns=flag_columns)
+#    df = _replace_negative_main_engine_rotation(df, flag_columns=flag_columns)
+    df = _replace_sea_temp_dropouts(df, flag_columns=flag_columns)
+    
+    return df, flag_columns
 
 setup_output_directories(pre_agg_clean_output_dir)
 
 column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
 
-df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=30)
+df = load_synchronized_data(synchronized_data_dir, column_metadata, test_n=25)
 
 logger.info(f'DataFrame loaded with shape: {df.shape}')
 # logger.info(f'Dataframe info:\n{df.info()}')
 
-# TODO: make nested logs for each cleaning step
-
-# --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
-# TODO: remove (or replace with NaN - TBD) impossible / inconsistent data points (based on single values). Remember to include flags for any inconsistent values
-     # 2. rows where propeller RPM and Shaft power have different sign (must have the same sign)
-    # 3. rows where wave height, wave period, wind speed are negative 
-    # 4. Headings / angles outside their defined ranges
-    # 5. replace negative hull over ground speed values with Nan
-    # 6. replace negative values of main engine rotation with NaN (it cannot be negative)
-     # 1. replace sea temp = exactly 6 or below with NaN (obvious sensor dropout - see line graph)
-    # replace rows with more than 2% deviation from calculated shaft power (from rpm and torque) with NaN. Include the difference as a variable for good measure
-    # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
 
 df_no_dropouts, flag_columns = deal_with_dropouts(df, flag_columns={})
 
 logger.info(f'After dealing with dropouts, DataFrame shape: {df_no_dropouts.shape}')
+logger.info(f'Flag (dropout/sentinel/invalid) columns and counts of inconsistent rows: {flag_columns}')
 
-# TODO: (optional - if noon report data is included)clean value column on noon report data from scale or unit-related contamination
+# TODO: (optional - if noon report data is included) clean value column on noon report data from scale or unit-related contamination
 # TODO: Make sure this plan is represented in onenote
 # TODO: make the below as functions and apply them to each synchronized time segment separately, either as seperated files or as gruops in the pd.dataframe (to avoid interpolating across intervals)
 # TODO: every time something is removed, make sure to log the amount of N and % of both the original dataframe length and the current dataframe length that is removed
