@@ -182,13 +182,10 @@ REQUIRED_WEATHER_VARIABLES = [
     'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)',
     'Vessel External Conditions Northward Sea Water Velocity (Provider MB)',
     'Vessel External Conditions Wave Significant Height (Provider S)',
-    'Vessel External Conditions Wave True Angle (Provider S)',
     'Vessel External Conditions Wave Period (Provider S)',
     'Vessel External Conditions Sea Water Temperature (Provider S)',
     'Vessel External Conditions Northward Wind Velocity (Provider S)',
-    'Vessel External Conditions Eastward Wind Velocity (Provider S)',
-    'Vessel External Conditions Eastward Sea Water Velocity (Provider S)',
-    'Vessel External Conditions Northward Sea Water Velocity (Provider S)',
+    'Vessel External Conditions Eastward Wind Velocity (Provider S)'
 ]
 
 REQUIRED_SENSOR_VARIABLES = [

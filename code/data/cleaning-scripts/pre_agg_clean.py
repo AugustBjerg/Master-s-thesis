@@ -12,8 +12,8 @@ from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRE
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
-cleaned_not_aggregated_data_dir = os.path.join(script_dir, '..', 'cleaned-not-aggregated')
-pre_agg_clean_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'pre-agg-cleaning')
+filtered_data_dir = os.path.join(script_dir, '..', 'filtered')
+filtering_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'filtering')
 meta_data_dir = os.path.join(script_dir, '..', 'metadata')
 
 script_start = time.perf_counter()
@@ -504,27 +504,18 @@ def flag_repeated_values(df, repeated_values_flag_columns: Dict, no_repetition_s
         df = _mark_repeated_sensor_values(df, repeated_values_flag_columns=repeated_values_flag_columns, no_repetition_sensor_variables=no_repetition_sensor_variables)
         return df
 
-# --- Repeated values ---
-# Flag repeated values for all weather variables (ignoring NaN)
-# Flag repeated values for relevant sensor variables (only if they are present in the dataframe)
-    # (start by making a function that just flags the suspicious values and prints them in the log. Then i will decide what action to take)
-    # 1. Scavenging Air Pressure
-    # 2. Fuel Oil inlet mass flow
-    # 3. Shaft Torque
-    # 4. Shaft thrust force
-    # 5. Shaft mechanical power
-
 # Load the dataframe and metadata
-setup_output_directories(pre_agg_clean_output_dir)
+setup_output_directories(filtering_output_dir)
 
 column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
 
 df = load_synchronized_data(
     synchronized_data_dir, column_metadata, 
-    test_n=25
+#    test_n=25
     )
 
 logger.info(f'DataFrame loaded with shape: {df.shape}')
+logger.info(f'percentage of non-NaN values per column: {df.count() / len(df) * 100}')
 
 # Execute the functions in sequence
 
@@ -556,10 +547,16 @@ repeated_values_flag_columns = {}
 df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
 
 
-# Save the final df to a csv file in the pre_agg_clean_output_dir
-# output_file_path = os.path.join(cleaned_not_aggregated_data_dir, 'pre_agg_cleaned_data.csv')
-# df.to_csv(output_file_path, index=False)
-logger.info(f'Saved pre-agg cleaned data to {output_file_path}')
+# Save the final df to a csv file in the filtered_data_dir
+output_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
+
+# create output directory if it doesn't exist
+output_dir = os.path.dirname(output_file_path)
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+df.to_csv(output_file_path, index=False)
+logger.info(f'Saved filtered data to {output_file_path}')
 
 logger.info(f'Final shape so far: {df.shape}')
 
