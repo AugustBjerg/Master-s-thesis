@@ -466,19 +466,6 @@ def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rol
 
     return df
 
-
-# --- CLEANING of "undesirable" data ---
-# TODO: remove any signs of a ship "in reverse" or maneuvering
-
-# TODO: optional
-    # 1. (optional) remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
-    # 2. heavy/violent weather (i think i will keep this for now in case there is some variance to feed the model with)
-    # 3. Anything where the ship is accerelating very fast (not yet sure if this might actually be useful information to the model, so keep for now)
-
-# TODO: deal with observations with incongruent main engine fuel load and shaft power
-
-
-
 # Load the dataframe and metadata
 setup_output_directories(pre_agg_clean_output_dir)
 
@@ -492,28 +479,46 @@ df = load_synchronized_data(
 logger.info(f'DataFrame loaded with shape: {df.shape}')
 
 # Execute the functions in sequence
+
+# --- Dropping of undesired columns ---
 df = drop_columns(df)
 
+# -- Replace dropouts and inconsistent values with NaN and create flag columns for them ---
 df, flag_columns = deal_with_dropouts(df, flag_columns={})
 
 logger.info(f'Flag (dropout/sentinel/invalid) columns and counts of inconsistent rows: {flag_columns}')
 
-# make a log showing the percentage of NaN values per column after dealing with dropouts, to get an overview of the impact of the dropout handling on the dataframe
 nan_percentages = df.isna().mean() * 100
 nan_percentages = nan_percentages[nan_percentages > 0].sort_values(ascending=False)
 logger.info(f'Percentage of NaN values per column after dealing with dropouts:\n{nan_percentages}')
 
+# --- Remove rows with NaN in required Sensor columns --- 
 df = filter_nans(df)
 
-# Make the same log againg but after NaN filtering, to see the impact of this step on the dataframe
+# Make the same log again but after NaN filtering, to see the impact of this step on the dataframe
 nan_percentages_after_filtering = df.isna().mean() * 100
 nan_percentages_after_filtering = nan_percentages_after_filtering[nan_percentages_after_filtering > 0].sort_values(ascending=False)
 logger.info(f'Percentage of NaN values per column with NaN filtering:\n{nan_percentages_after_filtering}')
 
+# --- Filtering undesired (non-steady) state rows ---
 df = filter_undesired_rows(df)
+
+# Save the final df to a csv file in the pre_agg_clean_output_dir
+output_file_path = os.path.join(cleaned_not_aggregated_data_dir, 'pre_agg_cleaned_data.csv')
+df.to_csv(output_file_path, index=False)
+logger.info(f'Saved pre-agg cleaned data to {output_file_path}')
 
 logger.info(f'Final shape so far: {df.shape}')
 
+# --- Repeated values ---
+# Flag repeated values for all weather variables (ignoreing NaN)
+# Flag repeated values for relevant sensor variables (only if they are present in the dataframe)
+    # (start by making a function that just flags the suspicious values and prints them in the log. Then i will decide what action to take)
+    # 1. Scavenging Air Pressure
+    # 2. Fuel Oil inlet mass flow
+    # 3. Shaft Torque
+    # 4. Shaft thrust force
+    # 5. Shaft mechanical power
 
 # --- Outlier removal ---
 # TODO: for every column, have chat pick obvious (for physical/practical reasons) thresholds that a no-brainer outliers
@@ -521,21 +526,16 @@ logger.info(f'Final shape so far: {df.shape}')
 
     # 1. Propeller shaft power and propeller shaft rotational speed has some pretty clear outliers with negative values (remove)
 
-# --- NaN imputation ---
-# TODO: when imputing, keep a dummy column that flags "imputed" so i retain the information that this was a bad measurement
-# TODO: TBD - maybe impute weather data now - maybe wait until aggregation step
-
-# TODO: for sea temp: 
-    # if less than 4 in a row and not in the end of a time segment, use linear interpolation
-    # if 4 or more, impute with the median for that time segment (Note in report that it is model convenience / judgment call, not strict practice)
+# TODO: add required Noon Report data and decide on imputation strategy
 
 # --- Formatting --- 
     # 1. Change the sign on thrust force (currently negative)
     # 2. Rename columns to their real names instead of qids
 
 # TODO: (optional - if noon report data is included) clean value column on noon report data from scale or unit-related contamination
-# TODO: Make sure this plan is represented in onenote
-# TODO: make the below as functions and apply them to each synchronized time segment separately, either as seperated files or as gruops in the pd.dataframe (to avoid interpolating across intervals)
-
 
 # TODO: include something that saves the logs to the output folder (so i can ask chatgpt to make a table of it in LateX)
+
+# TODO: optional
+    # Remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
+    # Make a function that removes all columns not included as "required" columns in the config file
