@@ -12,3 +12,6 @@ code/data/filtered
 
 # Everything related to depreciated writing folder writing/
 writing/
+
+# large notebooks
+code/data/cleaning-scripts/notebooks/post_filter_explore.ipynb
