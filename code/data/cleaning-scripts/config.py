@@ -99,6 +99,126 @@ INTENDED_SAMPLING_INTERVALS_SECONDS = {
     "1::0::15::0_1::2::0::3::0_1::0::6::0_8" : 15, # Main Engine Turbocharger Rotational Speed (Transducer RPM)
 }
 
+NAN_IMPUTATION_STRATEGIES = {
+    # Noon Reports
+    'Slip': 'forward_fill',
+    'Fwd Draft': 'forward_fill',
+    'Mid Draft': 'forward_fill',
+    'Aft Draft': 'forward_fill',
+    'Displacement': 'forward_fill',
+    'Air Temp': 'forward_fill',
+    'Bar Pressure': 'forward_fill',
+    'Sea State': 'forward_fill',
+    'Wind Force': 'forward_fill',
+    'Sea Temp': 'forward_fill',
+    'Sea Direction': 'forward_fill',
+    'Wind Direction': 'forward_fill',
+    'Consumption for Propulsion': 'forward_fill',
+    'Fuel': 'forward_fill',
+    
+    # Weather data from Provider MB and Provider S
+    'Vessel External Conditions Wave Significant Height (Provider MB)': 'interpolate',
+    'Vessel External Conditions Wind True Angle (Provider MB)': 'interpolate',
+    'Vessel External Conditions Swell Significant Height (Provider MB)': 'interpolate',
+    'Vessel External Conditions Wind True Speed (Provider MB)': 'interpolate',
+    'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)': 'interpolate',
+    'Vessel External Conditions Northward Sea Water Velocity (Provider MB)': 'interpolate',
+    'Vessel External Conditions Wave Significant Height (Provider S)': 'interpolate',
+    'Vessel External Conditions Wave True Angle (Provider S)': 'interpolate',
+    'Vessel External Conditions Wave Period (Provider S)': 'interpolate',
+    'Vessel External Conditions Sea Water Temperature (Provider S)': 'interpolate',
+    'Vessel External Conditions Northward Wind Velocity (Provider S)': 'interpolate',
+    'Vessel External Conditions Eastward Wind Velocity (Provider S)': 'interpolate',
+    'Vessel External Conditions Eastward Sea Water Velocity (Provider S)': 'interpolate',
+    'Vessel External Conditions Northward Sea Water Velocity (Provider S)': 'interpolate',
+    
+    # Sensor data
+    'Vessel Hull Aft Draft': 'N/A', # column is only NaNs
+    'Vessel Hull Fore Draft': 'N/A', # column is only NaNs
+    'Main Engine Rotational Speed': 'interpolate',
+    'Vessel Hull MidP Draft': 'N/A', # column is only NaNs
+    'Vessel Hull MidS Draft': 'N/A', # column is only NaNs
+    'Vessel External Conditions Wind Relative Speed': 'interpolate',
+    'Vessel External Conditions Wind Relative Angle': 'interpolate',
+    'Vessel Hull Relative To Transducer Water Depth': 'N/A', # column is dropped
+    'Vessel Hull Over Ground Speed': 'interpolate',
+    'Vessel Hull Heading Turn Rate': 'interpolate',
+    'Vessel Hull Heading True Angle': 'interpolate',
+    'Main Engine Turbocharger Rotational Speed': 'interpolate',
+    'Vessel Hull Through Water Longitudinal Speed': 'interpolate',
+    'Main Engine Fuel Oil Inlet Mass Flow': 'interpolate',
+    'Vessel Propeller Shaft Mechanical Power': 'interpolate',
+    'Vessel Propeller Shaft Rotational Speed': 'interpolate',
+    'Vessel Propeller Shaft Torque': 'interpolate',
+    'Vessel Propeller Shaft Thrust Force': 'interpolate',
+    'Vessel Propeller Shaft Mechanical Energy': 'interpolate',
+    'Vessel Propeller Shaft Revolutions': 'N/A', # column is dropped
+    'Main Engine Fuel Load %': 'interpolate',
+    'Main Engine Scavenging Air Pressure': 'interpolate',
+}
+
+REQUIRED_NOON_REPORT_VARIABLES = [
+    'Slip',
+    'Fwd Draft',
+    'Mid Draft',
+    'Aft Draft',
+    'Displacement',
+    'Air Temp',
+    'Bar Pressure',
+    'Sea State',
+    'Wind Force',
+    'Sea Temp',
+    'Sea Direction',
+    'Wind Direction',
+    'Consumption for Propulsion',
+    'Fuel',
+]
+
+REQUIRED_WEATHER_VARIABLES = [
+    'Vessel External Conditions Wave Significant Height (Provider MB)',
+    'Vessel External Conditions Wind True Angle (Provider MB)',
+    'Vessel External Conditions Swell Significant Height (Provider MB)',
+    'Vessel External Conditions Wind True Speed (Provider MB)',
+    'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)',
+    'Vessel External Conditions Northward Sea Water Velocity (Provider MB)',
+    'Vessel External Conditions Wave Significant Height (Provider S)',
+    'Vessel External Conditions Wave True Angle (Provider S)',
+    'Vessel External Conditions Wave Period (Provider S)',
+    'Vessel External Conditions Sea Water Temperature (Provider S)',
+    'Vessel External Conditions Northward Wind Velocity (Provider S)',
+    'Vessel External Conditions Eastward Wind Velocity (Provider S)',
+    'Vessel External Conditions Eastward Sea Water Velocity (Provider S)',
+    'Vessel External Conditions Northward Sea Water Velocity (Provider S)',
+]
+
+REQUIRED_SENSOR_VARIABLES = [
+    'Main Engine Rotational Speed',
+    'Vessel External Conditions Wind Relative Speed',
+    'Vessel External Conditions Wind Relative Angle',
+    'Vessel Hull Over Ground Speed',
+    'Vessel Hull Heading Turn Rate',
+    'Vessel Hull Heading True Angle',
+    'Main Engine Turbocharger Rotational Speed',
+    'Vessel Hull Through Water Longitudinal Speed',
+    'Main Engine Fuel Oil Inlet Mass Flow',
+    'Vessel Propeller Shaft Mechanical Power',
+    'Vessel Propeller Shaft Rotational Speed',
+    'Vessel Propeller Shaft Torque',
+    'Vessel Propeller Shaft Thrust Force',
+    'Vessel Propeller Shaft Mechanical Energy',
+    'Main Engine Fuel Load %',
+    'Main Engine Scavenging Air Pressure',
+]
+
+# Configurations for the rolling average filtering (steady state identification)
+ROLLING_STD_THRESHOLDS = {
+    'Vessel Hull Through Water Longitudinal Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots
+    'Vessel Hull Over Ground Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots
+    'Vessel Hull Heading True Angle': 2.0  # 2 degrees
+}
+ROLLING_STD_WINDOW_SIZE = 120 # 120 observations corresponds to 30 minutes at a 15-second sampling interval
+ROLLING_STD_MIN_PERIODS = 60 # require at least 60 observations (15 minutes) to calculate a rolling std, to avoid flagging too many observations at the start of segments
+
 THRESHOLD_FACTOR = 0.5
 
 # Minimum number of timestamps a continuous segment must have to be retained
@@ -108,3 +228,6 @@ DROP_TRANDUCER_DEPTH = True
 
 # The highest tolerated deviation between calculated shaft power (from rpm and torque) and measured shaft power (from torquemeter) in percentage. Observations with a higher deviation will be replaced with NaN.
 SHAFT_POWER_MAX_DEVIATION = 0.02
+
+# The highest tolerated deviation between calculated shaft revolutions delta (from rpm) and measured shaft revolutions delta (from cumulative shaft revolutions) in percentage. Observations with a higher deviation will be replaced with NaN.
+SHAFT_REVOLUTIONS_MAX_DEVIATION = 0.05
