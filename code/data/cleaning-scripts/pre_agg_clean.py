@@ -8,7 +8,7 @@ import time
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_PIKE_THRESHOLDS
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -504,7 +504,7 @@ def flag_repeated_values(df, repeated_values_flag_columns: Dict, no_repetition_s
         df = _mark_repeated_sensor_values(df, repeated_values_flag_columns=repeated_values_flag_columns, no_repetition_sensor_variables=no_repetition_sensor_variables)
         return df
 
-def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SPIKE_THRESHOLDS):
+def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES):
     """ This function marks spikes in the data based on a median + MAD method. It creates flag columns for the spikes and counts how many observations were marked as spikes for each variable."""
     for col, threshold in spike_thresholds.items():
         if col not in df.columns:
@@ -512,8 +512,8 @@ def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SPIKE_THRESHOLDS):
             continue
         
         # Calculate rolling median and MAD
-        rolling_median = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=ROLLING_STD_WINDOW_SIZE, min_periods=ROLLING_STD_MIN_PERIODS).median())
-        mad = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=ROLLING_STD_WINDOW_SIZE, min_periods=ROLLING_STD_MIN_PERIODS).apply(lambda y: np.median(np.abs(y - np.median(y))), raw=True))
+        rolling_median = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).median())
+        mad = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).apply(lambda y: np.median(np.abs(y - np.median(y))), raw=True))
         
         # Identify spikes
         condition = (df[col] - rolling_median).abs() > (threshold * mad)

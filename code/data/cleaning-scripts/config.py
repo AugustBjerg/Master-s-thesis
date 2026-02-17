@@ -215,6 +215,7 @@ NO_REPETITION_SENSOR_VARIABLES = [
     'Vessel Propeller Shaft Mechanical Power',
 ]
 
+# Low pass filter configuration
 SENSOR_SPIKE_THRESHOLDS = {
     'Main Engine Rotational Speed': 5.0,
     'Vessel External Conditions Wind Relative Speed': 5.0,
@@ -232,6 +233,9 @@ SENSOR_SPIKE_THRESHOLDS = {
     'Main Engine Fuel Load %': 5.0,
     'Main Engine Scavenging Air Pressure': 5.0,
 }
+LOW_PASS_WINDOW_SIZE_SECONDS = 20  # 20 observations × 15s = 5 minutes
+LOW_PASS_MIN_PERIODS = 10
+MAX_CONSECUTIVE_SPIKES = 10  # if more than 10 consecutive observations are marked as spikes for a variable, we will not impute them and instead reject them, as it is likely that they correspond to a real change in the variable rather than a spike.
 
 # Configurations for the rolling average filtering (steady state identification)
 ROLLING_STD_THRESHOLDS = {
