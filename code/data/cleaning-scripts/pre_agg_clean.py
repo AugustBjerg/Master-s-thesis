@@ -8,7 +8,7 @@ import time
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -418,19 +418,57 @@ def _filter_by_rolling_stds(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, r
     logger.info(f'Rolling std filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) that exceeded at least one rolling std threshold')
     return df
 
+def _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD):
+    """ This function removes rows where the speed through water is below a certain threshold, as these are not of interest for the analysis and could represent the ship being steady in a low-speed region."""
+    if 'Vessel Hull Through Water Longitudinal Speed' not in df.columns:
+        logger.warning('Column Vessel Hull Through Water Longitudinal Speed not found in dataframe, skipping low speed filtering')
+        return df
+    
+    rows_before = len(df)
+    condition = df['Vessel Hull Through Water Longitudinal Speed'] < speed_threshold
+    df = df[~condition]
+    rows_removed = condition.sum()
+    logger.info(f'Low speed filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with speed through water below {speed_threshold} knots')
+    return df
+
+def _filter_negative_propeller_shaft_rpm(df):
+    """ This function removes rows where the propeller shaft rotational speed is negative, as this indicates the ship is in reverse or maneuvering, which is not of interest for the analysis."""
+    if 'Vessel Propeller Shaft Rotational Speed' not in df.columns:
+        logger.warning('Column Vessel Propeller Shaft Rotational Speed not found in dataframe, skipping negative propeller shaft rpm filtering')
+        return df
+    
+    rows_before = len(df)
+    condition = df['Vessel Propeller Shaft Rotational Speed'] < 0
+    df = df[~condition]
+    rows_removed = condition.sum()
+    logger.info(f'Negative propeller shaft RPM filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with negative propeller shaft rotational speed')
+    return df
+
+def _filter_neg_or_zero_shaft_power(df):
+    """ This function removes rows where the propeller shaft mechanical power is negative or zero, as this indicates the ship is in reverse, maneuvering, or a bad measurement, which are not of interest for the analysis."""
+    if 'Vessel Propeller Shaft Mechanical Power' not in df.columns:
+        logger.warning('Column Vessel Propeller Shaft Mechanical Power not found in dataframe, skipping negative/zero shaft power filtering')
+        return df
+    
+    rows_before = len(df)
+    condition = df['Vessel Propeller Shaft Mechanical Power'] <= 0
+    df = df[~condition]
+    rows_removed = condition.sum()
+    logger.info(f'Negative/zero shaft power filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with non-positive propeller shaft mechanical power')
+    return df
+
 def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS):
     """ This function applies various filters to remove "undesirable" rows from the dataframe, such as rows where the ship is in reverse or maneuvering, rows with heavy/violent weather, etc. The specific filters applied are based on the thresholds defined in the config file and the judgment of what constitutes "undesirable" data for the analysis."""
     df = _filter_by_rolling_stds(df, rolling_std_thresholds=rolling_std_thresholds, rolling_std_window_size=rolling_std_window_size, rolling_std_min_periods=rolling_std_min_periods)
+    df = _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD)
+    df = _filter_negative_propeller_shaft_rpm(df)
+    df = _filter_neg_or_zero_shaft_power(df)
 
     return df
 
 
 # --- CLEANING of "undesirable" data ---
 # TODO: remove any signs of a ship "in reverse" or maneuvering
-    # 1. Start with DNVs method for rolling-window variance for stw and hull heading (include boundaries as config variable for tweaking). This should remove most "unsteady" operations. The threshold for each should be set in config for later variation
-    # 2. continue with removing too low speed (below 4 knots according to Dalheim & Stein). A ship could be steady in this region without it being of interest
-    # 3. negative propeller shaft rotational speed (remove rows)
-    # 4. rows where propeller shaft power are 0 or negative (is either reversing/maneuvering or a bad measurement - remove). This is done because i want to document a more steady state
 
 # TODO: optional
     # 1. (optional) remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
