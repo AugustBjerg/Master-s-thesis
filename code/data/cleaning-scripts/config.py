@@ -210,6 +210,14 @@ REQUIRED_SENSOR_VARIABLES = [
     'Main Engine Scavenging Air Pressure',
 ]
 
+NO_REPETITION_SENSOR_VARIABLES = [
+    'Main Engine Scavenging Air Pressure',
+    'Main Engine Fuel Oil Inlet Mass Flow',
+    'Vessel Propeller Shaft Torque',
+    'Vessel Propeller Shaft Thrust Force',
+    'Vessel Propeller Shaft Mechanical Power',
+]
+
 # Configurations for the rolling average filtering (steady state identification)
 ROLLING_STD_THRESHOLDS = {
     'Vessel Hull Through Water Longitudinal Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots

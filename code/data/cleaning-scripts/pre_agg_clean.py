@@ -8,7 +8,7 @@ import time
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -466,6 +466,54 @@ def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rol
 
     return df
 
+def _mark_repeated_weather_values(df, repeated_values_flag_columns: Dict):
+    """ This function flags repeated values for all weather variables (ignoring NaN) and creates flag columns for them."""
+    weather_cols = [col for col in df.columns if any(var in col for var in REQUIRED_WEATHER_VARIABLES)]
+    
+    for col in weather_cols:
+        condition = df[col].notna() & (df[col] == df.groupby('seg_id')[col].shift())
+        num_observations = df[col].notna().sum()
+        num_repeated = condition.sum()
+        percentage = (num_repeated / num_observations * 100) if num_observations > 0 else 0
+        logger.info(f'Flagged {num_repeated} ({percentage:.2f} %) repeated values in weather variable {col}')
+        flag_column_name = f'Repeated Values in {col}'
+        df[flag_column_name] = condition.astype(int)  # Create a flag column for repeated values (1 if repeated, 0 if not)
+        repeated_values_flag_columns[flag_column_name] = num_repeated  # Add the number of repeated values to the flag_columns dict for logging later
+    
+    return df
+
+def _mark_repeated_sensor_values(df, repeated_values_flag_columns: Dict, no_repetition_sensor_variables=NO_REPETITION_SENSOR_VARIABLES):
+    """ This function flags repeated values for relevant sensor variables (only if they are present in the dataframe) and creates flag columns for them. The specific sensor variables to check for repetitions are defined in the config file as no_repetition_sensor_variables, as these are variables that we would not expect to have the same value in consecutive rows during steady states."""
+    sensor_cols = [col for col in df.columns if any(var in col for var in no_repetition_sensor_variables)]
+    
+    for col in sensor_cols:
+        condition = df[col].notna() & (df[col] == df.groupby('seg_id')[col].shift())
+        num_observations = df[col].notna().sum()
+        num_repeated = condition.sum()
+        percentage = (num_repeated / num_observations * 100) if num_observations > 0 else 0
+        logger.info(f'Flagged {num_repeated} ({percentage:.2f} %) repeated values in sensor variable {col}')
+        flag_column_name = f'Repeated Values in {col}'
+        df[flag_column_name] = condition.astype(int)  # Create a flag column for repeated values (1 if repeated, 0 if not)
+        repeated_values_flag_columns[flag_column_name] = num_repeated  # Add the number of repeated values to the flag_columns dict for logging later
+    
+    return df
+
+def flag_repeated_values(df, repeated_values_flag_columns: Dict, no_repetition_sensor_variables=NO_REPETITION_SENSOR_VARIABLES):
+        """ This function applies the repeated values flagging for both weather and sensor variables."""
+        df = _mark_repeated_weather_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
+        df = _mark_repeated_sensor_values(df, repeated_values_flag_columns=repeated_values_flag_columns, no_repetition_sensor_variables=no_repetition_sensor_variables)
+        return df
+
+# --- Repeated values ---
+# Flag repeated values for all weather variables (ignoring NaN)
+# Flag repeated values for relevant sensor variables (only if they are present in the dataframe)
+    # (start by making a function that just flags the suspicious values and prints them in the log. Then i will decide what action to take)
+    # 1. Scavenging Air Pressure
+    # 2. Fuel Oil inlet mass flow
+    # 3. Shaft Torque
+    # 4. Shaft thrust force
+    # 5. Shaft mechanical power
+
 # Load the dataframe and metadata
 setup_output_directories(pre_agg_clean_output_dir)
 
@@ -503,28 +551,23 @@ logger.info(f'Percentage of NaN values per column with NaN filtering:\n{nan_perc
 # --- Filtering undesired (non-steady) state rows ---
 df = filter_undesired_rows(df)
 
+# --- Flag repeated values in weather and sensor variables ---
+repeated_values_flag_columns = {}
+df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
+
+
 # Save the final df to a csv file in the pre_agg_clean_output_dir
-output_file_path = os.path.join(cleaned_not_aggregated_data_dir, 'pre_agg_cleaned_data.csv')
-df.to_csv(output_file_path, index=False)
+# output_file_path = os.path.join(cleaned_not_aggregated_data_dir, 'pre_agg_cleaned_data.csv')
+# df.to_csv(output_file_path, index=False)
 logger.info(f'Saved pre-agg cleaned data to {output_file_path}')
 
 logger.info(f'Final shape so far: {df.shape}')
 
-# --- Repeated values ---
-# Flag repeated values for all weather variables (ignoreing NaN)
-# Flag repeated values for relevant sensor variables (only if they are present in the dataframe)
-    # (start by making a function that just flags the suspicious values and prints them in the log. Then i will decide what action to take)
-    # 1. Scavenging Air Pressure
-    # 2. Fuel Oil inlet mass flow
-    # 3. Shaft Torque
-    # 4. Shaft thrust force
-    # 5. Shaft mechanical power
 
-# --- Outlier removal ---
+# --- Additional outlier removal ---
 # TODO: for every column, have chat pick obvious (for physical/practical reasons) thresholds that a no-brainer outliers
 # TODO: after that, consider adding additional outlier removal based on statistical methods (e.g. IQR method, z-score method, etc.)
 
-    # 1. Propeller shaft power and propeller shaft rotational speed has some pretty clear outliers with negative values (remove)
 
 # TODO: add required Noon Report data and decide on imputation strategy
 
@@ -538,4 +581,5 @@ logger.info(f'Final shape so far: {df.shape}')
 
 # TODO: optional
     # Remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
-    # Make a function that removes all columns not included as "required" columns in the config file
+    # include sea water imputation logic inside the sea water function
+    # Make a function that removes all columns not included as "required" columns in the config file (remember to check if that unintentionally removes any needed calculated columns)

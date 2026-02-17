@@ -19,4 +19,6 @@ from datetime import datetime
     # if less than 4 in a row and not in the end of a time segment, use linear interpolation
     # if 4 or more, impute with the median for that time segment (Note in report that it is model convenience / judgment call, not strict practice)
 
+# Do any feature engineering here
+
 
