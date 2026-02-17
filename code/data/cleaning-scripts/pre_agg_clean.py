@@ -511,7 +511,7 @@ column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics regi
 
 df = load_synchronized_data(
     synchronized_data_dir, column_metadata, 
-#    test_n=25
+    test_n=25
     )
 
 logger.info(f'DataFrame loaded with shape: {df.shape}')
@@ -519,7 +519,7 @@ logger.info(f'percentage of non-NaN values per column: {df.count() / len(df) * 1
 
 # Execute the functions in sequence
 
-# --- Dropping of undesired columns ---
+# --- Dropping of useless columns ---
 df = drop_columns(df)
 
 # -- Replace dropouts and inconsistent values with NaN and create flag columns for them ---
@@ -539,12 +539,19 @@ nan_percentages_after_filtering = df.isna().mean() * 100
 nan_percentages_after_filtering = nan_percentages_after_filtering[nan_percentages_after_filtering > 0].sort_values(ascending=False)
 logger.info(f'Percentage of NaN values per column with NaN filtering:\n{nan_percentages_after_filtering}')
 
-# --- Filtering undesired (non-steady) state rows ---
-df = filter_undesired_rows(df)
-
 # --- Flag repeated values in weather and sensor variables ---
 repeated_values_flag_columns = {}
 df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
+
+# --- Detect and impute spikes ---
+# Mark spikes 
+# Mark how many observations before that was also a spike
+# If less than 10 consecutive spikes, linearly interpolate with the nearest non-spike values
+# If spike cannot be imputed linearly, reject the measurement
+
+
+# --- Filtering undesired (non-steady) state rows ---
+df = filter_undesired_rows(df)
 
 
 # Save the final df to a csv file in the filtered_data_dir
@@ -561,16 +568,12 @@ logger.info(f'Saved filtered data to {output_file_path}')
 logger.info(f'Final shape so far: {df.shape}')
 
 
-# --- Additional outlier removal ---
-# TODO: for every column, have chat pick obvious (for physical/practical reasons) thresholds that a no-brainer outliers
-# TODO: after that, consider adding additional outlier removal based on statistical methods (e.g. IQR method, z-score method, etc.)
-
 
 # TODO: add required Noon Report data and decide on imputation strategy
 
 # --- Formatting --- 
     # 1. Change the sign on thrust force (currently negative)
-    # 2. Rename columns to their real names instead of qids
+    # 2. add the units in parenthesis after column names
 
 # TODO: (optional - if noon report data is included) clean value column on noon report data from scale or unit-related contamination
 

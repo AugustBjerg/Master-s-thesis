@@ -7,3 +7,4 @@ jupyterlab
 openpyxl
 loguru
 jinja2
+plotly
