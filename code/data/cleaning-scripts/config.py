@@ -1,4 +1,5 @@
 EXPECTED_SENSOR_OBSERVATIONS = 41079968
+
 NOON_REPORT_QIDS = {
     'Slip' : "0::0::0::0_0::0::0::0::0_0::0::0::0_1" ,
     'Fwd Draft' : "0::0::0::0_0::0::0::0::0_0::0::0::0_2" ,
@@ -104,3 +105,6 @@ THRESHOLD_FACTOR = 0.5
 MIN_SEGMENT_LENGTH_SECONDS = 7200 # 2 hours
 
 DROP_TRANDUCER_DEPTH = True
+
+# The highest tolerated deviation between calculated shaft power (from rpm and torque) and measured shaft power (from torquemeter) in percentage. Observations with a higher deviation will be replaced with NaN.
+SHAFT_POWER_MAX_DEVIATION = 0.02

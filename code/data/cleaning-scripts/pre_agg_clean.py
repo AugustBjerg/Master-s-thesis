@@ -8,6 +8,7 @@ import time
 from typing import Dict
 from multiprocessing import Pool
 from loguru import logger
+from config import SHAFT_POWER_MAX_DEVIATION
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -176,10 +177,44 @@ def _replace_sea_temp_dropouts(df, flag_columns: Dict):
     flag_columns[flag_column_name] = num_dropout_rows # add the number of sea temperature dropout rows to the flag_columns dict for logging later
     return df
 
+def _replace_impossible_angles(df, flag_columns: Dict):
+    """ This function replaces impossible heading and angle values with NaN, as these are inconsistent states. It also creates flag columns for each type of impossible value."""
+    column_mapping = {
+        'Impossible Wind Relative Angle': 'Vessel External Conditions Wind Relative Angle',
+        'Impossible Vessel Heading': 'Vessel Hull Heading True Angle',
+        'Impossible Vessel External Conditions Wind True Angle (Provivider MB)': 'Vessel External Conditions Wind True Angle (Provider MB)',
+        'Vessel External Conditions Wave True Angle (Provider S)': 'Vessel External Conditions Wave True Angle (Provider S)',
+    }       
+    
+    for flag_column_name, column_name in column_mapping.items():
+        condition = (df[column_name] < 0) | (df[column_name] > 360)
+        num_impossible_rows = condition.sum()
+        df.loc[condition, column_name] = np.nan  # Replace only the specific column values that are impossible
+        logger.info(f'Replaced {num_impossible_rows} ({num_impossible_rows / len(df) * 100:.5f}% of df) impossible rows with NaN for {flag_column_name}')
+        df[flag_column_name] = condition.astype(int)  # Create a flag column for impossible rows (1 if impossible, 0 if not)
+        flag_columns[flag_column_name] = num_impossible_rows  # Add the number of impossible rows to the flag_columns dict for logging later
+
+    return df
+
+def _replace_unreliable_shaft_power(df, flag_columns: Dict):
+    """ This function compares shaft power measurements to the ones that are calculated from propeller rpm and torque
+    Using the formula: """
+
+    df['Calculated Shaft Power'] = (df['Vessel Propeller Shaft Torque'] * df['Vessel Propeller Shaft Rotational Speed'] * 2 * np.pi) / 60
+    condition = (df['Vessel Propeller Shaft Mechanical Power'] - df['Calculated Shaft Power']).abs() > (SHAFT_POWER_MAX_DEVIATION * df['Calculated Shaft Power'].abs())
+    num_unreliable_rows = condition.sum()
+    df.loc[condition, 'Vessel Propeller Shaft Mechanical Power'] = np.nan
+    logger.info(f'Replaced {num_unreliable_rows} ({num_unreliable_rows / len(df) * 100:.5f}% of df) unreliable shaft power rows with NaN based on {SHAFT_POWER_MAX_DEVIATION*100:.2f}% deviation from calculated shaft power')
+    flag_column_name = 'Unreliable Shaft Power'
+    df[flag_column_name] = condition.astype(int) # create a flag column for unreliable shaft power (1 if unreliable, 0 if not)
+    flag_columns[flag_column_name] = num_unreliable_rows # add the number of unreliable shaft power rows to the flag_columns dict for logging later
+    
+    return df
+
+
+
 # --- Sentinel / dropout /invalid values (no valid measurement. SHOULD THESE BE DROPPED OR REPLACED WITH NaN?)) ---
-# TODO: replace with NaN any impossible / inconsistent data points (based on single values). Remember to include flags for any inconsistent values
-    # 4. Headings / angles outside their defined ranges
-    # replace rows with more than 2% deviation from calculated shaft power (from rpm and torque) with NaN. Include the difference as a variable for good measure
+# TODO: replace with NaN any impossible / inconsistent data points (based on single values). Remember to include flags for any inconsistent values  
     # Insert NaN values for cumulative revs that decrease (by making a new column with delta, and replacing both cumulative and delta with NaN where delta is negative)
 
 
@@ -192,7 +227,9 @@ def deal_with_dropouts(df, flag_columns: Dict = {}):
 #    df = _replace_impossible_weather_values(df, flag_columns=flag_columns)
 #    df = _replace_negative_hull_over_ground_speed(df, flag_columns=flag_columns)
 #    df = _replace_negative_main_engine_rotation(df, flag_columns=flag_columns)
-    df = _replace_sea_temp_dropouts(df, flag_columns=flag_columns)
+#    df = _replace_sea_temp_dropouts(df, flag_columns=flag_columns)
+#    df = _replace_impossible_angles(df, flag_columns=flag_columns)
+#    df = _replace_unreliable_shaft_power(df, flag_columns=flag_columns)
     
     return df, flag_columns
 
