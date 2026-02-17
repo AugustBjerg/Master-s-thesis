@@ -528,6 +528,14 @@ def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SENSOR_SPIKE_THRESHOL
     
     return df
 
+def deal_with_spikes(df, 
+    spike_thresholds=SENSOR_SPIKE_THRESHOLDS,
+    rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS,
+    rolling_min_periods=LOW_PASS_MIN_PERIODS,
+    max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES):
+    """ This function applies the spike marking and then imputes the spikes based on the number of consecutive spikes. If there are less than max_consecutive_spikes, the spike values are imputed with linear interpolation using the nearest non-spike values. If there are max_consecutive_spikes or more, the spike values are replaced with NaN, as these are likely not imputable."""
+
+    
 # Load the dataframe and metadata
 setup_output_directories(filtering_output_dir)
 
@@ -572,7 +580,6 @@ df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_
 # Mark how many observations before that was also a spike
 # If less than 10 consecutive spikes, linearly interpolate with the nearest non-spike values
 # If spike cannot be imputed linearly, reject the measurement
-
 
 # --- Filtering undesired (non-steady) state rows ---
 df = filter_undesired_rows(df)
