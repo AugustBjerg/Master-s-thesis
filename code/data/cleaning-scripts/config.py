@@ -215,6 +215,24 @@ NO_REPETITION_SENSOR_VARIABLES = [
     'Vessel Propeller Shaft Mechanical Power',
 ]
 
+SENSOR_SPIKE_THRESHOLDS = {
+    'Main Engine Rotational Speed': 5.0,
+    'Vessel External Conditions Wind Relative Speed': 5.0,
+    'Vessel External Conditions Wind Relative Angle': 5.0,
+    'Vessel Hull Over Ground Speed': 5.0,
+    'Vessel Hull Heading Turn Rate': 5.0,
+    'Vessel Hull Heading True Angle': 5.0,
+    'Main Engine Turbocharger Rotational Speed': 5.0,
+    'Vessel Hull Through Water Longitudinal Speed': 5.0,
+    'Main Engine Fuel Oil Inlet Mass Flow': 5.0,
+    'Vessel Propeller Shaft Mechanical Power': 5.0,
+    'Vessel Propeller Shaft Rotational Speed': 5.0,
+    'Vessel Propeller Shaft Torque': 5.0,
+    'Vessel Propeller Shaft Thrust Force': 5.0,
+    'Main Engine Fuel Load %': 5.0,
+    'Main Engine Scavenging Air Pressure': 5.0,
+}
+
 # Configurations for the rolling average filtering (steady state identification)
 ROLLING_STD_THRESHOLDS = {
     'Vessel Hull Through Water Longitudinal Speed': 0.388,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)

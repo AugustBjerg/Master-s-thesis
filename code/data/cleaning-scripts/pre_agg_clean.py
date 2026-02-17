@@ -8,7 +8,7 @@ import time
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_PIKE_THRESHOLDS
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -503,6 +503,30 @@ def flag_repeated_values(df, repeated_values_flag_columns: Dict, no_repetition_s
         df = _mark_repeated_weather_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
         df = _mark_repeated_sensor_values(df, repeated_values_flag_columns=repeated_values_flag_columns, no_repetition_sensor_variables=no_repetition_sensor_variables)
         return df
+
+def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SPIKE_THRESHOLDS):
+    """ This function marks spikes in the data based on a median + MAD method. It creates flag columns for the spikes and counts how many observations were marked as spikes for each variable."""
+    for col, threshold in spike_thresholds.items():
+        if col not in df.columns:
+            logger.warning(f'Column {col} not found in dataframe, skipping spike detection for this variable')
+            continue
+        
+        # Calculate rolling median and MAD
+        rolling_median = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=ROLLING_STD_WINDOW_SIZE, min_periods=ROLLING_STD_MIN_PERIODS).median())
+        mad = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=ROLLING_STD_WINDOW_SIZE, min_periods=ROLLING_STD_MIN_PERIODS).apply(lambda y: np.median(np.abs(y - np.median(y))), raw=True))
+        
+        # Identify spikes
+        condition = (df[col] - rolling_median).abs() > (threshold * mad)
+        num_spikes = condition.sum()
+        num_observations = df[col].notna().sum()
+        percentage = (num_spikes / num_observations * 100) if num_observations > 0 else 0
+        logger.info(f'Marked {num_spikes} ({percentage:.2f} %) spikes in variable {col} using threshold of {threshold} MAD')
+        
+        flag_column_name = f'Spike in {col}'
+        df[flag_column_name] = condition.astype(int)  # Create a flag column for spikes (1 if spike, 0 if not)
+        spike_columns[flag_column_name] = num_spikes  # Add the number of spikes to the spike_columns dict for logging later
+    
+    return df
 
 # Load the dataframe and metadata
 setup_output_directories(filtering_output_dir)
