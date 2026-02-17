@@ -544,7 +544,7 @@ repeated_values_flag_columns = {}
 df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
 
 # --- Detect and impute spikes ---
-# Mark spikes 
+# Mark spikes (low pass filter method, median + mad)
 # Mark how many observations before that was also a spike
 # If less than 10 consecutive spikes, linearly interpolate with the nearest non-spike values
 # If spike cannot be imputed linearly, reject the measurement
