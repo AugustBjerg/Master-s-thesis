@@ -504,38 +504,134 @@ def flag_repeated_values(df, repeated_values_flag_columns: Dict, no_repetition_s
         df = _mark_repeated_sensor_values(df, repeated_values_flag_columns=repeated_values_flag_columns, no_repetition_sensor_variables=no_repetition_sensor_variables)
         return df
 
-def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES):
+def _mark_spikes(df, spike_columns: Dict, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS):
     """ This function marks spikes in the data based on a median + MAD method. It creates flag columns for the spikes and counts how many observations were marked as spikes for each variable."""
     for col, threshold in spike_thresholds.items():
         if col not in df.columns:
             logger.warning(f'Column {col} not found in dataframe, skipping spike detection for this variable')
             continue
         
-        # Calculate rolling median and MAD
-        rolling_median = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).median())
-        mad = df.groupby('seg_id')[col].transform(lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).apply(lambda y: np.median(np.abs(y - np.median(y))), raw=True))
+        # Calculate rolling median per segment
+        rolling_median = df.groupby('seg_id')[col].transform(
+            lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).median()
+        )
+
+        # Vectorized MAD: take rolling median of absolute deviations from rolling_median
+        # This avoids the extremely slow .apply(lambda) that ran Python per window
+        abs_deviation = (df[col] - rolling_median).abs()
+        mad = abs_deviation.groupby(df['seg_id']).transform(
+            lambda x: x.rolling(window=rolling_window_size, min_periods=rolling_min_periods).median()
+        )
         
         # Identify spikes
         condition = (df[col] - rolling_median).abs() > (threshold * mad)
         num_spikes = condition.sum()
         num_observations = df[col].notna().sum()
         percentage = (num_spikes / num_observations * 100) if num_observations > 0 else 0
-        logger.info(f'Marked {num_spikes} ({percentage:.2f} %) spikes in variable {col} using threshold of {threshold} MAD')
         
         flag_column_name = f'Spike in {col}'
-        df[flag_column_name] = condition.astype(int)  # Create a flag column for spikes (1 if spike, 0 if not)
-        spike_columns[flag_column_name] = num_spikes  # Add the number of spikes to the spike_columns dict for logging later
+        df[flag_column_name] = condition.astype(int)
+        spike_columns[flag_column_name] = num_spikes
+
+    # Log summary
+    spike_summary = {name.replace('Spike in ', ''): f'{count:,} ({count / len(df) * 100:.2f}%)' for name, count in spike_columns.items()}
+    logger.info(f'Spike detection summary: {json.dumps(spike_summary, indent=2)}')
     
     return df
 
+def _mark_consecutive_spikes(df, spike_columns: Dict):
+    """ This function marks consecutive spikes for each variable in the data based on the spike flag columns."""
+    max_consec_summary = {}
+    for flag_col_name in spike_columns.keys():
+        if flag_col_name not in df.columns:
+            logger.warning(f'Spike flag column {flag_col_name} not found in dataframe, skipping consecutive spike counting')
+            continue
+
+        consec_col_name = f'Consecutive {flag_col_name}'
+        spike_flags = df[flag_col_name]
+
+        # Vectorized consecutive count: cumsum resets at each 0
+        cumsum = spike_flags.groupby(df['seg_id']).cumsum()
+        reset = cumsum.where(spike_flags == 0).groupby(df['seg_id']).ffill().fillna(0)
+        df[consec_col_name] = (cumsum - reset).astype(int)
+
+        max_consec_summary[flag_col_name.replace('Spike in ', '')] = int(df[consec_col_name].max())
+
+    logger.info(f'Max consecutive spike runs: {json.dumps(max_consec_summary, indent=2)}')
+    return df
+
+def _impute_and_reject_spikes(df, spike_columns: Dict, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES):
+    """ This function imputes spikes with linear interpolation if they are in runs of less than max_consecutive_spikes, and rejects them (replace with NaN) if they are in runs of max_consecutive_spikes or more."""
+    impute_summary = {}
+    reject_summary = {}
+    n = len(df)
+    new_flag_cols = {}
+
+    # Pre-compute segment boundary mask once (used to prevent cross-segment interpolation)
+    seg_boundary = df['seg_id'] != df['seg_id'].shift()
+
+    for flag_col_name in spike_columns.keys():
+        if flag_col_name not in df.columns:
+            continue
+
+        consec_col_name = f'Consecutive {flag_col_name}'
+        if consec_col_name not in df.columns:
+            continue
+
+        var_col = flag_col_name.replace('Spike in ', '')
+        if var_col not in df.columns:
+            continue
+
+        # Identify which spikes to impute vs reject before modifying any values
+        is_spike = df[flag_col_name] == 1
+        consec = df[consec_col_name]
+        to_impute = is_spike & (consec < max_consecutive_spikes)
+        to_reject = is_spike & (consec >= max_consecutive_spikes)
+
+        n_imputed = to_impute.sum()
+        n_rejected = to_reject.sum()
+
+        # Reject first: set long-run spike values to NaN so they don't act as interpolation anchors
+        df.loc[to_reject, var_col] = np.nan
+        new_flag_cols[f'Rejected Spike in {var_col}'] = to_reject.astype(int)
+
+        # Impute: set short-run spike values to NaN, then linearly interpolate
+        # Use segment-boundary-aware interpolation without per-variable groupby
+        df.loc[to_impute, var_col] = np.nan
+        boundary_vals = df.loc[seg_boundary, var_col].copy()  # save boundary values
+        df.loc[seg_boundary, var_col] = np.nan  # temporarily break cross-segment interpolation
+        df[var_col] = df[var_col].interpolate(method='linear', limit=max_consecutive_spikes - 1)
+        df.loc[seg_boundary, var_col] = boundary_vals  # restore boundary values
+
+        new_flag_cols[f'Imputed Spike in {var_col}'] = to_impute.astype(int)
+
+        if n_imputed > 0:
+            impute_summary[var_col] = f'{n_imputed:,} ({n_imputed / n * 100:.2f}%)'
+        if n_rejected > 0:
+            reject_summary[var_col] = f'{n_rejected:,} ({n_rejected / n * 100:.2f}%)'
+
+    # Join all new flag columns in one operation to avoid DataFrame fragmentation
+    df = pd.concat([df, pd.DataFrame(new_flag_cols, index=df.index)], axis=1)
+
+    logger.info(f'Spike imputation summary (linear interpolation, runs < {max_consecutive_spikes}): {json.dumps(impute_summary, indent=2)}')
+    logger.info(f'Spike rejection summary (replaced with NaN, runs >= {max_consecutive_spikes}): {json.dumps(reject_summary, indent=2)}')
+
+    return df
+
 def deal_with_spikes(df, 
+    spike_columns: Dict = {},
     spike_thresholds=SENSOR_SPIKE_THRESHOLDS,
     rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS,
     rolling_min_periods=LOW_PASS_MIN_PERIODS,
     max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES):
     """ This function applies the spike marking and then imputes the spikes based on the number of consecutive spikes. If there are less than max_consecutive_spikes, the spike values are imputed with linear interpolation using the nearest non-spike values. If there are max_consecutive_spikes or more, the spike values are replaced with NaN, as these are likely not imputable."""
-
     
+    df = _mark_spikes(df, spike_columns=spike_columns, spike_thresholds=spike_thresholds, rolling_window_size=rolling_window_size, rolling_min_periods=rolling_min_periods)
+    df = _mark_consecutive_spikes(df, spike_columns=spike_columns)
+    df = _impute_and_reject_spikes(df, spike_columns=spike_columns, max_consecutive_spikes=max_consecutive_spikes)
+    return df
+
+
 # Load the dataframe and metadata
 setup_output_directories(filtering_output_dir)
 
@@ -566,24 +662,27 @@ logger.info(f'Percentage of NaN values per column after dealing with dropouts:\n
 # --- Remove rows with NaN in required Sensor columns --- 
 df = filter_nans(df)
 
-# Make the same log again but after NaN filtering, to see the impact of this step on the dataframe
-nan_percentages_after_filtering = df.isna().mean() * 100
-nan_percentages_after_filtering = nan_percentages_after_filtering[nan_percentages_after_filtering > 0].sort_values(ascending=False)
-logger.info(f'Percentage of NaN values per column with NaN filtering:\n{nan_percentages_after_filtering}')
-
 # --- Flag repeated values in weather and sensor variables ---
 repeated_values_flag_columns = {}
 df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
 
 # --- Detect and impute spikes ---
-# Mark spikes (low pass filter method, median + mad)
-# Mark how many observations before that was also a spike
-# If less than 10 consecutive spikes, linearly interpolate with the nearest non-spike values
-# If spike cannot be imputed linearly, reject the measurement
+df = deal_with_spikes(df, spike_columns={}, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES)
+
+# Make the same log again but after spike marking/removal
+nan_percentages_after_spike_removal = df.isna().mean() * 100
+nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
+logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
+
+# Filter NaNs again (remaining NaNs are values with more than 10 consecutive spikes)
+df = filter_nans(df)
+
+nan_percentages_after_spike_removal = df.isna().mean() * 100
+nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
+logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
 
 # --- Filtering undesired (non-steady) state rows ---
 df = filter_undesired_rows(df)
-
 
 # Save the final df to a csv file in the filtered_data_dir
 output_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
