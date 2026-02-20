@@ -1,5 +1,3 @@
-# --- TODO: Keep in mind - WHAT SHOULD BE DONE NOW AND WHAT SHOULD BE DONE AFTER AGGREGATION? ---   
-
 import pandas as pd
 import numpy as np
 import os
@@ -447,17 +445,30 @@ def _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD):
     logger.info(f'Low speed filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with speed through water below {speed_threshold} knots')
     return df
 
-def _filter_negative_propeller_shaft_rpm(df):
-    """ This function removes rows where the propeller shaft rotational speed is negative, as this indicates the ship is in reverse or maneuvering, which is not of interest for the analysis."""
+def _filter_low_propeller_shaft_rpm(df):
+    """ This function removes rows where the propeller shaft rotational speed is below a certain threshold, as this indicates the ship is in reverse or maneuvering, which is not of interest for the analysis."""
     if 'Vessel Propeller Shaft Rotational Speed' not in df.columns:
-        logger.warning('Column Vessel Propeller Shaft Rotational Speed not found in dataframe, skipping negative propeller shaft rpm filtering')
+        logger.warning('Column Vessel Propeller Shaft Rotational Speed not found in dataframe, skipping low propeller shaft rpm filtering')
         return df
     
     rows_before = len(df)
-    condition = df['Vessel Propeller Shaft Rotational Speed'] < 0
+    condition = df['Vessel Propeller Shaft Rotational Speed'] < 50
     df = df[~condition]
     rows_removed = condition.sum()
-    logger.info(f'Negative propeller shaft RPM filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with negative propeller shaft rotational speed')
+    logger.info(f'Low propeller shaft RPM filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with low propeller shaft rotational speed')
+    return df
+
+def _filter_low_engine_rpm(df):
+    """ This function removes rows where the main engine rotational speed is below a certain threshold, as this indicates the ship is in reverse or maneuvering, which is not of interest for the analysis."""
+    if 'Main Engine Rotational Speed' not in df.columns:
+        logger.warning('Column Main Engine Rotational Speed not found in dataframe, skipping low engine rpm filtering')
+        return df
+    
+    rows_before = len(df)
+    condition = df['Main Engine Rotational Speed'] < 50
+    df = df[~condition]
+    rows_removed = condition.sum()
+    logger.info(f'Low engine RPM filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with low main engine rotational speed')
     return df
 
 def _filter_neg_or_zero_shaft_power(df):
@@ -477,7 +488,8 @@ def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rol
     """ This function applies various filters to remove "undesirable" rows from the dataframe, such as rows where the ship is in reverse or maneuvering, rows with heavy/violent weather, etc. The specific filters applied are based on the thresholds defined in the config file and the judgment of what constitutes "undesirable" data for the analysis."""
     df = _filter_by_rolling_stds(df, rolling_std_thresholds=rolling_std_thresholds, rolling_std_window_size=rolling_std_window_size, rolling_std_min_periods=rolling_std_min_periods)
     df = _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD)
-    df = _filter_negative_propeller_shaft_rpm(df)
+    df = _filter_low_propeller_shaft_rpm(df)
+    df = _filter_low_engine_rpm(df)
     df = _filter_neg_or_zero_shaft_power(df)
 
     return df
@@ -683,7 +695,7 @@ column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics regi
 
 df = load_synchronized_data(
     synchronized_data_dir, column_metadata, 
-    test_n=25
+#    test_n=25
     )
 
 logger.info(f'DataFrame loaded with shape: {df.shape}')
