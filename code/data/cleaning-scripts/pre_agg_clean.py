@@ -5,6 +5,7 @@ import numpy as np
 import os
 import json
 import time
+from datetime import datetime
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
@@ -17,6 +18,21 @@ filtering_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'filterin
 meta_data_dir = os.path.join(script_dir, '..', 'metadata')
 
 script_start = time.perf_counter()
+
+# Create the filtering output directory for filtering results if it doesn't exist
+if not os.path.exists(filtering_output_dir):
+    os.makedirs(filtering_output_dir)
+    logger.info(f'Created filtering output directory: {filtering_output_dir}')
+else:
+    logger.info(f'Filtering output directory already exists: {filtering_output_dir}')
+
+log_path = os.path.join(filtering_output_dir, f'pre_agg_cleaning_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+
+logger.add(
+    log_path,
+    level='INFO',
+    format='{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}'
+)
 
 def setup_output_directories(output_dir):
     """
@@ -684,32 +700,32 @@ logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_pe
 # --- Filtering undesired (non-steady) state rows ---
 df = filter_undesired_rows(df)
 
-# Save the final df to a csv file in the filtered_data_dir
-output_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
+# --- Drop all the TRULY unneccessary columns (some of the added columns might be used for modelling - TBD)
 
-# create output directory if it doesn't exist
-output_dir = os.path.dirname(output_file_path)
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-
-df.to_csv(output_file_path, index=False)
-logger.info(f'Saved filtered data to {output_file_path}')
-
-logger.info(f'Final shape so far: {df.shape}')
+# columns starting with "Rejected", "Consecutive", "Spike", "Negative", "Impossible" or "Repeated" are all flag columns that are deemed irrelevant (the others I will try to use for modelling)
+columns_to_drop = [col for col in df.columns if col.startswith('Rejected') or col.startswith('Consecutive') or col.startswith('Spike') or col.startswith('Repeated') or col.startswith('Negative') or col.startswith('Impossible')]
+df.drop(columns=columns_to_drop, inplace=True)
+logger.info(f'Dropped {len(columns_to_drop)} flag columns: {columns_to_drop}')
 
 
 
-# TODO: add required Noon Report data and decide on imputation strategy
 
 # --- Formatting --- 
     # 1. Change the sign on thrust force (currently negative)
     # 2. add the units in parenthesis after column names
 
-# TODO: (optional - if noon report data is included) clean value column on noon report data from scale or unit-related contamination
-
-# TODO: include something that saves the logs to the output folder (so i can ask chatgpt to make a table of it in LateX)
-
-# TODO: optional
+# TODO: optional (will wait)
     # Remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
-    # include sea water imputation logic inside the sea water function
-    # Make a function that removes all columns not included as "required" columns in the config file (remember to check if that unintentionally removes any needed calculated columns)
+
+# Save the final df to a csv file in the filtered_data_dir
+filtered_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
+
+# create output directory if it doesn't exist
+output_dir = os.path.dirname(filtered_file_path)
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+df.to_csv(filtered_file_path, index=False)
+logger.info(f'Saved filtered data to {filtered_file_path}')
+
+logger.info(f'Final shape so far: {df.shape}')

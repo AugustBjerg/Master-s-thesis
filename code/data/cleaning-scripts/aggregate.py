@@ -4,12 +4,12 @@ import os
 from datetime import datetime
 
 
-# TODO: add draft data from noon reports (deemed easier to do after the synced tables area appended to one long table)
-# Determine the granularity
+# TODO: add draft data from noon reports (literature recommends doing this after filtering)
+# - consider adding an average draft column
 
 # set aggregation functions for each statistic
 
-# Handle NaN values
+# Handle NaN values in metocean data:
     # What only some values are NaN?
     # What if all values are NaN?
 
