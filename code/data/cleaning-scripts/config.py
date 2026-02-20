@@ -260,3 +260,72 @@ SHAFT_POWER_MAX_DEVIATION = 0.02
 
 # The highest tolerated deviation between calculated shaft revolutions delta (from rpm) and measured shaft revolutions delta (from cumulative shaft revolutions) in percentage. Observations with a higher deviation will be replaced with NaN.
 SHAFT_REVOLUTIONS_MAX_DEVIATION = 0.05
+
+# Aggregation window configuration
+WINDOW_LENGTH = "15min"
+
+MIN_WINDOW_COVERAGE = 0.01
+
+WINDOW_SIDE = "left"
+
+WINDOW_LABEL = "left"
+
+SENSOR_DATA_AGGREGATION_METHODS = {
+    "Vessel Hull Over Ground Speed (knots)": "mean",
+    "Vessel Hull Through Water Longitudinal Speed (knots)": "mean",
+    "Vessel External Conditions Wind Relative Speed (knots)": "mean",
+    "Vessel External Conditions Wind Relative Angle (degrees)": "", # left empty because specific function for cumulative counters is added later
+    "Vessel Hull Heading True Angle (degrees)": "", # left empty because specific function for cumulative counters is added later
+    "Vessel Hull Heading Turn Rate (deg/min)": "mean",
+    "Main Engine Turbocharger Rotational Speed (rpm)": "mean",
+    "Main Engine Scavenging Air Pressure (bar)": "mean",
+    "Main Engine Fuel Load % (%)": "mean",
+    "Main Engine Rotational Speed (rpm)": "mean",
+    "Vessel Propeller Shaft Torque (N*m)": "mean",
+    "Vessel Propeller Shaft Mechanical Power (KW)": "mean",
+    "Main Engine Fuel Oil Inlet Mass Flow (kg/hr)": "mean",
+    "Vessel Propeller Shaft Mechanical Energy (KWh)": "", # left empty because specific function for cumulative counters is added later
+    "Vessel Propeller Shaft Thrust Force (KN)": "mean",
+    "Vessel Propeller Shaft Rotational Speed (rpm)": "mean",
+    "Vessel Propeller Shaft Revolutions (cumulative) (revs)": "", # left empty because specific function for cumulative counters is added later
+    "Vessel External Conditions Northward Sea Water Velocity (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Wave Significant Height (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Eastward Wind Velocity (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Wind True Angle (Provider MB)": "", # Left empty for later replacement. Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Swell Significant Height (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Sea Water Temperature (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Eastward Sea Water Velocity (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Wave Period (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Wind True Speed (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Northward Sea Water Velocity (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Wave Significant Height (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Vessel External Conditions Northward Wind Velocity (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Sea Temperature Dropout": "sum", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+    "Calculated Shaft Power": "mean", 
+    "Imputed Spike in Main Engine Rotational Speed": "sum",
+    "Imputed Spike in Vessel External Conditions Wind Relative Speed": "sum",
+    "Imputed Spike in Vessel External Conditions Wind Relative Angle": "sum",
+    "Imputed Spike in Vessel Hull Over Ground Speed": "sum",
+    "Imputed Spike in Vessel Hull Heading Turn Rate": "sum",
+    "Imputed Spike in Vessel Hull Heading True Angle": "sum",
+    "Imputed Spike in Main Engine Turbocharger Rotational Speed": "sum",
+    "Imputed Spike in Vessel Hull Through Water Longitudinal Speed": "sum",
+    "Imputed Spike in Main Engine Fuel Oil Inlet Mass Flow": "sum",
+    "Imputed Spike in Vessel Propeller Shaft Mechanical Power": "sum",
+    "Imputed Spike in Vessel Propeller Shaft Rotational Speed": "sum",
+    "Imputed Spike in Vessel Propeller Shaft Torque": "sum",
+    "Imputed Spike in Vessel Propeller Shaft Thrust Force": "sum",
+    "Imputed Spike in Main Engine Fuel Load %": "sum",
+    "Imputed Spike in Main Engine Scavenging Air Pressure": "sum",
+}
+
+ANGLE_COLUMNS = [
+    "Vessel External Conditions Wind Relative Angle (degrees)",
+    "Vessel Hull Heading True Angle (degrees)",
+    "Vessel External Conditions Wind True Angle (Provider MB)",
+]
+
+CUMULATIVE_COLS = [
+    "Vessel Propeller Shaft Revolutions (cumulative) (revs)",
+    "Vessel Propeller Shaft Mechanical Energy (KWh)",
+]
