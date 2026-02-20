@@ -253,7 +253,7 @@ def _replace_seawater_velocity_dropouts(df, flag_columns: Dict):
     }
     
     for flag_column_name, column_name in column_mapping.items():
-        condition = df[column_name] == -0.4  # Based on histogram, -0.4 seems to be the value that is given during dropouts, rather than 0. This is likely because the sensor can measure slightly below 0 when the ship is moving very slowly, but during dropouts it gives a value of -0.4 (based on line graph). Therefore, we will consider -0.4 as the dropout value for seawater velocity.
+        condition = df[column_name] == -0.4  # Based on histogram, -0.4 seems to be the value that is given during dropouts, rather than 0.
         num_dropout_rows = condition.sum()
         df.loc[condition, column_name] = np.nan  # Replace only the specific column values that are dropouts
         logger.info(f'Replaced {num_dropout_rows} ({num_dropout_rows / len(df) * 100:.5f}% of df) seawater velocity dropout rows with NaN for {flag_column_name}')
