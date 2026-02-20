@@ -647,6 +647,34 @@ def deal_with_spikes(df,
     df = _impute_and_reject_spikes(df, spike_columns=spike_columns, max_consecutive_spikes=max_consecutive_spikes)
     return df
 
+def _change_thrust_force_sign(df):
+    """ This function changes the sign of the thrust force column 'Vessel Propeller Shaft Thrust Force', as it is currently negative but should be positive."""
+    col = 'Vessel Propeller Shaft Thrust Force'
+    if col in df.columns:
+        df[col] = -df[col]
+        logger.info(f'Changed sign of thrust force column {col}')
+    else:
+        logger.warning(f'Column {col} not found in dataframe, skipping sign change')
+    return df
+
+def _add_units(df, metadata_df):
+    """ This function adds the units in parenthesis after the column names based on the metadata dataframe."""
+    column_unit_mapping = dict(zip(metadata_df['quantity_name'], metadata_df['unit']))
+    new_columns = []
+    for col in df.columns:
+        if col in column_unit_mapping and pd.notna(column_unit_mapping[col]):
+            new_col = f"{col} ({column_unit_mapping[col]})"
+        else:
+            new_col = col
+        new_columns.append(new_col)
+    df.columns = new_columns
+    return df
+
+def format_data(df, metadata_df):
+    """ This function applies the formatting functions to the dataframe."""
+    df = _change_thrust_force_sign(df)
+    df = _add_units(df, metadata_df)
+    return df
 
 # Load the dataframe and metadata
 setup_output_directories(filtering_output_dir)
@@ -701,21 +729,27 @@ logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_pe
 df = filter_undesired_rows(df)
 
 # --- Drop all the TRULY unneccessary columns (some of the added columns might be used for modelling - TBD)
-
 # columns starting with "Rejected", "Consecutive", "Spike", "Negative", "Impossible" or "Repeated" are all flag columns that are deemed irrelevant (the others I will try to use for modelling)
 columns_to_drop = [col for col in df.columns if col.startswith('Rejected') or col.startswith('Consecutive') or col.startswith('Spike') or col.startswith('Repeated') or col.startswith('Negative') or col.startswith('Impossible')]
 df.drop(columns=columns_to_drop, inplace=True)
 logger.info(f'Dropped {len(columns_to_drop)} flag columns: {columns_to_drop}')
 
+# Any columns that contain only 0 or only 1
+for col in df.columns:
+    if set(df[col].dropna().unique()) <= {0}:
+        df.drop(columns=[col], inplace=True)
+        logger.info(f'Dropped column {col} since it only contains 0 values')
+    elif set(df[col].dropna().unique()) <= {1}:
+        df.drop(columns=[col], inplace=True)
+        logger.info(f'Dropped column {col} since it only contains 1 values')
 
-
+# Also drop "Vessel External Conditions Eastward Sea Water Velocity (Provider S)", since provider MB is used for this (somehow provider S snuck in)
+if 'Vessel External Conditions Eastward Sea Water Velocity (Provider S)' in df.columns:
+    df.drop(columns=['Vessel External Conditions Eastward Sea Water Velocity (Provider S)'], inplace=True)
+    logger.info('Dropped column Vessel External Conditions Eastward Sea Water Velocity (Provider S) since provider MB is used for this')
 
 # --- Formatting --- 
-    # 1. Change the sign on thrust force (currently negative)
-    # 2. add the units in parenthesis after column names
-
-# TODO: optional (will wait)
-    # Remove rows where the ship is "cruising" (propeller turned off / 0 but still moving)
+df = format_data(df, column_metadata)
 
 # Save the final df to a csv file in the filtered_data_dir
 filtered_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
