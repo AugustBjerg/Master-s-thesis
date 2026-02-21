@@ -261,7 +261,7 @@ SHAFT_POWER_MAX_DEVIATION = 0.02
 # The highest tolerated deviation between calculated shaft revolutions delta (from rpm) and measured shaft revolutions delta (from cumulative shaft revolutions) in percentage. Observations with a higher deviation will be replaced with NaN.
 SHAFT_REVOLUTIONS_MAX_DEVIATION = 0.05
 
-# Aggregation window configuration
+# --- Aggregation ---
 WINDOW_LENGTH = "5min"
 
 MIN_WINDOW_COVERAGE = 0.9
@@ -329,3 +329,9 @@ CUMULATIVE_COLS = [
     "Vessel Propeller Shaft Revolutions (cumulative) (revs)",
     "Vessel Propeller Shaft Mechanical Energy (KWh)",
 ]
+
+# --- Feature Engineering ---
+
+JANUARY_CLEANING_DATE = "2024-01-22"
+
+JULY_CLEANING_DATE = "2024-07-26"
