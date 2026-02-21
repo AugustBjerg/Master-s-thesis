@@ -1,0 +1,25 @@
+2026-02-21 10:00:34 | INFO | Loaded filtered data with shape: (20000, 48) and raw appended data with shape: (1000000, 7)
+2026-02-21 10:00:34 | INFO | Aggregating with window length: 15min, minimum coverage: 0.01, window side: left, and label: left...
+2026-02-21 10:00:34 | INFO | set column "Vessel External Conditions Wind Relative Angle (degrees)" to use circular mean aggregation
+2026-02-21 10:00:34 | INFO | set column "Vessel Hull Heading True Angle (degrees)" to use circular mean aggregation
+2026-02-21 10:00:34 | INFO | set column "Vessel External Conditions Wind True Angle (Provider MB)" to use circular mean aggregation
+2026-02-21 10:00:34 | INFO | set column "Vessel Propeller Shaft Revolutions (cumulative) (revs)" to use counter_increase aggregation, since it is cumulative
+2026-02-21 10:00:34 | INFO | set column "Vessel Propeller Shaft Mechanical Energy (KWh)" to use counter_increase aggregation, since it is cumulative
+2026-02-21 10:00:34 | INFO | Grouped dataframe into 407 observations
+2026-02-21 10:00:35 | INFO | Expected number of observations per window based on sampling frequency of 15.0s: 60
+2026-02-21 10:00:35 | INFO | Number of windows with sufficient coverage (>= 1%): 407 (100.00%)
+2026-02-21 10:00:35 | INFO | Merging in 14 weather columns
+2026-02-21 10:00:35 | INFO | Max observations for forward fill of weather values: 4
+2026-02-21 10:00:35 | INFO | weather_long shape: (2716, 7)
+2026-02-21 10:00:35 | INFO | added column with full variable names to weather_long
+2026-02-21 10:00:35 | INFO | weather columns in out: ['Vessel External Conditions Wind Relative Speed (knots)', 'Vessel External Conditions Wind Relative Angle (degrees)', 'Vessel External Conditions Northward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Significant Height (Provider MB)', 'Vessel External Conditions Eastward Wind Velocity (Provider S)', 'Vessel External Conditions Wind True Angle (Provider MB)', 'Vessel External Conditions Swell Significant Height (Provider MB)', 'Vessel External Conditions Sea Water Temperature (Provider S)', 'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Period (Provider S)', 'Vessel External Conditions Wind True Speed (Provider MB)', 'Vessel External Conditions Northward Sea Water Velocity (Provider S)', 'Vessel External Conditions Wave Significant Height (Provider S)', 'Vessel External Conditions Northward Wind Velocity (Provider S)'] (including 2 on board sensors)
+2026-02-21 10:00:35 | INFO | weather columns to join from long: ['Vessel External Conditions Northward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Significant Height (Provider MB)', 'Vessel External Conditions Eastward Wind Velocity (Provider S)', 'Vessel External Conditions Wind True Angle (Provider MB)', 'Vessel External Conditions Swell Significant Height (Provider MB)', 'Vessel External Conditions Sea Water Temperature (Provider S)', 'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Period (Provider S)', 'Vessel External Conditions Wind True Speed (Provider MB)', 'Vessel External Conditions Northward Sea Water Velocity (Provider S)', 'Vessel External Conditions Wave Significant Height (Provider S)', 'Vessel External Conditions Northward Wind Velocity (Provider S)'] (excluding 2 on board sensors)
+2026-02-21 10:00:35 | INFO | weather variables to join: ['Vessel External Conditions Eastward Sea Water Velocity', 'Vessel External Conditions Eastward Wind Velocity', 'Vessel External Conditions Northward Sea Water Velocity', 'Vessel External Conditions Northward Wind Velocity', 'Vessel External Conditions Sea Water Temperature', 'Vessel External Conditions Swell Significant Height', 'Vessel External Conditions Wave Period', 'Vessel External Conditions Wave Significant Height', 'Vessel External Conditions Wave True Angle', 'Vessel External Conditions Wind True Angle', 'Vessel External Conditions Wind True Speed']
+2026-02-21 10:00:35 | INFO | Joined weather variables in and coalesced double weather columns. Total NaNs in weather columns after join: 187
+2026-02-21 10:00:35 | INFO | noon_long shape: (106, 8)
+2026-02-21 10:00:35 | INFO | noon report variables to join: ['Fwd Draft (Noon Report)', 'Mid Draft (Noon Report)', 'Aft Draft (Noon Report)']
+2026-02-21 10:00:35 | INFO | Joined noon report variables in. Total NaNs in noon report columns after join: 267
+2026-02-21 10:00:35 | INFO | Final shape after joining weather and noon report data: (407, 53)
+2026-02-21 10:00:35 | INFO | Total NaNs in out_with_weather_and_noon: 470 (2.18%)
+2026-02-21 10:00:35 | WARNING | expected less than 1% NaNs at this point, but got 2.18%. Consider reviewing the join steps and NaN handling.
+2026-02-21 10:00:35 | INFO | Saved aggregated table to /work/Thesis/Master-s-thesis/code/data/cleaning-scripts/../aggregated/aggregated_15min.csv

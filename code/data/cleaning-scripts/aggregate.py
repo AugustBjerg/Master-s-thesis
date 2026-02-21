@@ -3,19 +3,61 @@ import numpy as np
 import os
 import re
 from datetime import datetime
-from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS
+from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS, CUMULATIVE_COLS
 from loguru import logger
 
 _num_re = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
 
 # define paths
-appended_dir = os.path.join(script_dir, '..', '..', 'appended')
-mixed_long = pd.read_csv(os.path.join(appended_dir, 'incl_noon_reports.csv'))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+appended_dir = os.path.join(script_dir, '..', 'appended')
+filtered_dir = os.path.join(script_dir, '..', 'filtered')
+aggregated_dir = os.path.join(script_dir, '..', 'aggregated')
+aggregation_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'aggregation')
 
-# load df
+# Create the aggregated directory if it doesn't exist
+if not os.path.exists(aggregated_dir):
+    os.makedirs(aggregated_dir)
+    logger.info(f'Created aggregated directory: {aggregated_dir}')
+else:
+    logger.info(f'Aggregated directory already exists: {aggregated_dir}')
 
-df["utc_timestamp"] = pd.to_datetime(df["utc_timestamp"], utc=True)
+# start logger
 
+# Create the filtering output directory for filtering results if it doesn't exist
+if not os.path.exists(aggregation_output_dir):
+    os.makedirs(aggregation_output_dir)
+    logger.info(f'Created aggregation output directory: {aggregation_output_dir}')
+else:
+    logger.info(f'Aggregation output directory already exists: {aggregation_output_dir}')
+
+log_path = os.path.join(aggregation_output_dir, f'pre_agg_cleaning_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+
+logger.add(
+    log_path,
+    level='INFO',
+    format='{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}'
+)
+
+# load dataframes
+df = pd.read_csv(
+    os.path.join(filtered_dir, 'filtered.csv'),
+#    nrows=20000
+    )
+
+mixed_long = pd.read_csv(
+    os.path.join(appended_dir, 'incl_noon_reports.csv'),
+#    nrows=1000000
+    )
+
+
+# Ensure datetime datatypes
+mixed_long["utc_timestamp"] = pd.to_datetime(mixed_long["utc_timestamp"], format="ISO8601", utc=True)
+df["utc_timestamp"] = pd.to_datetime(df["utc_timestamp"], format="ISO8601", utc=True)
+
+logger.info(f'Loaded filtered data with shape: {df.shape} and raw appended data with shape: {mixed_long.shape}')
+
+logger.info(f'Aggregating with window length: {WINDOW_LENGTH}, minimum coverage: {MIN_WINDOW_COVERAGE}, window side: {WINDOW_SIDE}, and label: {WINDOW_LABEL}...')
 
 # functions
 def circular_mean_deg(x):
@@ -187,8 +229,6 @@ def prep_long_noon_table(long_df,
     return long2
 
 
-# Ensure datetime type
-
 # --- Aggregate ---
 
 # get the aggregation methods
@@ -212,7 +252,8 @@ g = df.groupby(
         "seg_id",
         pd.Grouper(key="utc_timestamp", freq=WINDOW_LENGTH, label=WINDOW_LABEL, closed=WINDOW_SIDE),
     ]
-)  # pd.Grouper does time-binning on a datetime-like key [web:7]
+) 
+logger.info(f'Grouped dataframe into {g.ngroups} observations')
 
 # aggregate into the multi-index output object using the specified aggregation methods
 out = g.agg(agg_map)
@@ -220,11 +261,13 @@ out = g.agg(agg_map)
 # Define the sampling frequency and expected observations per window
 dt_seconds = 15.0
 expected_n = int(pd.Timedelta(WINDOW_LENGTH).total_seconds() / dt_seconds)
+logger.info(f'Expected number of observations per window based on sampling frequency of {dt_seconds}s: {expected_n}')
 
-# calvulate coverage for each window
+# calculate coverage for each window
 support = g.size().rename("n_obs")
 out = out.join(support)
 out["coverage"] = out["n_obs"] / expected_n
+logger.info(f'Number of windows with sufficient coverage (>= {MIN_WINDOW_COVERAGE*100:.0f}%): {(out["coverage"] >= MIN_WINDOW_COVERAGE).sum()} ({(out["coverage"] >= MIN_WINDOW_COVERAGE).mean() * 100:.2f}%)')
 
 # Filter weak/partial windows (e.g., last partial chunk of a segment)
 out = out[out["coverage"] >= MIN_WINDOW_COVERAGE]
@@ -233,15 +276,16 @@ out = out[out["coverage"] >= MIN_WINDOW_COVERAGE]
 
 # Define weather cols
 weather_cols = [c for c in out.columns if c.startswith("Vessel External Conditions")]
+logger.info(f'Merging in {len(weather_cols)} weather columns')
 
 # forward fill weather values 
 max_forward_fill = int(pd.Timedelta("1h").total_seconds() / pd.Timedelta(WINDOW_LENGTH).total_seconds()) 
-logger.info(f'limit for forward fill: {max_forward_fill}')
+logger.info(f'Max observations for forward fill of weather values: {max_forward_fill}')
 
 out[weather_cols] = (
     out.groupby("seg_id")[weather_cols]
        .ffill(
-#           limit=max_forward_fill
+           limit=max_forward_fill
            )
 )
 
@@ -253,12 +297,15 @@ logger.info(f"weather_long shape: {weather_long.shape}")
 
 # add full variable names to align with synchronized table
 weather_long = add_var_full(weather_long) 
+logger.info(f'added column with full variable names to weather_long')
 
-# Choose variables to join (might fail because of ship wind sensors, but lets see)
+# Choose variables to join
 weather_cols_in_out = [c for c in out.columns if c.startswith("Vessel External Conditions")]
+logger.info(f'weather columns in out: {weather_cols_in_out} (including 2 on board sensors)')
 
 # Subtract weather columns measured on board
 weather_cols_in_out = [c for c in weather_cols_in_out if c not in ["Vessel External Conditions Wind Relative Speed (knots)", "Vessel External Conditions Wind Relative Angle (degrees)"]]
+logger.info(f'weather columns to join from long: {weather_cols_in_out} (excluding 2 on board sensors)')
 
 # Execute the join
 weather_vars = sorted(weather_long["quantity_name"].dropna().unique())
@@ -269,10 +316,12 @@ out_with_weather = join_long_vars_asof(
     long_df=weather_long,
     vars_full=weather_cols_in_out,
     out_time_col="window_start",     # adjust if yours is named differently
-    tolerance="1h",                  # pick based on provider cadence
+    tolerance="1h",                  
 )
 
 out_with_weather = coalesce_xy_columns(out_with_weather)
+
+logger.info(f'Joined weather variables in and coalesced double weather columns. Total NaNs in weather columns after join: {out_with_weather[weather_cols_in_out].isna().sum().sum()}')
 
 # --- Add noon report data ---
 
@@ -284,9 +333,13 @@ logger.info(f"noon_long shape: {noon_long.shape}")
 
 # define the noon variables of interest
 noon_vars = ["Fwd Draft (Noon Report)", "Mid Draft (Noon Report)", "Aft Draft (Noon Report)"]
+logger.info(f"noon report variables to join: {noon_vars}")
 
 # attach noon report values to the table
 out_with_weather_and_noon = asof_attach_vars(out_with_weather, noon_long, noon_vars, tolerance="24h")
+logger.info(f'Joined noon report variables in. Total NaNs in noon report columns after join: {out_with_weather_and_noon[noon_vars].isna().sum().sum()}')
+
+logger.info(f'Final shape after joining weather and noon report data: {out_with_weather_and_noon.shape}')
 
 # --- Last cleaning ---
 
@@ -303,6 +356,11 @@ else:
     logger.warning(f'expected less than 1% NaNs at this point, but got {nan_pct:.2f}%. Consider reviewing the join steps and NaN handling.')
 
 # ---- Saving ----
+
+# Save the aggregated table to a csv file with the window length in the name
+output_path = os.path.join(aggregated_dir, f'aggregated_{WINDOW_LENGTH}.csv')
+out_with_weather_and_noon.to_csv(output_path, index=False)
+logger.info(f'Saved aggregated table to {output_path}')
 
 
 
