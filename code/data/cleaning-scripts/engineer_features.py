@@ -14,16 +14,16 @@ aggregated_data_path = os.path.join(aggregated_dir, f'aggregated_{WINDOW_LENGTH}
 engineered_dir = os.path.join(script_dir, '..', 'engineered')
 feature_engineering_output_dir = os.path.join(script_dir, '..', '..', 'outputs', 'feature-engineering')
 
-# Create the aggregated directory if it doesn't exist
-if not os.path.exists(aggregated_dir):
-    os.makedirs(aggregated_dir)
-    logger.info(f'Created aggregated directory: {aggregated_dir}')
+# Create the engineered directory if it doesn't exist
+if not os.path.exists(engineered_dir):
+    os.makedirs(engineered_dir)
+    logger.info(f'Created engineered directory: {engineered_dir}')
 else:
-    logger.info(f'Aggregated directory already exists: {aggregated_dir}')
+    logger.info(f'Engineered directory already exists: {engineered_dir}')
 
 # start logger
 
-# Create the filtering output directory for filtering results if it doesn't exist
+# Create the feature engineering output directory for filtering results if it doesn't exist
 if not os.path.exists(feature_engineering_output_dir):
     os.makedirs(feature_engineering_output_dir)
     logger.info(f'Created feature engineering output directory: {feature_engineering_output_dir}')
@@ -48,7 +48,7 @@ logger.info(f'Loaded data from {aggregated_data_path} with shape {df.shape}')
 
 # --- Functions ---
 
-# --- Necessary Features ---
+# --- Key Features ---
 
 def add_days_since_cleaning(df, new_column_name: str, cleaning_dates: List):
     if "window_start" not in df.columns:
@@ -102,11 +102,22 @@ def add_mid_draft(df, new_column_name: str, fore_draft_col_name: str, aft_draft_
 
 # --- Executions ---
 
+columns_before = set(df.columns)
+
 df = add_days_since_cleaning(df, "Days Since Last Cleaning", [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE])
-df = add_mid_draft(df, "Vessel Mid Draft (m)", "Vessel Fore Draft (m)", "Vessel Aft Draft (m)")
+df = add_mid_draft(df, "Avg Draft (Calculated)", "Fwd Draft (Noon Report)", "Aft Draft (Noon Report)")
 
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
 
 logger.info("Added 'Days Since Last Cleaning' feature. First values in January:")
 logger.info(first_values_january.head(31))
+
+# save the dateframe with the new features
+output_path = os.path.join(engineered_dir, f"engineered_features_{WINDOW_LENGTH}.csv")
+df.to_csv(output_path, index=False)
+logger.info(f"Saved data with engineered features to {output_path}")
+
+columns_after = set(df.columns)
+new_columns = columns_after - columns_before
+logger.info(f"Added {len(new_columns)} new columns: {sorted(list(new_columns))}")

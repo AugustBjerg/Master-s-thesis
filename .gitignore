@@ -10,6 +10,7 @@ code/data/cleaned
 code/data/synchronized
 code/data/filtered
 code/data/aggregated
+code/data/engineered
 
 # Everything related to depreciated writing folder writing/
 writing/
