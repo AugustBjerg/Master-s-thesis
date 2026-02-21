@@ -18,4 +18,7 @@ echo "pre_agg_clean.py executed"
 python code/data/cleaning-scripts/aggregate.py
 echo "aggregate.py executed"
 
+python code/data/cleaning-scripts/engineer_features.py
+echo "engineer_features.py executed"
+
 echo "data pipeline finished"
