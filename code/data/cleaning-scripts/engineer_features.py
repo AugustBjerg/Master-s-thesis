@@ -98,6 +98,12 @@ def add_mid_draft(df, new_column_name: str, fore_draft_col_name: str, aft_draft_
 
     return df
 
+def add_trim(df, new_column_name: str, fore_draft_col_name: str, aft_draft_col_name: str):
+
+    df[new_column_name] = df[aft_draft_col_name] - df[fore_draft_col_name]
+
+    return df
+
 # --- Fringe Features ---
 
 # --- Executions ---
@@ -106,6 +112,7 @@ columns_before = set(df.columns)
 
 df = add_days_since_cleaning(df, "Days Since Last Cleaning", [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE])
 df = add_mid_draft(df, "Avg Draft (Calculated)", "Fwd Draft (Noon Report)", "Aft Draft (Noon Report)")
+df = add_trim(df, "Draft Trim (Calculated)", "Fwd Draft (Noon Report)", "Aft Draft (Noon Report)")
 
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
