@@ -110,6 +110,18 @@ def add_speed_cubed(df, new_column_name: str, speed_col_name: str):
 
     return df
 
+def add_speed_dsc_interaction(df, new_column_name: str, speed_col_name: str, dsc_col_name: str):
+
+    df[new_column_name] = df[speed_col_name] * df[dsc_col_name]
+
+    return df
+
+def add_cubic_speed_dsc_interaction(df, new_column_name: str, speed_col_name: str, dsc_col_name: str):
+
+    df[new_column_name] = (df[speed_col_name] ** 3) * df[dsc_col_name]
+
+    return df
+
 # --- Fringe Features ---
 
 # --- Executions ---
@@ -120,6 +132,9 @@ df = add_days_since_cleaning(df, "Days Since Last Cleaning", [JANUARY_CLEANING_D
 df = add_mid_draft(df, "Avg Draft (Calculated)", "Fwd Draft (Noon Report)", "Aft Draft (Noon Report)")
 df = add_trim(df, "Draft Trim (Calculated)", "Fwd Draft (Noon Report)", "Aft Draft (Noon Report)")
 df = add_speed_cubed(df, "Speed Through Water^3 (m/s)", "Vessel Hull Through Water Longitudinal Speed (knots)")
+df = add_speed_dsc_interaction(df, "Speed x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
+df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
+
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
 

@@ -471,26 +471,26 @@ def _filter_low_engine_rpm(df):
     logger.info(f'Low engine RPM filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with low main engine rotational speed')
     return df
 
-def _filter_neg_or_zero_shaft_power(df):
-    """ This function removes rows where the propeller shaft mechanical power is negative or zero, as this indicates the ship is in reverse, maneuvering, or a bad measurement, which are not of interest for the analysis."""
+def _filter_low_shaft_power(df, threshold=0):
+    """ This function removes rows where the propeller shaft mechanical power is below a certain threshold, as this indicates the ship is in reverse, maneuvering, or a bad measurement, which are not of interest for the analysis."""
     if 'Vessel Propeller Shaft Mechanical Power' not in df.columns:
         logger.warning('Column Vessel Propeller Shaft Mechanical Power not found in dataframe, skipping negative/zero shaft power filtering')
         return df
     
     rows_before = len(df)
-    condition = df['Vessel Propeller Shaft Mechanical Power'] <= 0
+    condition = df['Vessel Propeller Shaft Mechanical Power'] <= threshold
     df = df[~condition]
     rows_removed = condition.sum()
-    logger.info(f'Negative/zero shaft power filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with non-positive propeller shaft mechanical power')
+    logger.info(f'Low shaft power filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with propeller shaft mechanical power <= {threshold}')
     return df
 
-def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS):
+def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS, power_threshold=1000):
     """ This function applies various filters to remove "undesirable" rows from the dataframe, such as rows where the ship is in reverse or maneuvering, rows with heavy/violent weather, etc. The specific filters applied are based on the thresholds defined in the config file and the judgment of what constitutes "undesirable" data for the analysis."""
     df = _filter_by_rolling_stds(df, rolling_std_thresholds=rolling_std_thresholds, rolling_std_window_size=rolling_std_window_size, rolling_std_min_periods=rolling_std_min_periods)
     df = _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD)
     df = _filter_low_propeller_shaft_rpm(df)
     df = _filter_low_engine_rpm(df)
-    df = _filter_neg_or_zero_shaft_power(df)
+    df = _filter_low_shaft_power(df, threshold=power_threshold)
 
     return df
 
