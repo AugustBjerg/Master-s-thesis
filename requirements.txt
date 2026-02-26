@@ -9,3 +9,4 @@ loguru
 jinja2
 plotly
 pygam
+gplearn
