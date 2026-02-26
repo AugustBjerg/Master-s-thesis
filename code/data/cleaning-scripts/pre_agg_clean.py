@@ -688,90 +688,91 @@ def format_data(df, metadata_df):
     df = _add_units(df, metadata_df)
     return df
 
-# Load the dataframe and metadata
-setup_output_directories(filtering_output_dir)
+if __name__ == "__main__":
+    # Load the dataframe and metadata
+    setup_output_directories(filtering_output_dir)
 
-column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
+    column_metadata = load_column_metadata(os.path.join(meta_data_dir, 'Metrics registration.csv'))
 
-df = load_synchronized_data(
-    synchronized_data_dir, column_metadata, 
-#    test_n=25
-    )
+    df = load_synchronized_data(
+        synchronized_data_dir, column_metadata, 
+    #    test_n=25
+        )
 
-logger.info(f'DataFrame loaded with shape: {df.shape}')
-logger.info(f'percentage of non-NaN values per column: {df.count() / len(df) * 100}')
+    logger.info(f'DataFrame loaded with shape: {df.shape}')
+    logger.info(f'percentage of non-NaN values per column: {df.count() / len(df) * 100}')
 
-# Execute the functions in sequence
+    # Execute the functions in sequence
 
-# --- Dropping of useless columns ---
-df = drop_columns(df)
+    # --- Dropping of useless columns ---
+    df = drop_columns(df)
 
-# -- Replace dropouts and inconsistent values with NaN and create flag columns for them ---
-df, flag_columns = deal_with_dropouts(df, flag_columns={})
+    # -- Replace dropouts and inconsistent values with NaN and create flag columns for them ---
+    df, flag_columns = deal_with_dropouts(df, flag_columns={})
 
-logger.info(f'Flag (dropout/sentinel/invalid) columns and counts of inconsistent rows: {flag_columns}')
+    logger.info(f'Flag (dropout/sentinel/invalid) columns and counts of inconsistent rows: {flag_columns}')
 
-nan_percentages = df.isna().mean() * 100
-nan_percentages = nan_percentages[nan_percentages > 0].sort_values(ascending=False)
-logger.info(f'Percentage of NaN values per column after dealing with dropouts:\n{nan_percentages}')
+    nan_percentages = df.isna().mean() * 100
+    nan_percentages = nan_percentages[nan_percentages > 0].sort_values(ascending=False)
+    logger.info(f'Percentage of NaN values per column after dealing with dropouts:\n{nan_percentages}')
 
-# --- Remove rows with NaN in required Sensor columns --- 
-df = filter_nans(df)
+    # --- Remove rows with NaN in required Sensor columns --- 
+    df = filter_nans(df)
 
-# --- Flag repeated values in weather and sensor variables ---
-repeated_values_flag_columns = {}
-df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
+    # --- Flag repeated values in weather and sensor variables ---
+    repeated_values_flag_columns = {}
+    df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
 
-# --- Detect and impute spikes ---
-df = deal_with_spikes(df, spike_columns={}, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES)
+    # --- Detect and impute spikes ---
+    df = deal_with_spikes(df, spike_columns={}, spike_thresholds=SENSOR_SPIKE_THRESHOLDS, rolling_window_size=LOW_PASS_WINDOW_SIZE_SECONDS, rolling_min_periods=LOW_PASS_MIN_PERIODS, max_consecutive_spikes=MAX_CONSECUTIVE_SPIKES)
 
-# Make the same log again but after spike marking/removal
-nan_percentages_after_spike_removal = df.isna().mean() * 100
-nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
-logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
+    # Make the same log again but after spike marking/removal
+    nan_percentages_after_spike_removal = df.isna().mean() * 100
+    nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
+    logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
 
-# Filter NaNs again (remaining NaNs are values with more than 10 consecutive spikes)
-df = filter_nans(df)
+    # Filter NaNs again (remaining NaNs are values with more than 10 consecutive spikes)
+    df = filter_nans(df)
 
-nan_percentages_after_spike_removal = df.isna().mean() * 100
-nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
-logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
+    nan_percentages_after_spike_removal = df.isna().mean() * 100
+    nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
+    logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
 
-# --- Filtering undesired (non-steady) state rows ---
-df = filter_undesired_rows(df)
+    # --- Filtering undesired (non-steady) state rows ---
+    df = filter_undesired_rows(df)
 
-# --- Drop all the TRULY unneccessary columns (some of the added columns might be used for modelling - TBD)
-# columns starting with "Rejected", "Consecutive", "Spike", "Negative", "Impossible" or "Repeated" are all flag columns that are deemed irrelevant (the others I will try to use for modelling)
-columns_to_drop = [col for col in df.columns if col.startswith('Rejected') or col.startswith('Consecutive') or col.startswith('Spike') or col.startswith('Repeated') or col.startswith('Negative') or col.startswith('Impossible')]
-df.drop(columns=columns_to_drop, inplace=True)
-logger.info(f'Dropped {len(columns_to_drop)} flag columns: {columns_to_drop}')
+    # --- Drop all the TRULY unneccessary columns (some of the added columns might be used for modelling - TBD)
+    # columns starting with "Rejected", "Consecutive", "Spike", "Negative", "Impossible" or "Repeated" are all flag columns that are deemed irrelevant (the others I will try to use for modelling)
+    columns_to_drop = [col for col in df.columns if col.startswith('Rejected') or col.startswith('Consecutive') or col.startswith('Spike') or col.startswith('Repeated') or col.startswith('Negative') or col.startswith('Impossible')]
+    df.drop(columns=columns_to_drop, inplace=True)
+    logger.info(f'Dropped {len(columns_to_drop)} flag columns: {columns_to_drop}')
 
-# Any columns that contain only 0 or only 1
-for col in df.columns:
-    if set(df[col].dropna().unique()) <= {0}:
-        df.drop(columns=[col], inplace=True)
-        logger.info(f'Dropped column {col} since it only contains 0 values')
-    elif set(df[col].dropna().unique()) <= {1}:
-        df.drop(columns=[col], inplace=True)
-        logger.info(f'Dropped column {col} since it only contains 1 values')
+    # Any columns that contain only 0 or only 1
+    for col in df.columns:
+        if set(df[col].dropna().unique()) <= {0}:
+            df.drop(columns=[col], inplace=True)
+            logger.info(f'Dropped column {col} since it only contains 0 values')
+        elif set(df[col].dropna().unique()) <= {1}:
+            df.drop(columns=[col], inplace=True)
+            logger.info(f'Dropped column {col} since it only contains 1 values')
 
-# Also drop "Vessel External Conditions Eastward Sea Water Velocity (Provider S)", since provider MB is used for this (somehow provider S snuck in)
-if 'Vessel External Conditions Eastward Sea Water Velocity (Provider S)' in df.columns:
-    df.drop(columns=['Vessel External Conditions Eastward Sea Water Velocity (Provider S)'], inplace=True)
-    logger.info('Dropped column Vessel External Conditions Eastward Sea Water Velocity (Provider S) since provider MB is used for this')
+    # Also drop "Vessel External Conditions Eastward Sea Water Velocity (Provider S)", since provider MB is used for this (somehow provider S snuck in)
+    if 'Vessel External Conditions Eastward Sea Water Velocity (Provider S)' in df.columns:
+        df.drop(columns=['Vessel External Conditions Eastward Sea Water Velocity (Provider S)'], inplace=True)
+        logger.info('Dropped column Vessel External Conditions Eastward Sea Water Velocity (Provider S) since provider MB is used for this')
 
-# --- Formatting --- 
-df = format_data(df, column_metadata)
+    # --- Formatting --- 
+    df = format_data(df, column_metadata)
 
-# Save the final df to a csv file in the filtered_data_dir
-filtered_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
+    # Save the final df to a csv file in the filtered_data_dir
+    filtered_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
 
-# create output directory if it doesn't exist
-output_dir = os.path.dirname(filtered_file_path)
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+    # create output directory if it doesn't exist
+    output_dir = os.path.dirname(filtered_file_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
-df.to_csv(filtered_file_path, index=False)
-logger.info(f'Saved filtered data to {filtered_file_path}')
+    df.to_csv(filtered_file_path, index=False)
+    logger.info(f'Saved filtered data to {filtered_file_path}')
 
-logger.info(f'Final shape so far: {df.shape}')
+    logger.info(f'Final shape so far: {df.shape}')
