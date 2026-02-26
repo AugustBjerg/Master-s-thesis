@@ -17,6 +17,12 @@ NOON_REPORT_QIDS = {
     'Fuel' : "0::0::0::0_0::0::0::0::0_0::0::0::0_14"
     }
 
+INCLUDED_NOON_REPORT_QIDS = [
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_2",  # Fwd Draft
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_3",
+    "0::0::0::0_0::0::0::0::0_0::0::0::0_4",
+]
+
 NOON_REPORT_UNITS = {
     'Slip' : "%" ,
     'Fwd Draft' : "m" ,
@@ -33,12 +39,6 @@ NOON_REPORT_UNITS = {
     'Consumption for Propulsion' : "MT/day" ,
     'Fuel' : "categorical"
     }
-
-INCLUDED_NOON_REPORT_QIDS = NOON_REPORT_QIDS = [
-    "0::0::0::0_0::0::0::0::0_0::0::0::0_2" , # Fwd Draft
-    "0::0::0::0_0::0::0::0::0_0::0::0::0_3" ,
-    "0::0::0::0_0::0::0::0::0_0::0::0::0_4" ,
-    ]
 
 INTENDED_SAMPLING_INTERVALS_SECONDS = {
     # Noon Reports - measured every 24h
