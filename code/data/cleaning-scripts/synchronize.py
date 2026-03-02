@@ -37,6 +37,89 @@ if not os.path.exists(sync_output_dir):
 else:
     logger.info(f'synchronized data directory already exists: {sync_output_dir}')
 
+def process_single_segment(args):
+    """
+    Process a single segment with interpolation and saving.
+    
+    Args:
+        args: Tuple containing (i, grid_15s, grid_1h, seg_info, df_segment_data, 
+                                qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir)
+    
+    Returns:
+        Tuple of (segment_index, seg_id, shape, filepath)
+    """
+    i, grid_15s, grid_1h, seg_info, df_segment_data, qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir = args
+    
+    seg_id = seg_info['seg_id']
+    seg_start_time = seg_info['start_time']
+    seg_end_time = seg_info['end_time']
+    seg_duration = seg_end_time - seg_start_time
+    
+    # -- 15s interpolation --
+    
+    # Filter segment data to only 15s qids
+    df_segment_15s = df_segment_data[df_segment_data['qid_mapping'].isin(qids_15s)]
+    
+    # Pivot the segment data so each qid is a column with timestamp as index
+    if df_segment_15s.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
+        pivot_15s = df_segment_15s.pivot_table(
+            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+    else:
+        pivot_15s = df_segment_15s.pivot(
+            index='utc_timestamp', columns='qid_mapping', values='value')
+    
+    # Combine actual observation timestamps with the grid, interpolate, extract grid points
+    combined_15s = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
+    combined_15s.interpolate(method='linear', limit_area='inside', inplace=True)
+    combined_15s = (
+        combined_15s
+        .loc[grid_15s['utc_timestamp']]
+        .reset_index()
+        .assign(seg_id=seg_id)
+        .reindex(columns=all_columns_15s)
+    )
+    
+    # -- 1h interpolation --
+    
+    # Filter segment data to only 1h qids
+    df_segment_1h = df_segment_data[df_segment_data['qid_mapping'].isin(qids_1h)]
+    
+    # Pivot the segment data so each qid is a column with timestamp as index
+    if df_segment_1h.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
+        pivot_1h = df_segment_1h.pivot_table(
+            index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
+    else:
+        pivot_1h = df_segment_1h.pivot(
+            index='utc_timestamp', columns='qid_mapping', values='value')
+    
+    # Combine actual observation timestamps with the grid, interpolate, extract grid points
+    combined_1h = pivot_1h.reindex(pivot_1h.index.union(grid_1h['utc_timestamp'])).sort_index()
+    combined_1h.interpolate(method='linear', limit_area='inside', inplace=True)
+    combined_1h = (
+        combined_1h
+        .loc[grid_1h['utc_timestamp']]
+        .reset_index()
+        .assign(seg_id=seg_id)
+        .reindex(columns=all_columns_1h)
+    )
+    
+    # -- Combine 15s and 1h dataframes into one segment dataframe --
+    
+    df_segment_combined = pd.merge(
+        combined_15s,
+        combined_1h,
+        on=['utc_timestamp', 'seg_id'],
+        how='outer'
+    )
+
+    # Save the combined segment dataframe
+    start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
+    end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
+    segment_filepath = os.path.join(synchronized_data_dir, f'synced_{start_str}_to_{end_str}.csv')
+    df_segment_combined.to_csv(segment_filepath, index=False)
+    
+    return i, seg_id, df_segment_combined.shape, segment_filepath
+
 if __name__ == "__main__":
     # load the appended dataframe
     df = pd.read_csv(
@@ -141,90 +224,6 @@ if __name__ == "__main__":
     # Pre-define column order for reindexing
     all_columns_15s = ['utc_timestamp', 'seg_id'] + list(qids_15s)
     all_columns_1h = ['utc_timestamp', 'seg_id'] + list(qids_1h)
-
-    # Define function to process a single segment (for multiprocessing)
-    def process_single_segment(args):
-        """
-        Process a single segment with interpolation and saving.
-        
-        Args:
-            args: Tuple containing (i, grid_15s, grid_1h, seg_info, df_segment_data, 
-                                    qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir)
-        
-        Returns:
-            Tuple of (segment_index, seg_id, shape, filepath)
-        """
-        i, grid_15s, grid_1h, seg_info, df_segment_data, qids_15s, qids_1h, all_columns_15s, all_columns_1h, synchronized_data_dir = args
-        
-        seg_id = seg_info['seg_id']
-        seg_start_time = seg_info['start_time']
-        seg_end_time = seg_info['end_time']
-        seg_duration = seg_end_time - seg_start_time
-        
-        # -- 15s interpolation --
-        
-        # Filter segment data to only 15s qids
-        df_segment_15s = df_segment_data[df_segment_data['qid_mapping'].isin(qids_15s)]
-        
-        # Pivot the segment data so each qid is a column with timestamp as index
-        if df_segment_15s.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
-            pivot_15s = df_segment_15s.pivot_table(
-                index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
-        else:
-            pivot_15s = df_segment_15s.pivot(
-                index='utc_timestamp', columns='qid_mapping', values='value')
-        
-        # Combine actual observation timestamps with the grid, interpolate, extract grid points
-        combined_15s = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
-        combined_15s.interpolate(method='linear', limit_area='inside', inplace=True)
-        combined_15s = (
-            combined_15s
-            .loc[grid_15s['utc_timestamp']]
-            .reset_index()
-            .assign(seg_id=seg_id)
-            .reindex(columns=all_columns_15s)
-        )
-        
-        # -- 1h interpolation --
-        
-        # Filter segment data to only 1h qids
-        df_segment_1h = df_segment_data[df_segment_data['qid_mapping'].isin(qids_1h)]
-        
-        # Pivot the segment data so each qid is a column with timestamp as index
-        if df_segment_1h.duplicated(subset=['utc_timestamp', 'qid_mapping']).any():
-            pivot_1h = df_segment_1h.pivot_table(
-                index='utc_timestamp', columns='qid_mapping', values='value', aggfunc='first')
-        else:
-            pivot_1h = df_segment_1h.pivot(
-                index='utc_timestamp', columns='qid_mapping', values='value')
-        
-        # Combine actual observation timestamps with the grid, interpolate, extract grid points
-        combined_1h = pivot_1h.reindex(pivot_1h.index.union(grid_1h['utc_timestamp'])).sort_index()
-        combined_1h.interpolate(method='linear', limit_area='inside', inplace=True)
-        combined_1h = (
-            combined_1h
-            .loc[grid_1h['utc_timestamp']]
-            .reset_index()
-            .assign(seg_id=seg_id)
-            .reindex(columns=all_columns_1h)
-        )
-        
-        # -- Combine 15s and 1h dataframes into one segment dataframe --
-        
-        df_segment_combined = pd.merge(
-            combined_15s,
-            combined_1h,
-            on=['utc_timestamp', 'seg_id'],
-            how='outer'
-        )
-
-        # Save the combined segment dataframe
-        start_str = seg_start_time.strftime('%Y-%m-%d_%H-%M-%S')
-        end_str = seg_end_time.strftime('%Y-%m-%d_%H-%M-%S')
-        segment_filepath = os.path.join(synchronized_data_dir, f'synced_{start_str}_to_{end_str}.csv')
-        df_segment_combined.to_csv(segment_filepath, index=False)
-        
-        return i, seg_id, df_segment_combined.shape, segment_filepath
 
     valid_segment_dataframes = []
 
