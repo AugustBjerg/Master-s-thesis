@@ -48,14 +48,12 @@ def _stw_weight_term(stw, maneuvering_threshold_knots=SPEED_THROUGH_WATER_THRESH
     w = epsilon + (1.0 - epsilon) * np.exp(-stw / v0)
     return w
 
-
 def _water_temp_term(water_temp, water_temp_threshold_degrees=10):
     """
     g(T) = max(0, T - T0)
     """
     water_temp = np.asarray(water_temp, dtype=float)
     return np.maximum(0.0, water_temp - float(water_temp_threshold_degrees))
-
 
 def _fpi_change(stw, water_temp, delta_t, maneuvering_threshold, water_temp_threshold_degrees=10, epsilon=0.1):
     """

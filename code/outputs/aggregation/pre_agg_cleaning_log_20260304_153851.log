@@ -1,0 +1,8 @@
+2026-03-04 15:40:18 | INFO | Loaded filtered data with shape: (1008757, 50) and raw appended data with shape: (45045562, 7)
+2026-03-04 15:40:18 | INFO | Aggregating with window length: 5min, minimum coverage: 0.9, window side: left, and label: left...
+2026-03-04 15:40:18 | INFO | set column "Vessel External Conditions Wind Relative Angle (degrees)" to use circular mean aggregation
+2026-03-04 15:40:18 | INFO | set column "Vessel Hull Heading True Angle (degrees)" to use circular mean aggregation
+2026-03-04 15:40:18 | INFO | set column "Vessel External Conditions Wind True Angle (Provider MB)" to use circular mean aggregation
+2026-03-04 15:40:18 | INFO | set column "Vessel Propeller Shaft Revolutions (cumulative) (revs)" to use counter_increase aggregation, since it is cumulative
+2026-03-04 15:40:18 | INFO | set column "Vessel Propeller Shaft Mechanical Energy (KWh)" to use counter_increase aggregation, since it is cumulative
+2026-03-04 15:40:19 | INFO | Grouped dataframe into 52726 observations

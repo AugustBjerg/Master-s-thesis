@@ -325,6 +325,8 @@ SENSOR_DATA_AGGREGATION_METHODS = {
     "Imputed Spike in Vessel Propeller Shaft Thrust Force": "sum",
     "Imputed Spike in Main Engine Fuel Load %": "sum",
     "Imputed Spike in Main Engine Scavenging Air Pressure": "sum",
+    "fouling_pressure_change": "sum",
+    "fouling_penalty_index": "last"
 }
 
 ANGLE_COLUMNS = [
