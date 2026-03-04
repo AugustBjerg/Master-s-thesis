@@ -340,3 +340,14 @@ JULY_CLEANING_DATE = "2024-07-10"
 # --- Modelling ---
 
 TRAIN_RATIO = 0.8
+
+TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
+
+FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning"
+FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
+
+SPEED_CONTROLLED_VARIABLE_NAME = "Vessel Hull Through Water Longitudinal Speed (knots)"
+SPEED_CONTROLLED_VARIABLE_RANGE = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14]
+
+DRAFT_CONTROLLED_VARIABLE_NAME = "Avg Draft (Calculated)"
+DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 6.75, 14.25]

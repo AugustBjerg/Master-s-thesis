@@ -11,6 +11,7 @@ code/data/synchronized
 code/data/filtered
 code/data/aggregated
 code/data/engineered
+code/data/train-and-test
 
 # Everything related to depreciated writing folder writing/
 writing/
