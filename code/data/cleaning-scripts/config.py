@@ -341,8 +341,6 @@ JULY_CLEANING_DATE = "2024-07-10"
 
 TRAIN_RATIO = 0.8
 
-TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
-
 FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
 
@@ -351,3 +349,18 @@ SPEED_CONTROLLED_VARIABLE_RANGE = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5,
 
 DRAFT_CONTROLLED_VARIABLE_NAME = "Avg Draft (Calculated)"
 DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 6.75, 14.25]
+
+TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
+WEATHER_FEATURES = [
+    "Vessel External Conditions Wind Relative Angle (degrees)",
+    "Vessel External Conditions Wind Relative Speed (knots)",
+    "Vessel External Conditions Sea Water Temperature (Provider S)",
+    "Vessel External Conditions Wave Significant Height (Provider MB)",
+    ]
+NON_WEATHER_FEATURES = [
+    "Avg Draft (Calculated)",
+    "Draft Trim (Calculated)",
+    FOULING_PROXY_VAR_NAME,
+    "Vessel Hull Through Water Longitudinal Speed (knots)",
+    ]
+

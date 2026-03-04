@@ -5,7 +5,7 @@ import re
 import itertools
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from config import WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE
+from config import WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES
 from typing import List, Optional
 from datetime import datetime
 from loguru import logger
@@ -99,10 +99,15 @@ def create_controlled_var_df(
     return synthetic_df
 
 if __name__ == "__main__":
+
+    features = WEATHER_FEATURES + NON_WEATHER_FEATURES
+    all_column_names = features + [TARGET_VARIABLE]
+    filtered_df = df[all_column_names]
+
     # Make a randomized test and training split
     X_train, X_test, y_train, y_test = train_test_split(
-        df.drop(columns=[TARGET_VARIABLE]), 
-        df[TARGET_VARIABLE], 
+        filtered_df.drop(columns=[TARGET_VARIABLE]), 
+        filtered_df[TARGET_VARIABLE], 
         test_size=1-TRAIN_RATIO, 
         random_state=random_seed
     )
@@ -115,8 +120,6 @@ if __name__ == "__main__":
         y_train=y_train,
         y_test=y_test,
     )
-
-    all_column_names = df.columns.tolist()
 
     # create a fouling controlled variable dataframe for the median case
     full_controlled_fouling_proxy_range = list(range(FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[0], FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[1] + 1))
