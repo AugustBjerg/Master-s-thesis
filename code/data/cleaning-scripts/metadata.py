@@ -38,13 +38,13 @@ def add_calculated_fouling_penalty_index_rows(df):
             'qid_mapping': delta_fpi_qid,
             'quantity_name': 'delta_fouling_penalty_index',
             'source_name': 'calculated',
-            'unit': 'fouling_penalty_index_units',
+            'unit': 'calculated',
         },
         {
             'qid_mapping': fpi_qid,
             'quantity_name': 'cumulative_fouling_penalty_index',
             'source_name': 'calculated',
-            'unit': 'fouling_penalty_index',
+            'unit': 'calculated',
         }
     ]
 

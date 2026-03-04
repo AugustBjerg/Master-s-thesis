@@ -340,6 +340,9 @@ if __name__ == "__main__":
         ).to_dict(orient='records'),
     }
 
+    logger.info(f'columns planned to be in synchronized dataframes: {all_columns_15s} and {all_columns_1h}')
+    logger.info(f'columns actually in synchronized dataframes: {pd.read_csv(results[0][3], nrows=0).columns.tolist()}')
+
     # save metadata to json file
     metadata_filepath = os.path.join(sync_output_dir, f'synchronization_metadata_{script_start}.json') # script start time is close enough
     with open(metadata_filepath, 'w') as f:

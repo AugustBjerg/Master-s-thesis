@@ -764,6 +764,8 @@ if __name__ == "__main__":
     # --- Formatting --- 
     df = format_data(df, column_metadata)
 
+    logger.info(f'columns after formatting: {df.columns.tolist()}')
+
     # Save the final df to a csv file in the filtered_data_dir
     filtered_file_path = os.path.join(filtered_data_dir, 'filtered.csv')
 

@@ -3,7 +3,7 @@ import numpy as np
 import os
 import re
 from datetime import datetime
-from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS, CUMULATIVE_COLS
+from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS, CUMULATIVE_COLS, FOULING_PROXY_VAR_NAME
 from loguru import logger
 
 _num_re = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
@@ -49,7 +49,6 @@ mixed_long = pd.read_csv(
     os.path.join(appended_dir, 'incl_noon_reports.csv'),
 #    nrows=1000000
     )
-
 
 # Ensure datetime datatypes
 mixed_long["utc_timestamp"] = pd.to_datetime(mixed_long["utc_timestamp"], format="ISO8601", utc=True)

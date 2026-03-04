@@ -1,0 +1,2 @@
+2026-03-04 16:36:26 | WARNING | Fouling proxy variable 'cumulative_fouling_penalty_index' not found in the data. Please check why.
+2026-03-04 16:37:01 | WARNING | Fouling proxy variable 'cumulative_fouling_penalty_index' not found in the long format data. Please check why.
