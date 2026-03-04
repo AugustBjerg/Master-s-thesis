@@ -1,0 +1,79 @@
+{
+  "dataset_info": {
+    "start_time": "2024-01-01 00:00:00",
+    "end_time": "2024-01-05 02:03:15",
+    "total_duration_seconds": 352995.003,
+    "total_observations": 542626,
+    "unique_timestamps": 107274
+  },
+  "configuration": {
+    "tolerance_factor": 0.5,
+    "min_segment_length_seconds": 7200,
+    "drop_transducer_depth": true
+  },
+  "variables": {
+    "total_unique_qids": 37,
+    "qids_15s_count": 21,
+    "qids_1h_count": 14,
+    "intended_sampling_intervals_distribution": {
+      "15": 23,
+      "86400": 14,
+      "3600": 14
+    }
+  },
+  "segmentation": {
+    "number_of_time_gaps": 12,
+    "segments_before_filtering": 13,
+    "segments_after_filtering": 9,
+    "total_valid_duration_seconds": 334755.032,
+    "valid_duration_percentage": 94.83279625915839,
+    "segment_duration_stats": {
+      "min_seconds": 14400.0,
+      "max_seconds": 72030.009,
+      "mean_seconds": 37195.00355555556,
+      "median_seconds": 41925.0
+    }
+  },
+  "execution": {
+    "elapsed_time_seconds": 2.2559441999765113,
+    "segments_saved": 9
+  },
+  "valid_segments_info": [
+    {
+      "start_time": "2024-01-01 01:59:15",
+      "end_time": "2024-01-01 21:59:45"
+    },
+    {
+      "start_time": "2024-01-01 22:00:00",
+      "end_time": "2024-01-02 11:20:30"
+    },
+    {
+      "start_time": "2024-01-02 11:20:45",
+      "end_time": "2024-01-02 22:59:30"
+    },
+    {
+      "start_time": "2024-01-02 22:59:30",
+      "end_time": "2024-01-03 10:59:15"
+    },
+    {
+      "start_time": "2024-01-03 10:59:15",
+      "end_time": "2024-01-03 17:59:30"
+    },
+    {
+      "start_time": "2024-01-03 17:59:30",
+      "end_time": "2024-01-04 05:59:15"
+    },
+    {
+      "start_time": "2024-01-04 05:59:30",
+      "end_time": "2024-01-04 13:59:15"
+    },
+    {
+      "start_time": "2024-01-04 13:59:15",
+      "end_time": "2024-01-04 18:59:15"
+    },
+    {
+      "start_time": "2024-01-04 18:59:15",
+      "end_time": "2024-01-04 22:59:15"
+    }
+  ]
+}

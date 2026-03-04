@@ -2,8 +2,9 @@ import os
 import glob
 import pandas as pd
 import numpy as np
+from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID
+from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
@@ -79,6 +80,7 @@ def add_fouling_penalty_index(
     df,
     water_temp_qid,
     stw_qid,
+    cleaning_dates: List = [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE],
     epsilon=0.1,
     water_temp_threshold_degrees=10,
     fouling_index_name="fouling_penalty_index",
@@ -96,7 +98,10 @@ def add_fouling_penalty_index(
       - FPI_QID: cumulative fouling_penalty_index
 
     Computed on STW observations timeline using latest (as-of) valid water temp,
-    with staleness checks and explicit handling of a known failed-default value.
+    with staleness checks, explicit handling of a known failed-default value,
+    and resetting of the cumulative index at specified cleaning dates.
+
+    For timestamps before the first cleaning date, ΔFPI and FPI are set to NaN.
     """
     required_cols = {
         'utc_timestamp', 'qid_mapping', 'value',
@@ -110,13 +115,27 @@ def add_fouling_penalty_index(
         logger.warning("add_fouling_penalty_index called with empty df")
         return df
 
-    # Work on a view of the original df (no big copy), but we will only
-    # add temporary columns to stw_df/wt_df, not to df itself.
+    # ---- Normalize timestamps in df to timezone-aware UTC ----
     work = df
-    work['utc_timestamp'] = pd.to_datetime(work['utc_timestamp'], utc=True, errors='coerce')
+    work['utc_timestamp'] = pd.to_datetime(work['utc_timestamp'], errors='coerce')
+
+    if work['utc_timestamp'].dt.tz is None:
+        work['utc_timestamp'] = work['utc_timestamp'].dt.tz_localize('UTC')
+    else:
+        work['utc_timestamp'] = work['utc_timestamp'].dt.tz_convert('UTC')
+
     if work['utc_timestamp'].isna().any():
         bad = work['utc_timestamp'].isna().sum()
         raise ValueError(f"Found {bad} rows with non-parsable utc_timestamp")
+
+    # ---- Prepare cleaning dates (sorted, timezone-aware UTC) ----
+    cleaning_ts = pd.to_datetime(cleaning_dates)
+    if cleaning_ts.tz is None:
+        cleaning_ts = cleaning_ts.tz_localize('UTC')
+    else:
+        cleaning_ts = cleaning_ts.tz_convert('UTC')
+    cleaning_ts = cleaning_ts.sort_values()
+    cleaning_ts_array = cleaning_ts.values
 
     # --- base series: STW observations ---
     stw_df = work.loc[
@@ -130,7 +149,6 @@ def add_fouling_penalty_index(
     stw_df = stw_df.sort_values('utc_timestamp').reset_index(drop=True)
     stw_df.rename(columns={'value': 'stw'}, inplace=True)
 
-    # Use time_delta_sec already computed per qid_mapping; fill first delta with 0
     stw_df['delta_t_sec'] = stw_df['time_delta_sec'].fillna(0.0)
     stw_df['delta_t_sec'] = stw_df['delta_t_sec'].clip(lower=0.0)
 
@@ -148,19 +166,15 @@ def add_fouling_penalty_index(
         wt_df = wt_df.sort_values('utc_timestamp').reset_index(drop=True)
         wt_df.rename(columns={'value': 'water_temp'}, inplace=True)
 
-        # 1) Flag sensor-failure default and treat it as invalid for as-of usage
         wt_df['water_temp'] = pd.to_numeric(wt_df['water_temp'], errors='coerce')
         wt_df['wt_is_failed_default'] = (
             (wt_df['water_temp'] - float(water_temp_failed_default)).abs()
             <= float(water_temp_failed_tol)
         )
-
-        # Create a "valid water temp" series where failed defaults are set to NaN
         wt_df['water_temp_valid'] = wt_df['water_temp'].where(
             ~wt_df['wt_is_failed_default'], np.nan
         )
 
-        # Keep only rows that can serve as valid sources for as-of temperature
         wt_valid = wt_df.loc[
             wt_df['water_temp_valid'].notna(),
             ['utc_timestamp', 'water_temp_valid']
@@ -175,10 +189,7 @@ def add_fouling_penalty_index(
             stw_df['water_temp'] = np.nan
             stw_df['water_temp_age_sec'] = np.inf
         else:
-            # Rename timestamp for clarity and single as-of join
             wt_valid.rename(columns={'utc_timestamp': 'wt_obs_ts'}, inplace=True)
-
-            # 2) As-of join: last VALID water temp at or before STW timestamp
             stw_df = stw_df.sort_values('utc_timestamp')
             wt_valid = wt_valid.sort_values('wt_obs_ts')
 
@@ -191,42 +202,70 @@ def add_fouling_penalty_index(
                 allow_exact_matches=True
             )
 
-            # After merge: stw_df has columns ['water_temp_valid', 'wt_obs_ts']
             stw_df.rename(columns={'water_temp_valid': 'water_temp'}, inplace=True)
-
-            # 3) Compute staleness age relative to timestamp of matched VALID temp observation
             stw_df['water_temp_age_sec'] = (
                 stw_df['utc_timestamp'] - stw_df['wt_obs_ts']
             ).dt.total_seconds()
             stw_df.drop(columns=['wt_obs_ts'], inplace=True)
 
-    # STW staleness: since STW is the base series, we only need to guard against huge gaps in STW itself
+    # STW staleness (gaps)
     stw_df['stw_gap_too_large'] = stw_df['delta_t_sec'] > float(stw_staleness_threhsold_sec)
 
     # Water temp staleness
     stw_df['wt_stale'] = stw_df['water_temp_age_sec'] > float(water_temp_staleness_threshold_sec)
 
-    # Determine where we have valid inputs for ΔFPI
-    valid = (
+    # Valid increments (ignoring cleaning logic for now)
+    base_valid = (
         stw_df['stw'].notna()
         & stw_df['water_temp'].notna()
         & (~stw_df['stw_gap_too_large'])
         & (~stw_df['wt_stale'])
     )
 
-    d_fpi = np.zeros(len(stw_df), dtype=float)
-    if valid.any():
-        d_fpi[valid.values] = _fpi_change(
-            stw=stw_df.loc[valid, 'stw'].values,
-            water_temp=stw_df.loc[valid, 'water_temp'].values,
-            delta_t=stw_df.loc[valid, 'delta_t_sec'].values,
+    # --- assign cleaning segments ---
+    # Segment indices:
+    #   -1: before first cleaning (unknown prior cleaning, should become NaN)
+    #    0: between first and second cleaning
+    #    1: between second and third cleaning, etc.
+    stw_times = stw_df['utc_timestamp'].values
+    pos = cleaning_ts_array.searchsorted(stw_times, side='right') - 1
+    stw_df['segment_idx'] = pos
+
+    # Initialize arrays
+    d_fpi = np.full(len(stw_df), np.nan, dtype=float)
+    fpi = np.full(len(stw_df), np.nan, dtype=float)
+
+    # Compute ΔFPI and cumulative FPI separately per segment (segment_idx >= 0)
+    for seg in np.unique(stw_df['segment_idx']):
+        if seg < 0:
+            # Before first known cleaning: remain NaN by requirement
+            continue
+
+        seg_mask = stw_df['segment_idx'] == seg
+        seg_valid = base_valid & seg_mask
+
+        if not seg_valid.any():
+            continue
+
+        idx = np.where(seg_valid)[0]
+        d_seg = _fpi_change(
+            stw=stw_df.loc[seg_valid, 'stw'].values,
+            water_temp=stw_df.loc[seg_valid, 'water_temp'].values,
+            delta_t=stw_df.loc[seg_valid, 'delta_t_sec'].values,
             maneuvering_threshold=SPEED_THROUGH_WATER_THRESHOLD,
             water_temp_threshold_degrees=water_temp_threshold_degrees,
             epsilon=epsilon
         )
+        d_fpi[idx] = d_seg
+
+        seg_indices = np.where(seg_mask)[0]
+        seg_d = d_fpi[seg_indices]
+        seg_d_filled = np.where(np.isnan(seg_d), 0.0, seg_d)
+        seg_cum = np.cumsum(seg_d_filled)
+        fpi[seg_indices] = seg_cum
 
     stw_df['delta_fpi'] = d_fpi
-    stw_df['fpi'] = stw_df['delta_fpi'].cumsum()
+    stw_df['fpi'] = fpi
 
     # Build new rows (long format)
     delta_rows = pd.DataFrame({
@@ -253,11 +292,12 @@ def add_fouling_penalty_index(
 
     logger.info(
         f"Added fouling rows: delta={len(delta_rows)}, fpi={len(fpi_rows)} "
-        f"(stw points={len(stw_df)}, valid_increments={int(valid.sum())}). "
+        f"(stw points={len(stw_df)}, valid_increments={int(np.isfinite(d_fpi).sum())}). "
         f"New shape: {out.shape}"
     )
 
     return out
+
 
 if __name__ == "__main__":
     # Get all CSV files from month directories (1-12 only)
@@ -327,8 +367,6 @@ if __name__ == "__main__":
         water_temp_failed_default=6.0,
         water_temp_failed_tol=0.05
     )
-    logger.info(f'Added fouling penalty index columns to appended dataframe. Shape is now: {appended_df.shape}')
-    logger.info(f'columns in the dataframe at this point: {appended_df.columns.tolist()}')
 
     # Sort by timestamp again since new rows were added
     appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)

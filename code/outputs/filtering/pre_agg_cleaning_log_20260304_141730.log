@@ -1,0 +1,258 @@
+2026-03-04 14:17:30 | INFO | Output directory already exists: C:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\..\outputs\filtering
+2026-03-04 14:17:30 | INFO | Found 1 synchronized CSV files in C:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\synchronized
+2026-03-04 14:17:31 | INFO | Combined DataFrame shape: (2880, 37)
+2026-03-04 14:17:31 | INFO | DataFrame loaded with shape: (2880, 37)
+2026-03-04 14:17:31 | INFO | percentage of non-NaN values per column: utc_timestamp                                                            100.000000
+seg_id                                                                   100.000000
+Vessel External Conditions Wind Relative Angle                            99.965278
+Vessel Hull Through Water Longitudinal Speed                              99.965278
+Vessel External Conditions Wind Relative Speed                            99.965278
+Vessel Hull Over Ground Speed                                             99.965278
+Vessel Hull Heading True Angle                                            99.965278
+Vessel Hull Heading Turn Rate                                             99.965278
+Main Engine Turbocharger Rotational Speed                                 99.930556
+Main Engine Scavenging Air Pressure                                       99.930556
+Main Engine Fuel Load %                                                   99.930556
+Vessel Hull MidS Draft                                                    99.965278
+Vessel Hull Aft Draft                                                     99.965278
+Main Engine Rotational Speed                                              99.965278
+Vessel Hull Fore Draft                                                    99.965278
+Vessel Hull MidP Draft                                                    99.965278
+Vessel Propeller Shaft Revolutions (cumulative)                           99.965278
+Vessel Propeller Shaft Thrust Force                                       99.965278
+Vessel Propeller Shaft Rotational Speed                                   99.965278
+Main Engine Fuel Oil Inlet Mass Flow                                      99.965278
+Vessel Propeller Shaft Mechanical Energy                                  99.965278
+Vessel Propeller Shaft Mechanical Power                                   99.965278
+Vessel Propeller Shaft Torque                                             99.965278
+Vessel External Conditions Eastward Sea Water Velocity (Provider S)        0.381944
+Vessel External Conditions Northward Sea Water Velocity (Provider MB)      0.381944
+Vessel External Conditions Wave Significant Height (Provider MB)           0.381944
+Vessel External Conditions Eastward Wind Velocity (Provider S)             0.381944
+Vessel External Conditions Wind True Angle (Provider MB)                   0.381944
+Vessel External Conditions Swell Significant Height (Provider MB)          0.381944
+Vessel External Conditions Sea Water Temperature (Provider S)              0.381944
+Vessel External Conditions Wave True Angle (Provider S)                    0.381944
+Vessel External Conditions Eastward Sea Water Velocity (Provider MB)       0.381944
+Vessel External Conditions Wave Period (Provider S)                        0.381944
+Vessel External Conditions Wind True Speed (Provider MB)                   0.381944
+Vessel External Conditions Northward Sea Water Velocity (Provider S)       0.381944
+Vessel External Conditions Wave Significant Height (Provider S)            0.381944
+Vessel External Conditions Northward Wind Velocity (Provider S)            0.381944
+dtype: float64
+2026-03-04 14:17:31 | INFO | Checking 36 numeric columns for all-zero values
+2026-03-04 14:17:31 | INFO | Found 6 columns with all zero values: ['Vessel Hull MidS Draft', 'Vessel Hull Aft Draft', 'Vessel Hull Fore Draft', 'Vessel Hull MidP Draft', 'Vessel External Conditions Northward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)']
+2026-03-04 14:17:31 | INFO | Dropped 6 columns with all zero values: ['Vessel Hull MidS Draft', 'Vessel Hull Aft Draft', 'Vessel Hull Fore Draft', 'Vessel Hull MidP Draft', 'Vessel External Conditions Northward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)']
+2026-03-04 14:17:31 | INFO | Column Vessel Propeller Shaft Revolutions (cumulative) not found, skipping drop
+2026-03-04 14:17:31 | INFO | Dataframe shape before dealing with dropouts: (2880, 31)
+2026-03-04 14:17:31 | INFO | Replaced 2 (0.06944% of df) inconsistent rows with NaN in propeller shaft rotational speed and main engine rotational speed
+2026-03-04 14:17:31 | INFO | Replaced 1 (0.03472% of df) inconsistent rows with NaN in propeller shaft rotational speed and shaft power
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Negative Wave Height (Provider MB)
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Negative Wave Height (Provider S)
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Negative Wind Speed
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Negative Wave Period
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Negative Sea Temperature
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN in Vessel Hull Over Ground Speed
+2026-03-04 14:17:31 | INFO | Replaced 3 (0.10417% of df) impossible rows with NaN in Main Engine Rotational Speed
+2026-03-04 14:17:31 | INFO | Replaced 11 (0.38194% of df) sea temperature dropout rows with NaN
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Impossible Wind Relative Angle
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Impossible Vessel Heading
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Impossible Vessel External Conditions Wind True Angle (Provivider MB)
+2026-03-04 14:17:31 | INFO | Replaced 0 (0.00000% of df) impossible rows with NaN for Vessel External Conditions Wave True Angle (Provider S)
+2026-03-04 14:17:31 | INFO | Replaced 2 (0.06944% of df) unreliable shaft power rows with NaN based on 2.00% deviation from calculated shaft power
+2026-03-04 14:17:31 | INFO | Replaced 11 (0.38194% of df) seawater velocity dropout rows with NaN for Vessel External Conditions Eastward Sea Water Velocity (Provider S)
+2026-03-04 14:17:31 | INFO | Replaced 11 (0.38194% of df) seawater velocity dropout rows with NaN for Vessel External Conditions Northward Sea Water Velocity (Provider S)
+2026-03-04 14:17:31 | INFO | Dataframe shape after dealing with dropouts: (2880, 46). Replaced 41 values with NaN (0.05% of values in original dataframe) and 17 flag columns.
+2026-03-04 14:17:31 | INFO | Flag (dropout/sentinel/invalid) columns and counts of inconsistent rows: {'Inconsistent Engine and Propeller RPM': np.int64(2), 'Inconsistent Propeller RPM and Shaft Power': np.int64(1), 'Negative Wave Height (Provider MB)': np.int64(0), 'Negative Wave Height (Provider S)': np.int64(0), 'Negative Wind Speed': np.int64(0), 'Negative Wave Period': np.int64(0), 'Negative Sea Temperature': np.int64(0), 'Negative Hull Over Ground Speed': np.int64(0), 'Negative Main Engine Rotational Speed': np.int64(3), 'Sea Temperature Dropout': np.int64(11), 'Impossible Wind Relative Angle': np.int64(0), 'Impossible Vessel Heading': np.int64(0), 'Impossible Vessel External Conditions Wind True Angle (Provivider MB)': np.int64(0), 'Vessel External Conditions Wave True Angle (Provider S)': np.int64(0), 'Unreliable Shaft / Torque / RPM relation': np.int64(2), 'Vessel External Conditions Eastward Sea Water Velocity (Provider S)': np.int64(11), 'Vessel External Conditions Northward Sea Water Velocity (Provider S)': np.int64(11)}
+2026-03-04 14:17:31 | INFO | Percentage of NaN values per column after dealing with dropouts:
+Vessel External Conditions Sea Water Temperature (Provider S)        100.000000
+Vessel External Conditions Wave Significant Height (Provider MB)      99.618056
+Vessel External Conditions Wave Significant Height (Provider S)       99.618056
+Vessel External Conditions Wind True Speed (Provider MB)              99.618056
+Vessel External Conditions Wind True Angle (Provider MB)              99.618056
+Vessel External Conditions Swell Significant Height (Provider MB)     99.618056
+Vessel External Conditions Wave Period (Provider S)                   99.618056
+Vessel External Conditions Eastward Wind Velocity (Provider S)        99.618056
+Vessel External Conditions Northward Wind Velocity (Provider S)       99.618056
+Vessel Propeller Shaft Rotational Speed                                0.208333
+Main Engine Rotational Speed                                           0.208333
+Vessel Propeller Shaft Mechanical Power                                0.138889
+Calculated Shaft Power                                                 0.138889
+Vessel Propeller Shaft Torque                                          0.104167
+Main Engine Turbocharger Rotational Speed                              0.069444
+Main Engine Scavenging Air Pressure                                    0.069444
+Main Engine Fuel Load %                                                0.069444
+Vessel External Conditions Wind Relative Speed                         0.034722
+Vessel External Conditions Wind Relative Angle                         0.034722
+Vessel Propeller Shaft Revolutions (cumulative)                        0.034722
+Vessel Hull Over Ground Speed                                          0.034722
+Vessel Hull Heading True Angle                                         0.034722
+Vessel Hull Heading Turn Rate                                          0.034722
+Vessel Hull Through Water Longitudinal Speed                           0.034722
+Main Engine Fuel Oil Inlet Mass Flow                                   0.034722
+Vessel Propeller Shaft Mechanical Energy                               0.034722
+Vessel Propeller Shaft Thrust Force                                    0.034722
+dtype: float64
+2026-03-04 14:17:31 | INFO | number of observations before NaN filtering: 2880
+2026-03-04 14:17:31 | INFO | Filtered segment boundaries: removed 2 rows (0.0694% of df) that had NaN in required sensor variables at segment starts/ends
+2026-03-04 14:17:31 | INFO | Removed 7 rows with NaN in at least one required sensor variable, resulting in a new shape of (2871, 46)
+2026-03-04 14:17:31 | INFO | removed 9 rows (0.31% of original observations) after NaN filtering
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Wave Significant Height (Provider MB)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Eastward Wind Velocity (Provider S)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Wind True Angle (Provider MB)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Swell Significant Height (Provider MB)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Sea Water Temperature (Provider S)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Wave Period (Provider S)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Wind True Speed (Provider MB)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Wave Significant Height (Provider S)
+2026-03-04 14:17:31 | INFO | Flagged 0 (0.00 %) repeated values in weather variable Vessel External Conditions Northward Wind Velocity (Provider S)
+2026-03-04 14:17:31 | INFO | Flagged 865 (30.13 %) repeated values in sensor variable Main Engine Scavenging Air Pressure
+2026-03-04 14:17:31 | INFO | Flagged 2870 (99.97 %) repeated values in sensor variable Vessel Propeller Shaft Thrust Force
+2026-03-04 14:17:31 | INFO | Flagged 2467 (85.93 %) repeated values in sensor variable Main Engine Fuel Oil Inlet Mass Flow
+2026-03-04 14:17:31 | INFO | Flagged 2870 (99.97 %) repeated values in sensor variable Vessel Propeller Shaft Mechanical Power
+2026-03-04 14:17:31 | INFO | Flagged 2870 (99.97 %) repeated values in sensor variable Vessel Propeller Shaft Torque
+2026-03-04 14:17:31 | INFO | Spike detection summary: {
+  "Main Engine Rotational Speed": "0 (0.00%)",
+  "Vessel External Conditions Wind Relative Speed": "43 (1.50%)",
+  "Vessel External Conditions Wind Relative Angle": "118 (4.11%)",
+  "Vessel Hull Over Ground Speed": "54 (1.88%)",
+  "Vessel Hull Heading Turn Rate": "383 (13.34%)",
+  "Vessel Hull Heading True Angle": "372 (12.96%)",
+  "Main Engine Turbocharger Rotational Speed": "89 (3.10%)",
+  "Vessel Hull Through Water Longitudinal Speed": "498 (17.35%)",
+  "Main Engine Fuel Oil Inlet Mass Flow": "259 (9.02%)",
+  "Vessel Propeller Shaft Mechanical Power": "0 (0.00%)",
+  "Vessel Propeller Shaft Rotational Speed": "0 (0.00%)",
+  "Vessel Propeller Shaft Torque": "0 (0.00%)",
+  "Vessel Propeller Shaft Thrust Force": "0 (0.00%)",
+  "Main Engine Fuel Load %": "1 (0.03%)",
+  "Main Engine Scavenging Air Pressure": "240 (8.36%)"
+}
+2026-03-04 14:17:32 | INFO | Max consecutive spike runs: {
+  "Main Engine Rotational Speed": 0,
+  "Vessel External Conditions Wind Relative Speed": 4,
+  "Vessel External Conditions Wind Relative Angle": 10,
+  "Vessel Hull Over Ground Speed": 5,
+  "Vessel Hull Heading Turn Rate": 9,
+  "Vessel Hull Heading True Angle": 10,
+  "Main Engine Turbocharger Rotational Speed": 6,
+  "Vessel Hull Through Water Longitudinal Speed": 10,
+  "Main Engine Fuel Oil Inlet Mass Flow": 10,
+  "Vessel Propeller Shaft Mechanical Power": 0,
+  "Vessel Propeller Shaft Rotational Speed": 0,
+  "Vessel Propeller Shaft Torque": 0,
+  "Vessel Propeller Shaft Thrust Force": 0,
+  "Main Engine Fuel Load %": 1,
+  "Main Engine Scavenging Air Pressure": 9
+}
+2026-03-04 14:17:32 | INFO | Spike imputation summary (linear interpolation, runs < 10): {
+  "Vessel External Conditions Wind Relative Speed": "43 (1.50%)",
+  "Vessel External Conditions Wind Relative Angle": "117 (4.08%)",
+  "Vessel Hull Over Ground Speed": "54 (1.88%)",
+  "Vessel Hull Heading Turn Rate": "383 (13.34%)",
+  "Vessel Hull Heading True Angle": "369 (12.85%)",
+  "Main Engine Turbocharger Rotational Speed": "89 (3.10%)",
+  "Vessel Hull Through Water Longitudinal Speed": "496 (17.28%)",
+  "Main Engine Fuel Oil Inlet Mass Flow": "258 (8.99%)",
+  "Main Engine Fuel Load %": "1 (0.03%)",
+  "Main Engine Scavenging Air Pressure": "240 (8.36%)"
+}
+2026-03-04 14:17:32 | INFO | Spike rejection summary (replaced with NaN, runs >= 10): {
+  "Vessel External Conditions Wind Relative Angle": "1 (0.03%)",
+  "Vessel Hull Heading True Angle": "3 (0.10%)",
+  "Vessel Hull Through Water Longitudinal Speed": "2 (0.07%)",
+  "Main Engine Fuel Oil Inlet Mass Flow": "1 (0.03%)"
+}
+2026-03-04 14:17:32 | INFO | Percentage of NaN values per column with spike filtering:
+Vessel External Conditions Sea Water Temperature (Provider S)        100.000000
+Vessel External Conditions Swell Significant Height (Provider MB)     99.616858
+Vessel External Conditions Wind True Angle (Provider MB)              99.616858
+Vessel External Conditions Eastward Wind Velocity (Provider S)        99.616858
+Vessel External Conditions Wave Significant Height (Provider MB)      99.616858
+Vessel External Conditions Wave Period (Provider S)                   99.616858
+Vessel External Conditions Wind True Speed (Provider MB)              99.616858
+Vessel External Conditions Wave Significant Height (Provider S)       99.616858
+Vessel External Conditions Northward Wind Velocity (Provider S)       99.616858
+Vessel Hull Heading True Angle                                         0.104493
+Vessel Hull Through Water Longitudinal Speed                           0.069662
+Main Engine Fuel Oil Inlet Mass Flow                                   0.034831
+Vessel External Conditions Wind Relative Angle                         0.034831
+dtype: float64
+2026-03-04 14:17:32 | INFO | number of observations before NaN filtering: 2871
+2026-03-04 14:17:32 | INFO | Filtered segment boundaries: removed 0 rows (0.0000% of df) that had NaN in required sensor variables at segment starts/ends
+2026-03-04 14:17:32 | INFO | Removed 7 rows with NaN in at least one required sensor variable, resulting in a new shape of (2864, 120)
+2026-03-04 14:17:32 | INFO | removed 7 rows (0.24% of original observations) after NaN filtering
+2026-03-04 14:17:32 | INFO | Percentage of NaN values per column with spike filtering:
+Vessel External Conditions Sea Water Temperature (Provider S)        100.000000
+Vessel External Conditions Wave Significant Height (Provider MB)      99.615922
+Vessel External Conditions Eastward Wind Velocity (Provider S)        99.615922
+Vessel External Conditions Wind True Angle (Provider MB)              99.615922
+Vessel External Conditions Swell Significant Height (Provider MB)     99.615922
+Vessel External Conditions Wave Period (Provider S)                   99.615922
+Vessel External Conditions Wind True Speed (Provider MB)              99.615922
+Vessel External Conditions Wave Significant Height (Provider S)       99.615922
+Vessel External Conditions Northward Wind Velocity (Provider S)       99.615922
+dtype: float64
+2026-03-04 14:17:32 | INFO | Rolling std filter for Vessel Hull Through Water Longitudinal Speed: 0 / 2,805 (0.00%) observations exceed threshold 0.388
+2026-03-04 14:17:32 | INFO | Rolling std filter for Vessel Hull Over Ground Speed: 0 / 2,805 (0.00%) observations exceed threshold 0.388
+2026-03-04 14:17:32 | INFO | Rolling std filter for Vessel Hull Heading True Angle: 0 / 2,805 (0.00%) observations exceed threshold 2.0
+2026-03-04 14:17:32 | INFO | Rolling std filtering: removed 0 rows (0.00% of df) that exceeded at least one rolling std threshold
+2026-03-04 14:17:32 | INFO | Low speed filtering: removed 2864 rows (100.00% of df) with speed through water below 4 knots
+2026-03-04 14:17:32 | INFO | Low propeller shaft RPM filtering: removed 0 rows (nan% of df) with low propeller shaft rotational speed
+2026-03-04 14:17:32 | INFO | Low engine RPM filtering: removed 0 rows (nan% of df) with low main engine rotational speed
+2026-03-04 14:17:32 | INFO | Low shaft power filtering: removed 0 rows (nan% of df) with propeller shaft mechanical power <= 1000
+2026-03-04 14:17:32 | INFO | Dropped 69 flag columns: ['Negative Wave Height (Provider MB)', 'Negative Wave Height (Provider S)', 'Negative Wind Speed', 'Negative Wave Period', 'Negative Sea Temperature', 'Negative Hull Over Ground Speed', 'Negative Main Engine Rotational Speed', 'Impossible Wind Relative Angle', 'Impossible Vessel Heading', 'Impossible Vessel External Conditions Wind True Angle (Provivider MB)', 'Repeated Values in Vessel External Conditions Wave Significant Height (Provider MB)', 'Repeated Values in Vessel External Conditions Eastward Wind Velocity (Provider S)', 'Repeated Values in Vessel External Conditions Wind True Angle (Provider MB)', 'Repeated Values in Vessel External Conditions Swell Significant Height (Provider MB)', 'Repeated Values in Vessel External Conditions Sea Water Temperature (Provider S)', 'Repeated Values in Vessel External Conditions Wave Period (Provider S)', 'Repeated Values in Vessel External Conditions Wind True Speed (Provider MB)', 'Repeated Values in Vessel External Conditions Wave Significant Height (Provider S)', 'Repeated Values in Vessel External Conditions Northward Wind Velocity (Provider S)', 'Repeated Values in Main Engine Scavenging Air Pressure', 'Repeated Values in Vessel Propeller Shaft Thrust Force', 'Repeated Values in Main Engine Fuel Oil Inlet Mass Flow', 'Repeated Values in Vessel Propeller Shaft Mechanical Power', 'Repeated Values in Vessel Propeller Shaft Torque', 'Spike in Main Engine Rotational Speed', 'Spike in Vessel External Conditions Wind Relative Speed', 'Spike in Vessel External Conditions Wind Relative Angle', 'Spike in Vessel Hull Over Ground Speed', 'Spike in Vessel Hull Heading Turn Rate', 'Spike in Vessel Hull Heading True Angle', 'Spike in Main Engine Turbocharger Rotational Speed', 'Spike in Vessel Hull Through Water Longitudinal Speed', 'Spike in Main Engine Fuel Oil Inlet Mass Flow', 'Spike in Vessel Propeller Shaft Mechanical Power', 'Spike in Vessel Propeller Shaft Rotational Speed', 'Spike in Vessel Propeller Shaft Torque', 'Spike in Vessel Propeller Shaft Thrust Force', 'Spike in Main Engine Fuel Load %', 'Spike in Main Engine Scavenging Air Pressure', 'Consecutive Spike in Main Engine Rotational Speed', 'Consecutive Spike in Vessel External Conditions Wind Relative Speed', 'Consecutive Spike in Vessel External Conditions Wind Relative Angle', 'Consecutive Spike in Vessel Hull Over Ground Speed', 'Consecutive Spike in Vessel Hull Heading Turn Rate', 'Consecutive Spike in Vessel Hull Heading True Angle', 'Consecutive Spike in Main Engine Turbocharger Rotational Speed', 'Consecutive Spike in Vessel Hull Through Water Longitudinal Speed', 'Consecutive Spike in Main Engine Fuel Oil Inlet Mass Flow', 'Consecutive Spike in Vessel Propeller Shaft Mechanical Power', 'Consecutive Spike in Vessel Propeller Shaft Rotational Speed', 'Consecutive Spike in Vessel Propeller Shaft Torque', 'Consecutive Spike in Vessel Propeller Shaft Thrust Force', 'Consecutive Spike in Main Engine Fuel Load %', 'Consecutive Spike in Main Engine Scavenging Air Pressure', 'Rejected Spike in Main Engine Rotational Speed', 'Rejected Spike in Vessel External Conditions Wind Relative Speed', 'Rejected Spike in Vessel External Conditions Wind Relative Angle', 'Rejected Spike in Vessel Hull Over Ground Speed', 'Rejected Spike in Vessel Hull Heading Turn Rate', 'Rejected Spike in Vessel Hull Heading True Angle', 'Rejected Spike in Main Engine Turbocharger Rotational Speed', 'Rejected Spike in Vessel Hull Through Water Longitudinal Speed', 'Rejected Spike in Main Engine Fuel Oil Inlet Mass Flow', 'Rejected Spike in Vessel Propeller Shaft Mechanical Power', 'Rejected Spike in Vessel Propeller Shaft Rotational Speed', 'Rejected Spike in Vessel Propeller Shaft Torque', 'Rejected Spike in Vessel Propeller Shaft Thrust Force', 'Rejected Spike in Main Engine Fuel Load %', 'Rejected Spike in Main Engine Scavenging Air Pressure']
+2026-03-04 14:17:32 | INFO | Dropped column utc_timestamp since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column seg_id since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wind Relative Angle since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Hull Through Water Longitudinal Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wind Relative Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Hull Over Ground Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Hull Heading True Angle since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Hull Heading Turn Rate since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Main Engine Turbocharger Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Main Engine Scavenging Air Pressure since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Main Engine Fuel Load % since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Main Engine Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Revolutions (cumulative) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Thrust Force since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Main Engine Fuel Oil Inlet Mass Flow since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Mechanical Energy since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Mechanical Power since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel Propeller Shaft Torque since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Eastward Sea Water Velocity (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wave Significant Height (Provider MB) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Eastward Wind Velocity (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wind True Angle (Provider MB) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Swell Significant Height (Provider MB) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Sea Water Temperature (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wave True Angle (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wave Period (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wind True Speed (Provider MB) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Northward Sea Water Velocity (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Wave Significant Height (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Vessel External Conditions Northward Wind Velocity (Provider S) since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Inconsistent Engine and Propeller RPM since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Inconsistent Propeller RPM and Shaft Power since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Sea Temperature Dropout since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Calculated Shaft Power since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Unreliable Shaft / Torque / RPM relation since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Main Engine Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel External Conditions Wind Relative Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel External Conditions Wind Relative Angle since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Hull Over Ground Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Hull Heading Turn Rate since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Hull Heading True Angle since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Main Engine Turbocharger Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Hull Through Water Longitudinal Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Main Engine Fuel Oil Inlet Mass Flow since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Propeller Shaft Mechanical Power since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Propeller Shaft Rotational Speed since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Propeller Shaft Torque since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Vessel Propeller Shaft Thrust Force since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Main Engine Fuel Load % since it only contains 0 values
+2026-03-04 14:17:32 | INFO | Dropped column Imputed Spike in Main Engine Scavenging Air Pressure since it only contains 0 values
+2026-03-04 14:17:32 | WARNING | Column Vessel Propeller Shaft Thrust Force not found in dataframe, skipping sign change
+2026-03-04 14:17:32 | INFO | Saved filtered data to C:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\filtered\filtered.csv
+2026-03-04 14:17:32 | INFO | Final shape so far: (0, 0)

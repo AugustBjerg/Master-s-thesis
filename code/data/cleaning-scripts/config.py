@@ -97,6 +97,11 @@ INTENDED_SAMPLING_INTERVALS_SECONDS = {
     "1::0::25::0_1::2::0::8::0_20::0::1::0_8" : 15, # Main Engine Fuel Load % (Transducer Fuel Load)
     "1::0::14::0_1::2::0::8::0_3::0::3::0_8" : 15, # Main Engine Scavenging Air Pressure (Transducer Pressure)
     "1::0::15::0_1::2::0::3::0_1::0::6::0_8" : 15, # Main Engine Turbocharger Rotational Speed (Transducer RPM)
+
+    # Pre-sync calculations - not actual variables but need to be represented here
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_1" : 15, # delta fouling penalty index
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_2" : 15, # cumulative fouling penalty index
+
 }
 
 NAN_IMPUTATION_STRATEGIES = {
