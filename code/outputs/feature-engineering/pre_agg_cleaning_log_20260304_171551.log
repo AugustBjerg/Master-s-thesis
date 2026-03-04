@@ -1,0 +1,11 @@
+2026-03-04 17:15:51 | WARNING | Fouling proxy variable 'cumulative_fouling_penalty_index' not found in the data. Please check why.
+2026-03-04 17:15:51 | INFO | Loaded data from C:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\aggregated\aggregated_5min.csv with shape (44851, 55)
+2026-03-04 17:15:51 | INFO | Added 'Days Since Last Cleaning' feature. First values in January:
+2026-03-04 17:15:51 | INFO |                           window_start  Days Since Last Cleaning
+window_start                                                    
+2024-01-24   2024-01-24 21:45:00+00:00                  0.906250
+2024-01-28   2024-01-28 21:25:00+00:00                  4.892361
+2024-01-29   2024-01-29 09:00:00+00:00                  5.375000
+2026-03-04 17:15:51 | WARNING | Fouling proxy variable 'cumulative_fouling_penalty_index' not found in the data after feature engineering. Please check why.
+2026-03-04 17:15:52 | INFO | Saved data with engineered features to C:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\engineered\engineered_features_5min.csv
+2026-03-04 17:15:52 | INFO | Added 6 new columns: ['Avg Draft (Calculated)', 'Days Since Last Cleaning', 'Draft Trim (Calculated)', 'Speed Through Water^3 (m/s)', 'Speed x DSC (calculated)', 'Speed^3 x DSC (calculated)']

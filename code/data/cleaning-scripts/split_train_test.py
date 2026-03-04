@@ -6,7 +6,7 @@ import re
 import itertools
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from config import WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES
+from config import WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME, FOULING_PROXY_VAR_NAME_WITH_UNIT, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES
 from typing import List, Optional
 from datetime import datetime
 from loguru import logger
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     filtered_df = df[all_column_names]
 
     # drop NaN values for the fouling proxy
-    filtered_df = filtered_df.dropna(subset=[FOULING_PROXY_VAR_NAME])
+    filtered_df = filtered_df.dropna(subset=[FOULING_PROXY_VAR_NAME_WITH_UNIT])
 
     # Make a randomized test and training split
     X_train, X_test, y_train, y_test = train_test_split(
@@ -131,16 +131,16 @@ if __name__ == "__main__":
     )
 
     # create a fouling controlled variable dataframe for the median case
-    if FOULING_PROXY_VAR_NAME == "Days Since Last Cleaning":
+    if FOULING_PROXY_VAR_NAME_WITH_UNIT == "Days Since Last Cleaning":
         full_controlled_fouling_proxy_range = list(range(FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[0], FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[1] + 1))
     else:
-        max_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME].max())
-        min_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME].min())
+        max_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME_WITH_UNIT].max())
+        min_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME_WITH_UNIT].min())
         full_controlled_fouling_proxy_range = list(linspace(min_value_of_fouling_proxy, max_value_of_fouling_proxy, 150))
     
     fouling_proxy_df = create_controlled_var_df(
         window_length=WINDOW_LENGTH,
-        variable_dict={FOULING_PROXY_VAR_NAME: full_controlled_fouling_proxy_range},
+        variable_dict={FOULING_PROXY_VAR_NAME_WITH_UNIT: full_controlled_fouling_proxy_range},
         columns=all_column_names,
         X_train=X_train
     )
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     fouling_proxy_and_speed_df = create_controlled_var_df(
         window_length=WINDOW_LENGTH,
         variable_dict={
-            FOULING_PROXY_VAR_NAME: full_controlled_fouling_proxy_range,
+            FOULING_PROXY_VAR_NAME_WITH_UNIT: full_controlled_fouling_proxy_range,
             SPEED_CONTROLLED_VARIABLE_NAME: SPEED_CONTROLLED_VARIABLE_RANGE
         },
         columns=all_column_names,
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     fouling_proxy_and_draft_df = create_controlled_var_df(
         window_length=WINDOW_LENGTH,
         variable_dict={
-            FOULING_PROXY_VAR_NAME: full_controlled_fouling_proxy_range,
+            FOULING_PROXY_VAR_NAME_WITH_UNIT: full_controlled_fouling_proxy_range,
             DRAFT_CONTROLLED_VARIABLE_NAME: DRAFT_CONTROLLED_VARIABLE_RANGE
         },
         columns=all_column_names,
