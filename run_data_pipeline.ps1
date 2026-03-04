@@ -21,4 +21,7 @@ echo "aggregate.py executed"
 python code/data/cleaning-scripts/engineer_features.py
 echo "engineer_features.py executed"
 
+python code/data/cleaning-scripts/split_train_test.py
+echo "split_train_test.py executed"
+
 echo "data pipeline finished"
