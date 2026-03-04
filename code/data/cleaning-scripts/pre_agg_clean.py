@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES, SHAFT_POWER_THRESHOLD
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -484,7 +484,7 @@ def _filter_low_shaft_power(df, threshold=0):
     logger.info(f'Low shaft power filtering: removed {rows_removed} rows ({rows_removed / rows_before * 100:.2f}% of df) with propeller shaft mechanical power <= {threshold}')
     return df
 
-def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS, power_threshold=1000):
+def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS, power_threshold=SHAFT_POWER_THRESHOLD):
     """ This function applies various filters to remove "undesirable" rows from the dataframe, such as rows where the ship is in reverse or maneuvering, rows with heavy/violent weather, etc. The specific filters applied are based on the thresholds defined in the config file and the judgment of what constitutes "undesirable" data for the analysis."""
     df = _filter_by_rolling_stds(df, rolling_std_thresholds=rolling_std_thresholds, rolling_std_window_size=rolling_std_window_size, rolling_std_min_periods=rolling_std_min_periods)
     df = _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD)

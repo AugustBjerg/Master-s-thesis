@@ -261,6 +261,9 @@ SHAFT_POWER_MAX_DEVIATION = 0.02
 # The highest tolerated deviation between calculated shaft revolutions delta (from rpm) and measured shaft revolutions delta (from cumulative shaft revolutions) in percentage. Observations with a higher deviation will be replaced with NaN.
 SHAFT_REVOLUTIONS_MAX_DEVIATION = 0.05
 
+# Minimum shaft power
+SHAFT_POWER_THRESHOLD = 1000 # kW
+
 # --- Aggregation ---
 WINDOW_LENGTH = "5min"
 
