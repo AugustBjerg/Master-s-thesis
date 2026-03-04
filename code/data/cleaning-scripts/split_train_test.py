@@ -103,6 +103,10 @@ if __name__ == "__main__":
 
     features = WEATHER_FEATURES + NON_WEATHER_FEATURES
     all_column_names = features + [TARGET_VARIABLE]
+
+    all_columns_in_df = df.columns.tolist()
+    logger.info(f'All columns in the loaded dataframe: {all_columns_in_df}')
+
     filtered_df = df[all_column_names]
 
     # drop NaN values for the fouling proxy

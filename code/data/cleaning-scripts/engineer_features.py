@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
-from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE
+from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE, FOULING_PROXY_VAR_NAME
 from typing import List
 from datetime import datetime
 from loguru import logger
@@ -41,6 +41,10 @@ logger.add(
 # load data
 df = pd.read_csv(aggregated_data_path)
 
+# check if the fouling proxy feature is present
+if FOULING_PROXY_VAR_NAME not in df.columns:
+    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}' not found in the data. Please check why.")
+
 # Ensure datetime datatypes
 df["window_start"] = pd.to_datetime(df["window_start"], format="ISO8601", utc=True)
 
@@ -49,7 +53,6 @@ logger.info(f'Loaded data from {aggregated_data_path} with shape {df.shape}')
 # --- Functions ---
 
 # --- Key Features ---
-
 def add_days_since_cleaning(df, new_column_name: str, cleaning_dates: List):
     if "window_start" not in df.columns:
         raise KeyError("Column 'window_start' is required to calculate days since cleaning.")
@@ -122,8 +125,6 @@ def add_cubic_speed_dsc_interaction(df, new_column_name: str, speed_col_name: st
 
     return df
 
-# --- Fringe Features ---
-
 # --- Executions ---
 
 columns_before = set(df.columns)
@@ -140,6 +141,12 @@ first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_s
 
 logger.info("Added 'Days Since Last Cleaning' feature. First values in January:")
 logger.info(first_values_january.head(31))
+
+# Check if the fouling proxy variable is present
+if FOULING_PROXY_VAR_NAME in df.columns:
+    logger.info(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}'")
+else:
+    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}' not found in the data after feature engineering. Please check why.")
 
 # save the dateframe with the new features
 output_path = os.path.join(engineered_dir, f"engineered_features_{WINDOW_LENGTH}.csv")

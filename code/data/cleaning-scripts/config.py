@@ -325,8 +325,8 @@ SENSOR_DATA_AGGREGATION_METHODS = {
     "Imputed Spike in Vessel Propeller Shaft Thrust Force": "sum",
     "Imputed Spike in Main Engine Fuel Load %": "sum",
     "Imputed Spike in Main Engine Scavenging Air Pressure": "sum",
-    "fouling_pressure_change": "sum",
-    "fouling_penalty_index": "last"
+    "delta_fouling_penalty_index": "sum",
+    "cumulative_fouling_penalty_index": "last"
 }
 
 ANGLE_COLUMNS = [
@@ -354,7 +354,7 @@ FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
 TRAIN_RATIO = 0.8
 N_CV_SPLITS = 5
 
-FOULING_PROXY_VAR_NAME = "fouling_penalty_index"
+FOULING_PROXY_VAR_NAME = "cumulative_fouling_penalty_index"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
 
 SPEED_CONTROLLED_VARIABLE_NAME = "Vessel Hull Through Water Longitudinal Speed (knots)"

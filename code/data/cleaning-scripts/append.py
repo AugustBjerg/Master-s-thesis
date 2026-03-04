@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE
+from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_VAR_NAME
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
@@ -81,7 +81,7 @@ def add_fouling_penalty_index(
     cleaning_dates: List = [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE],
     epsilon=0.1,
     water_temp_threshold_degrees=10,
-    fouling_index_name="fouling_penalty_index",
+    fouling_index_name="cumulative_fouling_penalty_index",
     stw_staleness_threhsold_sec=300,
     water_temp_staleness_threshold_sec=21600,
     water_temp_failed_default=6.0,
@@ -92,8 +92,8 @@ def add_fouling_penalty_index(
     ['utc_timestamp','qid_mapping','value','quantity_name','source_name','unit','time_delta_sec'].
 
     Adds two calculated variables as new rows:
-      - DELTA_FPI_QID: 'fouling_pressure_change'
-      - FPI_QID: cumulative fouling_penalty_index
+      - DELTA_FPI_QID: 'delta_fouling_penalty_index'
+      - FPI_QID: cumulative cumulative_fouling_penalty_index
 
     Computed on STW observations timeline using latest (as-of) valid water temp,
     with staleness checks, explicit handling of a known failed-default value,
@@ -270,7 +270,7 @@ def add_fouling_penalty_index(
         'utc_timestamp': stw_df['utc_timestamp'],
         'qid_mapping': DELTA_FPI_QID,
         'value': stw_df['delta_fpi'],
-        'quantity_name': 'fouling_pressure_change',
+        'quantity_name': 'delta_fouling_penalty_index',
         'source_name': 'calculated',
         'unit': 'calculated',
         'time_delta_sec': stw_df['delta_t_sec']
@@ -280,7 +280,7 @@ def add_fouling_penalty_index(
         'utc_timestamp': stw_df['utc_timestamp'],
         'qid_mapping': FPI_QID,
         'value': stw_df['fpi'],
-        'quantity_name': fouling_index_name,
+        'quantity_name': 'cumulative_fouling_penalty_index',
         'source_name': 'calculated',
         'unit': 'calculated',
         'time_delta_sec': stw_df['delta_t_sec']
@@ -359,7 +359,7 @@ if __name__ == "__main__":
         stw_qid='2::0::7::0_1::1::0::2::0_1::0::5::11_8',
         epsilon=0.1,
         water_temp_threshold_degrees=10,
-        fouling_index_name="fouling_penalty_index",
+        fouling_index_name="cumulative_fouling_penalty_index",
         stw_staleness_threhsold_sec=300,
         water_temp_staleness_threshold_sec=21600,
         water_temp_failed_default=6.0,

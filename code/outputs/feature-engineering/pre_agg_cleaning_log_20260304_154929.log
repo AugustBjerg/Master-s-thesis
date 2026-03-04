@@ -1,0 +1,29 @@
+2026-03-04 15:49:29 | INFO | Loaded data from c:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\aggregated\aggregated_5min.csv with shape (47559, 53)
+2026-03-04 15:49:29 | INFO | Added 'Days Since Last Cleaning' feature. First values in January:
+2026-03-04 15:49:29 | INFO |                           window_start  Days Since Last Cleaning
+window_start                                                    
+2024-01-04   2024-01-04 08:35:00+00:00                       NaN
+2024-01-05   2024-01-05 00:00:00+00:00                       NaN
+2024-01-06   2024-01-06 00:00:00+00:00                       NaN
+2024-01-07   2024-01-07 03:15:00+00:00                       NaN
+2024-01-08   2024-01-08 02:00:00+00:00                       NaN
+2024-01-09   2024-01-09 00:25:00+00:00                       NaN
+2024-01-10   2024-01-10 01:05:00+00:00                       NaN
+2024-01-11   2024-01-11 22:00:00+00:00                       NaN
+2024-01-12   2024-01-12 00:00:00+00:00                       NaN
+2024-01-13   2024-01-13 01:05:00+00:00                       NaN
+2024-01-14   2024-01-14 00:00:00+00:00                       NaN
+2024-01-15   2024-01-15 00:00:00+00:00                       NaN
+2024-01-16   2024-01-16 00:00:00+00:00                       NaN
+2024-01-17   2024-01-17 00:00:00+00:00                       NaN
+2024-01-18   2024-01-18 00:40:00+00:00                       NaN
+2024-01-19   2024-01-19 00:05:00+00:00                       NaN
+2024-01-20   2024-01-20 00:00:00+00:00                       NaN
+2024-01-21   2024-01-21 00:05:00+00:00                       NaN
+2024-01-24   2024-01-24 21:45:00+00:00                  0.906250
+2024-01-28   2024-01-28 21:25:00+00:00                  4.892361
+2024-01-29   2024-01-29 09:00:00+00:00                  5.375000
+2026-03-04 15:49:29 | INFO | Checking for presence of FPI features in the dataframe. Columns are: ['seg_id', 'window_start', 'Vessel Hull Over Ground Speed (knots)', 'Vessel Hull Through Water Longitudinal Speed (knots)', 'Vessel External Conditions Wind Relative Speed (knots)', 'Vessel External Conditions Wind Relative Angle (degrees)', 'Vessel Hull Heading True Angle (degrees)', 'Vessel Hull Heading Turn Rate (deg/min)', 'Main Engine Turbocharger Rotational Speed (rpm)', 'Main Engine Scavenging Air Pressure (bar)', 'Main Engine Fuel Load % (%)', 'Main Engine Rotational Speed (rpm)', 'Vessel Propeller Shaft Torque (N*m)', 'Vessel Propeller Shaft Mechanical Power (KW)', 'Main Engine Fuel Oil Inlet Mass Flow (kg/hr)', 'Vessel Propeller Shaft Mechanical Energy (KWh)', 'Vessel Propeller Shaft Thrust Force (KN)', 'Vessel Propeller Shaft Rotational Speed (rpm)', 'Vessel Propeller Shaft Revolutions (cumulative) (revs)', 'Sea Temperature Dropout', 'Calculated Shaft Power', 'Imputed Spike in Main Engine Rotational Speed', 'Imputed Spike in Vessel External Conditions Wind Relative Speed', 'Imputed Spike in Vessel External Conditions Wind Relative Angle', 'Imputed Spike in Vessel Hull Over Ground Speed', 'Imputed Spike in Vessel Hull Heading Turn Rate', 'Imputed Spike in Vessel Hull Heading True Angle', 'Imputed Spike in Main Engine Turbocharger Rotational Speed', 'Imputed Spike in Vessel Hull Through Water Longitudinal Speed', 'Imputed Spike in Main Engine Fuel Oil Inlet Mass Flow', 'Imputed Spike in Vessel Propeller Shaft Mechanical Power', 'Imputed Spike in Vessel Propeller Shaft Rotational Speed', 'Imputed Spike in Vessel Propeller Shaft Torque', 'Imputed Spike in Vessel Propeller Shaft Thrust Force', 'Imputed Spike in Main Engine Fuel Load %', 'Imputed Spike in Main Engine Scavenging Air Pressure', 'n_obs', 'coverage', 'Vessel External Conditions Northward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Significant Height (Provider MB)', 'Vessel External Conditions Eastward Wind Velocity (Provider S)', 'Vessel External Conditions Wind True Angle (Provider MB)', 'Vessel External Conditions Swell Significant Height (Provider MB)', 'Vessel External Conditions Sea Water Temperature (Provider S)', 'Vessel External Conditions Eastward Sea Water Velocity (Provider MB)', 'Vessel External Conditions Wave Period (Provider S)', 'Vessel External Conditions Wind True Speed (Provider MB)', 'Vessel External Conditions Northward Sea Water Velocity (Provider S)', 'Vessel External Conditions Wave Significant Height (Provider S)', 'Vessel External Conditions Northward Wind Velocity (Provider S)', 'Fwd Draft (Noon Report)', 'Mid Draft (Noon Report)', 'Aft Draft (Noon Report)', 'Days Since Last Cleaning', 'Avg Draft (Calculated)', 'Draft Trim (Calculated)', 'Speed Through Water^3 (m/s)', 'Speed x DSC (calculated)', 'Speed^3 x DSC (calculated)']
+2026-03-04 15:49:29 | WARNING | 5::0::0::0_0::0::0::0::0_0::0::0::0_1 not found in dataframe columns.
+2026-03-04 15:49:30 | INFO | Saved data with engineered features to c:\Users\Augus\Desktop\Master-s-thesis\code\data\cleaning-scripts\..\engineered\engineered_features_5min.csv
+2026-03-04 15:49:30 | INFO | Added 6 new columns: ['Avg Draft (Calculated)', 'Days Since Last Cleaning', 'Draft Trim (Calculated)', 'Speed Through Water^3 (m/s)', 'Speed x DSC (calculated)', 'Speed^3 x DSC (calculated)']

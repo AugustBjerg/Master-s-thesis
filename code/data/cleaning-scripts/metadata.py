@@ -36,7 +36,7 @@ def add_calculated_fouling_penalty_index_rows(df):
     new_rows = [
         {
             'qid_mapping': delta_fpi_qid,
-            'quantity_name': 'fouling_pressure_change',
+            'quantity_name': 'delta_fouling_penalty_index',
             'source_name': 'calculated',
             'unit': 'fouling_penalty_index_units',
         },
