@@ -104,6 +104,9 @@ if __name__ == "__main__":
     all_column_names = features + [TARGET_VARIABLE]
     filtered_df = df[all_column_names]
 
+    # drop NaN values for the fouling proxy
+    filtered_df = filtered_df.dropna(subset=[FOULING_PROXY_VAR_NAME])
+
     # Make a randomized test and training split
     X_train, X_test, y_train, y_test = train_test_split(
         filtered_df.drop(columns=[TARGET_VARIABLE]), 
@@ -111,10 +114,6 @@ if __name__ == "__main__":
         test_size=1-TRAIN_RATIO, 
         random_state=random_seed
     )
-
-    # drop NaN values for the fouling proxy variable in the trianing and test sets
-    X_train = X_train.dropna(subset=[FOULING_PROXY_VAR_NAME])
-    X_test = X_test.dropna(subset=[FOULING_PROXY_VAR_NAME])
 
     # Store as a npz files
     np.savez_compressed(
