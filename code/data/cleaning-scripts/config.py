@@ -347,7 +347,7 @@ FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
 TRAIN_RATIO = 0.8
 N_CV_SPLITS = 5
 
-FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning"
+FOULING_PROXY_VAR_NAME = "fouling_penalty_index"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
 
 SPEED_CONTROLLED_VARIABLE_NAME = "Vessel Hull Through Water Longitudinal Speed (knots)"

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from numpy import linspace
 import os
 import re
 import itertools
@@ -126,7 +127,13 @@ if __name__ == "__main__":
     )
 
     # create a fouling controlled variable dataframe for the median case
-    full_controlled_fouling_proxy_range = list(range(FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[0], FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[1] + 1))
+    if FOULING_PROXY_VAR_NAME == "Days Since Last Cleaning":
+        full_controlled_fouling_proxy_range = list(range(FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[0], FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[1] + 1))
+    else:
+        max_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME].max())
+        min_value_of_fouling_proxy = int(X_train[FOULING_PROXY_VAR_NAME].min())
+        full_controlled_fouling_proxy_range = list(linspace(min_value_of_fouling_proxy, max_value_of_fouling_proxy, 150))
+    
     fouling_proxy_df = create_controlled_var_df(
         window_length=WINDOW_LENGTH,
         variable_dict={FOULING_PROXY_VAR_NAME: full_controlled_fouling_proxy_range},
