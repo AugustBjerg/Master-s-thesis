@@ -112,6 +112,10 @@ if __name__ == "__main__":
         random_state=random_seed
     )
 
+    # drop NaN values for the fouling proxy variable in the trianing and test sets
+    X_train = X_train.dropna(subset=[FOULING_PROXY_VAR_NAME])
+    X_test = X_test.dropna(subset=[FOULING_PROXY_VAR_NAME])
+
     # Store as a npz files
     np.savez_compressed(
         out_path,
@@ -119,6 +123,7 @@ if __name__ == "__main__":
         X_test=X_test,
         y_train=y_train,
         y_test=y_test,
+        X_columns=X_train.columns.to_numpy(),
     )
 
     # create a fouling controlled variable dataframe for the median case

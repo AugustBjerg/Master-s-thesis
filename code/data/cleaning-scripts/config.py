@@ -336,10 +336,10 @@ JANUARY_CLEANING_DATE = "2024-01-24"
 
 JULY_CLEANING_DATE = "2024-07-10"
 
-
 # --- Modelling ---
 
 TRAIN_RATIO = 0.8
+N_CV_SPLITS = 5
 
 FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
@@ -350,6 +350,7 @@ SPEED_CONTROLLED_VARIABLE_RANGE = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5,
 DRAFT_CONTROLLED_VARIABLE_NAME = "Avg Draft (Calculated)"
 DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 6.75, 14.25]
 
+SPEED_VARIABLE = "Vessel Hull Through Water Longitudinal Speed (knots)"
 TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
 WEATHER_FEATURES = [
     "Vessel External Conditions Wind Relative Angle (degrees)",
@@ -363,4 +364,10 @@ NON_WEATHER_FEATURES = [
     FOULING_PROXY_VAR_NAME,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     ]
+
+SCORING_METRICS = {
+    "mape": "neg_mean_absolute_percentage_error",
+    "rmse": "neg_root_mean_squared_error",
+    "mae": "neg_mean_absolute_error",
+}
 
