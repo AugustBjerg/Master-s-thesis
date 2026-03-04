@@ -158,6 +158,7 @@ def train_and_evaluate(
 
 	logger.info(
 		f"{model_name} results  |  "
+		f"Train RMSE: {metrics['train_rmse']:.2f}  |  "
 		f"CV RMSE: {metrics['cv_rmse_mean']:.2f} ± {metrics['cv_rmse_std']:.2f}  |  "
 		f"Test RMSE: {metrics['test_rmse']:.2f}  |  "
 		f"Test MAPE: {metrics['test_mape']:.4f}"
