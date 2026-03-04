@@ -339,6 +339,9 @@ JANUARY_CLEANING_DATE = "2024-01-24"
 
 JULY_CLEANING_DATE = "2024-07-10"
 
+DELTA_FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_1"
+FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
+
 # --- Modelling ---
 
 TRAIN_RATIO = 0.8
