@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_VAR_NAME
+from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
@@ -35,17 +35,16 @@ def read_csv_file(file_path):
     return df
 
 
-def _stw_weight_term(stw, maneuvering_threshold_knots=SPEED_THROUGH_WATER_THRESHOLD, epsilon=0.1):
+def _stw_weight_term(stw, v_0=FOULING_PROXY_V_0, epsilon=0.1):
     """
     w(v) = epsilon + (1-epsilon)*exp(-v/v0)
-    Here v0 is set to maneuvering_threshold / 2 by convention (tunable).
+    Here v0 is set to maneuvering_threshold / 3.0.
     """
-    v0 = maneuvering_threshold_knots / 2.0
-    if v0 <= 0:
+    if v_0 <= 0:
         raise ValueError("maneuvering_threshold_knots must be > 0")
 
     stw = np.asarray(stw, dtype=float)
-    w = epsilon + (1.0 - epsilon) * np.exp(-stw / v0)
+    w = epsilon + (1.0 - epsilon) * np.exp(-stw / v_0)
     return w
 
 def _water_temp_term(water_temp, water_temp_threshold_degrees=10):
@@ -55,7 +54,7 @@ def _water_temp_term(water_temp, water_temp_threshold_degrees=10):
     water_temp = np.asarray(water_temp, dtype=float)
     return np.maximum(0.0, water_temp - float(water_temp_threshold_degrees))
 
-def _fpi_change(stw, water_temp, delta_t, maneuvering_threshold, water_temp_threshold_degrees=10, epsilon=0.1):
+def _fpi_change(stw, water_temp, delta_t, water_temp_threshold_degrees=10, epsilon=0.1):
     """
     ΔFPI = w(STW) * g(T) * Δt_hours
     delta_t is expected in seconds.
@@ -63,7 +62,7 @@ def _fpi_change(stw, water_temp, delta_t, maneuvering_threshold, water_temp_thre
     delta_t = np.asarray(delta_t, dtype=float)
     delta_t_hours = delta_t / 3600.0
 
-    w = _stw_weight_term(stw, maneuvering_threshold_knots=maneuvering_threshold, epsilon=epsilon)
+    w = _stw_weight_term(stw, v_0=FOULING_PROXY_V_0, epsilon=epsilon)
     g = _water_temp_term(water_temp, water_temp_threshold_degrees=water_temp_threshold_degrees)
 
     d = w * g * delta_t_hours
@@ -81,7 +80,6 @@ def add_fouling_penalty_index(
     cleaning_dates: List = [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE],
     epsilon=0.1,
     water_temp_threshold_degrees=10,
-    fouling_index_name="cumulative_fouling_penalty_index",
     stw_staleness_threhsold_sec=300,
     water_temp_staleness_threshold_sec=21600,
     water_temp_failed_default=6.0,
@@ -359,7 +357,6 @@ if __name__ == "__main__":
         stw_qid='2::0::7::0_1::1::0::2::0_1::0::5::11_8',
         epsilon=0.1,
         water_temp_threshold_degrees=10,
-        fouling_index_name="cumulative_fouling_penalty_index",
         stw_staleness_threhsold_sec=300,
         water_temp_staleness_threshold_sec=21600,
         water_temp_failed_default=6.0,
