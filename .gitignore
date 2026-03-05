@@ -2,6 +2,12 @@
 .venv
 venv
 
+# logs
+code/outputs/aggregation
+code/outputs/feature_engineering
+code/outputs/filtering
+code/outputs/synchronization
+
 # data folder
 code/data/appended
 code/data/raw
