@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, SPEED_THROUGH_WATER_THRESHOLD, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0
+from config import EXPECTED_SENSOR_OBSERVATIONS, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
