@@ -375,7 +375,7 @@ WEATHER_FEATURES = [
 NON_WEATHER_FEATURES = [
     "Avg Draft (Calculated)",
     "Draft Trim (Calculated)",
-    FOULING_PROXY_VAR_NAME,
+    FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     ]
 

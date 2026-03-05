@@ -25,7 +25,7 @@ _cleaning_scripts_dir = os.path.join(_script_dir, "..", "data", "cleaning-script
 sys.path.insert(0, os.path.abspath(_cleaning_scripts_dir))
 
 from config import (  # noqa: E402
-    FOULING_PROXY_VAR_NAME,
+    FOULING_PROXY_VAR_NAME_WITH_UNIT,
     TARGET_VARIABLE,
     WEATHER_FEATURES,
     NON_WEATHER_FEATURES,
@@ -86,7 +86,7 @@ def build_gam_formula(feature_list: list[str]) -> object:
 
     for i, var_name in enumerate(feature_list):
 
-        if var_name == FOULING_PROXY_VAR_NAME:
+        if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT:
             term = s(i, constraints="monotonic_inc", n_splines=15)
 
         elif var_name == SPEED_VARIABLE:
