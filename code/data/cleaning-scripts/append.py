@@ -38,10 +38,9 @@ def read_csv_file(file_path):
 def _stw_weight_term(stw, v_0=FOULING_PROXY_V_0, epsilon=0.1):
     """
     w(v) = epsilon + (1-epsilon)*exp(-v/v0)
-    Here v0 is set to maneuvering_threshold / 3.0.
     """
     if v_0 <= 0:
-        raise ValueError("maneuvering_threshold_knots must be > 0")
+        raise ValueError("v_0 must be > 0")
 
     stw = np.asarray(stw, dtype=float)
     w = epsilon + (1.0 - epsilon) * np.exp(-stw / v_0)
@@ -54,7 +53,7 @@ def _water_temp_term(water_temp, water_temp_threshold_degrees=10):
     water_temp = np.asarray(water_temp, dtype=float)
     return np.maximum(0.0, water_temp - float(water_temp_threshold_degrees))
 
-def _fpi_change(stw, water_temp, delta_t, water_temp_threshold_degrees=10, epsilon=0.1):
+def _fpi_change(stw, water_temp, delta_t, v_0=FOULING_PROXY_V_0, water_temp_threshold_degrees=10, epsilon=0.1):
     """
     ΔFPI = w(STW) * g(T) * Δt_hours
     delta_t is expected in seconds.
@@ -248,7 +247,7 @@ def add_fouling_penalty_index(
             stw=stw_df.loc[seg_valid, 'stw'].values,
             water_temp=stw_df.loc[seg_valid, 'water_temp'].values,
             delta_t=stw_df.loc[seg_valid, 'delta_t_sec'].values,
-            maneuvering_threshold=SPEED_THROUGH_WATER_THRESHOLD,
+            v_0=FOULING_PROXY_V_0,
             water_temp_threshold_degrees=water_temp_threshold_degrees,
             epsilon=epsilon
         )

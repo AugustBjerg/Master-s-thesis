@@ -357,7 +357,8 @@ N_CV_SPLITS = 5
 FOULING_PROXY_VAR_NAME = "cumulative_fouling_penalty_index"
 FOULING_PROXY_VAR_NAME_WITH_UNIT = "cumulative_fouling_penalty_index (calculated)"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
-FOULING_PROXY_V_0 = 1.5 
+FOULING_PROXY_V_0 = 1.25 
+
 
 SPEED_CONTROLLED_VARIABLE_NAME = "Vessel Hull Through Water Longitudinal Speed (knots)"
 SPEED_CONTROLLED_VARIABLE_RANGE = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14]
