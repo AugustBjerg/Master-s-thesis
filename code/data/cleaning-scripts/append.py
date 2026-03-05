@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0
+from config import EXPECTED_SENSOR_OBSERVATIONS, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0, FOULING_PROXY_EPSILON
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
@@ -35,7 +35,7 @@ def read_csv_file(file_path):
     return df
 
 
-def _stw_weight_term(stw, v_0=FOULING_PROXY_V_0, epsilon=0.1):
+def _stw_weight_term(stw, v_0=FOULING_PROXY_V_0, epsilon=FOULING_PROXY_EPSILON):
     """
     w(v) = epsilon + (1-epsilon)*exp(-v/v0)
     """
@@ -53,7 +53,7 @@ def _water_temp_term(water_temp, water_temp_threshold_degrees=10):
     water_temp = np.asarray(water_temp, dtype=float)
     return np.maximum(0.0, water_temp - float(water_temp_threshold_degrees))
 
-def _fpi_change(stw, water_temp, delta_t, v_0=FOULING_PROXY_V_0, water_temp_threshold_degrees=10, epsilon=0.1):
+def _fpi_change(stw, water_temp, delta_t, v_0=FOULING_PROXY_V_0, water_temp_threshold_degrees=10, epsilon=FOULING_PROXY_EPSILON):
     """
     ΔFPI = w(STW) * g(T) * Δt_hours
     delta_t is expected in seconds.
@@ -77,12 +77,12 @@ def add_fouling_penalty_index(
     water_temp_qid,
     stw_qid,
     cleaning_dates: List = [JANUARY_CLEANING_DATE, JULY_CLEANING_DATE],
-    epsilon=0.1,
+    epsilon=FOULING_PROXY_EPSILON,
     water_temp_threshold_degrees=10,
     stw_staleness_threhsold_sec=300,
     water_temp_staleness_threshold_sec=21600,
     water_temp_failed_default=6.0,
-    water_temp_failed_tol=0.05,   # treat ~6.0 as failed
+    water_temp_failed_tol=0.01,   # treat ~6.0 as failed
 ):
     """
     Expects df long format with at least:
@@ -354,7 +354,7 @@ if __name__ == "__main__":
         appended_df,
         water_temp_qid='4::0::8::0_1::1::0::7::0_4::0::12::0_8',
         stw_qid='2::0::7::0_1::1::0::2::0_1::0::5::11_8',
-        epsilon=0.1,
+        epsilon=FOULING_PROXY_EPSILON,
         water_temp_threshold_degrees=10,
         stw_staleness_threhsold_sec=300,
         water_temp_staleness_threshold_sec=21600,

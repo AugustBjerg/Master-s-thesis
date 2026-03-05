@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
-from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE, FOULING_PROXY_VAR_NAME
+from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE, FOULING_PROXY_VAR_NAME_WITH_UNIT
 from typing import List
 from datetime import datetime
 from loguru import logger
@@ -42,8 +42,8 @@ logger.add(
 df = pd.read_csv(aggregated_data_path)
 
 # check if the fouling proxy feature is present
-if FOULING_PROXY_VAR_NAME not in df.columns:
-    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}' not found in the data. Please check why.")
+if FOULING_PROXY_VAR_NAME_WITH_UNIT not in df.columns:
+    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}' not found in the data. Please check why.")
 
 # Ensure datetime datatypes
 df["window_start"] = pd.to_datetime(df["window_start"], format="ISO8601", utc=True)
@@ -143,10 +143,10 @@ logger.info("Added 'Days Since Last Cleaning' feature. First values in January:"
 logger.info(first_values_january.head(31))
 
 # Check if the fouling proxy variable is present
-if FOULING_PROXY_VAR_NAME in df.columns:
-    logger.info(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}'")
+if FOULING_PROXY_VAR_NAME_WITH_UNIT in df.columns:
+    logger.info(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}'")
 else:
-    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME}' not found in the data after feature engineering. Please check why.")
+    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}' not found in the data after feature engineering. Please check why.")
 
 # save the dateframe with the new features
 output_path = os.path.join(engineered_dir, f"engineered_features_{WINDOW_LENGTH}.csv")
