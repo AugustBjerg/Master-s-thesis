@@ -3,7 +3,10 @@
 venv
 
 # logs
-code/outputs/
+code/outputs/aggregation
+code/outputs/feature-engineering
+code/outputs/filtering
+code/outputs/synchronization
 
 # data folder
 code/data/appended
