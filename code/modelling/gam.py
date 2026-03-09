@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from loguru import logger
-from pygam import LinearGAM, s
+from pygam import LinearGAM, s, te, f
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import (
@@ -76,15 +76,39 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 # GAM formula builder
 # ---------------------------------------------------------------------------
 
-def build_gam_formula(feature_list: list[str], include_fouling_proxy: bool = True) -> object:
-    """Construct a pyGAM formula from the feature list.
+def build_gam_formula(
+    feature_list: list[str],
+    include_fouling_proxy: bool = True,
+    speed_fouling_interaction: bool = False,
+) -> object:
+    """Construct a pyGAM formula from the feature list."""
 
-    Each feature gets a spline term whose type and constraints mirror those
-    used in the notebook.
-    """
-    formula = None
+    # Pre-find indices needed for the optional tensor product term
+    speed_idx = next(
+        (i for i, v in enumerate(feature_list) if v == SPEED_VARIABLE), None
+    )
+    fouling_idx = next(
+        (i for i, v in enumerate(feature_list) if v == FOULING_PROXY_VAR_NAME_WITH_UNIT),
+        None,
+    )
+
+    use_interaction = (
+        speed_fouling_interaction
+        and include_fouling_proxy
+        and speed_idx is not None
+        and fouling_idx is not None
+    )
+
+    # Indices absorbed into te() — skip their individual s() terms in the loop
+    interaction_indices = {speed_idx, fouling_idx} if use_interaction else set()
+
+    # Seed formula with interaction term if applicable
+    formula = te(speed_idx, fouling_idx, n_splines=[15, 15]) if use_interaction else None
 
     for i, var_name in enumerate(feature_list):
+
+        if i in interaction_indices:
+            continue  # Already handled by te()
 
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, constraints="monotonic_inc", n_splines=15)
@@ -265,8 +289,8 @@ def main():
     X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
     # 2. Build GAM formulas
-    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True)
-    formula_excl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=False)
+    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=True)
+    formula_excl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
     logger.info("GAM formula constructed.")
 
     # 3. Build pipelines
