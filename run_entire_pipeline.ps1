@@ -24,4 +24,13 @@ echo "engineer_features.py executed"
 python code/data/cleaning-scripts/split_train_test.py
 echo "split_train_test.py executed"
 
+python code/modelling/gam.py
+echo "gam.py executed"
+
+python code/modelling/NN.py
+echo "NN.py executed"
+
+python code/modelling/random_forest.py
+echo "random_forest.py executed"
+
 echo "data pipeline finished"
