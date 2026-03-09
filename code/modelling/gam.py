@@ -76,7 +76,7 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 # GAM formula builder
 # ---------------------------------------------------------------------------
 
-def build_gam_formula(feature_list: list[str]) -> object:
+def build_gam_formula(feature_list: list[str], include_fouling_proxy: bool = True) -> object:
     """Construct a pyGAM formula from the feature list.
 
     Each feature gets a spline term whose type and constraints mirror those
@@ -86,7 +86,7 @@ def build_gam_formula(feature_list: list[str]) -> object:
 
     for i, var_name in enumerate(feature_list):
 
-        if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT:
+        if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, constraints="monotonic_inc", n_splines=15)
 
         elif var_name == SPEED_VARIABLE:
@@ -175,7 +175,7 @@ def train_and_evaluate(
     y_train: pd.Series,
     X_test: pd.DataFrame,
     y_test: pd.Series,
-    model_name: str = "GAM",
+    model_name: str,
 ) -> dict:
     """Cross-validate, fit on full training set, and compute holdout metrics."""
     cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
@@ -225,13 +225,17 @@ def train_and_evaluate(
         f"Test MAPE: {metrics['test_mape']:.4f}"
     )
 
-    timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
-    results_path = os.path.join(MODELS_OUTPUT_DIR, f"{model_name}_training_{timestamp}.csv")
-    os.makedirs(MODELS_OUTPUT_DIR, exist_ok=True)
-    pd.DataFrame([{"model": model_name, **metrics}]).to_csv(results_path, index=False)
-    logger.info(f"Metrics saved to {results_path}")
+    return pipeline, (model_name, metrics)
 
-    return metrics
+def save_metrics(metrics_names_and_metrics: list[tuple[str, dict]]):
+    """Save the metrics for multiple models to a single CSV file."""
+    timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
+    results_path = os.path.join(MODELS_OUTPUT_DIR, f"GAM_training_{timestamp}.csv")
+    rows = []
+    for model_name, metrics in metrics_names_and_metrics:
+        rows.append({"model": model_name, **metrics})
+    pd.DataFrame(rows).to_csv(results_path, index=False)
+    logger.info(f"Comparison metrics saved to {results_path}")
 
 # ---------------------------------------------------------------------------
 # Persistence
@@ -260,21 +264,25 @@ def main():
     # 1. Load data
     X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
-    # 2. Build GAM formula
-    formula = build_gam_formula(ALL_FEATURES)
+    # 2. Build GAM formulas
+    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True)
+    formula_excl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=False)
     logger.info("GAM formula constructed.")
 
-    # 3. Build pipeline
-    pipeline = build_pipeline(formula)
+    # 3. Build pipelines
+    pipeline_incl_fouling = build_pipeline(formula_incl_fouling)
+    pipeline_excl_fouling = build_pipeline(formula_excl_fouling)
 
     # 4. Train and evaluate
-    metrics = train_and_evaluate(pipeline, X_train, y_train, X_test, y_test, model_name="GAM")
+    pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(pipeline_incl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_incl_fouling")
+    pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(pipeline_excl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_excl_fouling")
 
     # 5. Save
-    save_pipeline(pipeline, MODELS_OUTPUT_DIR)
+    save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
+    save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+    save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
     logger.info("=== Done ===")
-    return pipeline, metrics
 
 if __name__ == "__main__":
     main()
