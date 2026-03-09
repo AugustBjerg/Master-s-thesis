@@ -23,6 +23,7 @@ _cleaning_scripts_dir = os.path.join(_script_dir, "..", "data", "cleaning-script
 sys.path.insert(0, os.path.abspath(_cleaning_scripts_dir))
 
 from config import (  # noqa: E402
+	FOULING_PROXY_VAR_NAME_WITH_UNIT,
 	TARGET_VARIABLE,
 	WEATHER_FEATURES,
 	NON_WEATHER_FEATURES,
@@ -35,6 +36,7 @@ from config import (  # noqa: E402
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
 ALL_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
+FEATURES_EXCL_FOULING = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
 
 # Notebook RF grid
 RF_PARAM_GRID = {
@@ -76,11 +78,11 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 # Pipeline and search builders
 # ---------------------------------------------------------------------------
 
-def build_pipeline() -> Pipeline:
+def build_pipeline(feature_list: list[str]) -> Pipeline:
 	"""Assemble the full sklearn Pipeline (scaler → random forest)."""
 	preprocessor = ColumnTransformer(
 		transformers=[
-			("scaler", StandardScaler(), ALL_FEATURES),
+			("scaler", StandardScaler(), feature_list),
 		]
 	)
 	return Pipeline([
@@ -113,7 +115,7 @@ def train_and_evaluate(
 	X_test: pd.DataFrame,
 	y_test: pd.Series,
 	model_name: str = "RandomForest",
-) -> tuple[dict, object]:
+) -> tuple[tuple[str, dict], object]:
 	"""Cross-validate, fit on full training set, and compute holdout metrics."""
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
 
@@ -168,13 +170,19 @@ def train_and_evaluate(
 		logger.info(f"Best CV RMSE: {-estimator.best_score_:.4f}")
 		logger.info(f"Best parameters: {estimator.best_params_}")
 
+	return (model_name, metrics), fitted_pipeline
+
+
+def save_metrics(metrics_names_and_metrics: list[tuple[str, dict]]):
+	"""Save the metrics for multiple models to a single CSV file."""
 	timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
 	os.makedirs(MODELS_OUTPUT_DIR, exist_ok=True)
-	results_path = os.path.join(MODELS_OUTPUT_DIR, f"{model_name}_training_{timestamp}.csv")
-	pd.DataFrame([{"model": model_name, **metrics}]).to_csv(results_path, index=False)
-	logger.info(f"Metrics saved to {results_path}")
-
-	return metrics, fitted_pipeline
+	results_path = os.path.join(MODELS_OUTPUT_DIR, f"RandomForest_training_{timestamp}.csv")
+	rows = []
+	for model_name, metrics in metrics_names_and_metrics:
+		rows.append({"model": model_name, **metrics})
+	pd.DataFrame(rows).to_csv(results_path, index=False)
+	logger.info(f"Comparison metrics saved to {results_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -205,22 +213,38 @@ def main():
 	X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
-	pipeline = build_pipeline()
-	grid_search = build_grid_search(pipeline, cv)
 
-	metrics, fitted_pipeline = train_and_evaluate(
-		grid_search,
-		X_train,
+	# Build pipelines and grid searches
+	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
+	grid_search_incl_fouling = build_grid_search(pipeline_incl_fouling, cv)
+
+	pipeline_excl_fouling = build_pipeline(FEATURES_EXCL_FOULING)
+	grid_search_excl_fouling = build_grid_search(pipeline_excl_fouling, cv)
+
+	# Train and evaluate
+	name_n_metrics_incl_fouling, fitted_pipeline_incl_fouling = train_and_evaluate(
+		grid_search_incl_fouling,
+		X_train[ALL_FEATURES],
 		y_train,
-		X_test,
+		X_test[ALL_FEATURES],
 		y_test,
-		model_name="RandomForest",
+		model_name="RandomForest_incl_fouling",
+	)
+	name_n_metrics_excl_fouling, fitted_pipeline_excl_fouling = train_and_evaluate(
+		grid_search_excl_fouling,
+		X_train[FEATURES_EXCL_FOULING],
+		y_train,
+		X_test[FEATURES_EXCL_FOULING],
+		y_test,
+		model_name="RandomForest_excl_fouling",
 	)
 
-	save_pipeline(fitted_pipeline, MODELS_OUTPUT_DIR)
+	# Save
+	save_pipeline(fitted_pipeline_incl_fouling, MODELS_OUTPUT_DIR)
+	save_pipeline(fitted_pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+	save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
 	logger.info("=== Done ===")
-	return fitted_pipeline, metrics
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ _cleaning_scripts_dir = os.path.join(_script_dir, "..", "data", "cleaning-script
 sys.path.insert(0, os.path.abspath(_cleaning_scripts_dir))
 
 from config import (  # noqa: E402
+	FOULING_PROXY_VAR_NAME_WITH_UNIT,
 	TARGET_VARIABLE,
 	WEATHER_FEATURES,
 	NON_WEATHER_FEATURES,
@@ -35,6 +36,7 @@ from config import (  # noqa: E402
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
 ALL_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
+FEATURES_EXCL_FOULING = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -67,11 +69,11 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 # Pipeline builder
 # ---------------------------------------------------------------------------
 
-def build_pipeline() -> Pipeline:
+def build_pipeline(feature_list: list[str]) -> Pipeline:
 	"""Assemble the full sklearn Pipeline (scaler → NN)."""
 	preprocessor = ColumnTransformer(
 		transformers=[
-			("scaler", StandardScaler(), ALL_FEATURES),
+			("scaler", StandardScaler(), feature_list),
 		]
 	)
 
@@ -105,7 +107,7 @@ def train_and_evaluate(
 	X_test: pd.DataFrame,
 	y_test: pd.Series,
 	model_name: str = "NN",
-) -> dict:
+) -> tuple[Pipeline, tuple[str, dict]]:
 	"""Cross-validate, fit on full training set, and compute holdout metrics."""
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
 
@@ -155,13 +157,19 @@ def train_and_evaluate(
 		f"Test MAPE: {metrics['test_mape']:.4f}"
 	)
 
+	return pipeline, (model_name, metrics)
+
+
+def save_metrics(metrics_names_and_metrics: list[tuple[str, dict]]):
+	"""Save the metrics for multiple models to a single CSV file."""
 	timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
 	os.makedirs(MODELS_OUTPUT_DIR, exist_ok=True)
-	results_path = os.path.join(MODELS_OUTPUT_DIR, f"{model_name}_training_{timestamp}.csv")
-	pd.DataFrame([{"model": model_name, **metrics}]).to_csv(results_path, index=False)
-	logger.info(f"Metrics saved to {results_path}")
-
-	return metrics
+	results_path = os.path.join(MODELS_OUTPUT_DIR, f"NN_training_{timestamp}.csv")
+	rows = []
+	for model_name, metrics in metrics_names_and_metrics:
+		rows.append({"model": model_name, **metrics})
+	pd.DataFrame(rows).to_csv(results_path, index=False)
+	logger.info(f"Comparison metrics saved to {results_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -190,20 +198,35 @@ def main():
 	logger.info(f"Features ({len(ALL_FEATURES)}): {ALL_FEATURES}")
 
 	X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
-	pipeline = build_pipeline()
-	metrics = train_and_evaluate(
-		pipeline,
-		X_train,
+
+	# Build pipelines
+	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
+	pipeline_excl_fouling = build_pipeline(FEATURES_EXCL_FOULING)
+
+	# Train and evaluate
+	pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(
+		pipeline_incl_fouling,
+		X_train[ALL_FEATURES],
 		y_train,
-		X_test,
+		X_test[ALL_FEATURES],
 		y_test,
-		model_name="NN",
+		model_name="NN_incl_fouling",
+	)
+	pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(
+		pipeline_excl_fouling,
+		X_train[FEATURES_EXCL_FOULING],
+		y_train,
+		X_test[FEATURES_EXCL_FOULING],
+		y_test,
+		model_name="NN_excl_fouling",
 	)
 
-	save_pipeline(pipeline, MODELS_OUTPUT_DIR)
+	# Save
+	save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
+	save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+	save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
 	logger.info("=== Done ===")
-	return pipeline, metrics
 
 
 if __name__ == "__main__":
