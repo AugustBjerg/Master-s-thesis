@@ -130,6 +130,18 @@ if __name__ == "__main__":
         X_columns=X_train.columns.to_numpy(),
     )
 
+    # Save aligned timestamps (order matches X_train / X_test row-for-row)
+    train_timestamps = df.loc[X_train.index, "window_start"].reset_index(drop=True)
+    test_timestamps  = df.loc[X_test.index,  "window_start"].reset_index(drop=True)
+
+    timestamps_out_path = Path(train_test_dir) / f"train_test_timestamps_{WINDOW_LENGTH}.npz"
+    np.savez_compressed(
+        timestamps_out_path,
+        train_timestamps=train_timestamps.values.astype(str),
+        test_timestamps=test_timestamps.values.astype(str),
+    )
+    logger.info(f"Saved aligned timestamps to {timestamps_out_path}")
+
     # create a fouling controlled variable dataframe for the median case
     if FOULING_PROXY_VAR_NAME_WITH_UNIT == "Days Since Last Cleaning":
         full_controlled_fouling_proxy_range = list(range(FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[0], FOULING_PROXY_CONTROLLED_VARIABLE_RANGE[1] + 1))
