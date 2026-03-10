@@ -3,6 +3,7 @@ import sys
 import joblib
 import numpy as np
 import pandas as pd
+import copy
 from loguru import logger
 from pygam import LinearGAM, s, te, f
 from sklearn.base import BaseEstimator, RegressorMixin
@@ -39,6 +40,7 @@ from config import (  # noqa: E402
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
 ALL_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
+NON_FOULING_FEATURES = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -160,7 +162,7 @@ class SklearnGAM(BaseEstimator, RegressorMixin):
         self.auto_tune = auto_tune
 
     def fit(self, X, y):
-        self.gam_model_ = LinearGAM(self.formula)
+        self.gam_model_ = LinearGAM(copy.deepcopy(self.formula))  # ← deepcopy here
         if self.auto_tune:
             lam_grid = np.logspace(-6, 3, 20)
             self.gam_model_.gridsearch(X, y, lam=lam_grid)
@@ -177,12 +179,9 @@ class SklearnGAM(BaseEstimator, RegressorMixin):
 # Pipeline builder
 # ---------------------------------------------------------------------------
 
-def build_pipeline(formula) -> Pipeline:
-    """Assemble the full sklearn Pipeline (scaler → GAM)."""
+def build_pipeline(formula, feature_list: list[str]) -> Pipeline:
     preprocessor = ColumnTransformer(
-        transformers=[
-            ("scaler", StandardScaler(), ALL_FEATURES),
-        ]
+        transformers=[("scaler", StandardScaler(), feature_list)]
     )
     return Pipeline([
         ("preprocessor", preprocessor),
@@ -290,14 +289,15 @@ def main():
 
     # 2. Build GAM formulas
     formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=True)
-    formula_excl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
+    formula_excl_fouling = build_gam_formula(NON_FOULING_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
     logger.info("GAM formula constructed.")
 
     # 3. Build pipelines
-    pipeline_incl_fouling = build_pipeline(formula_incl_fouling)
-    pipeline_excl_fouling = build_pipeline(formula_excl_fouling)
+    pipeline_incl_fouling = build_pipeline(formula_incl_fouling, feature_list=ALL_FEATURES)
+    pipeline_excl_fouling = build_pipeline(formula_excl_fouling, feature_list=NON_FOULING_FEATURES)
 
     # 4. Train and evaluate
+
     pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(pipeline_incl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_incl_fouling")
     pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(pipeline_excl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_excl_fouling")
 
