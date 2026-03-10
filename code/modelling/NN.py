@@ -42,7 +42,7 @@ FEATURES_EXCL_FOULING = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_
 # Paths
 # ---------------------------------------------------------------------------
 _data_dir = os.path.join(_script_dir, "..", "data")
-NPZ_PATH = os.path.join(_data_dir, "train-and-test", "train_test_splits.npz")
+NPZ_PATH = os.path.join(_data_dir, "train-and-test", f"train_test_splits_{WINDOW_LENGTH}.npz")
 MODELS_OUTPUT_DIR = os.path.join(_script_dir, "..", "outputs", "models")
 
 

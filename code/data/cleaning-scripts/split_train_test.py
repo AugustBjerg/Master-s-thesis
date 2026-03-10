@@ -19,7 +19,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 engineered_dir = os.path.join(script_dir, '..', 'engineered')
 engineered_data_path = os.path.join(engineered_dir, f'engineered_features_{WINDOW_LENGTH}.csv')
 train_test_dir = os.path.join(script_dir, '..', 'train-and-test')
-out_path = Path(train_test_dir) / "train_test_splits.npz"
+out_path = Path(train_test_dir) / f"train_test_splits_{WINDOW_LENGTH}.npz"
 
 # Create the train-and-test directory if it doesn't exist
 if not os.path.exists(train_test_dir):

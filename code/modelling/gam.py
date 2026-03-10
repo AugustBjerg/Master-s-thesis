@@ -46,7 +46,7 @@ NON_FOULING_FEATURES = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_W
 # Paths
 # ---------------------------------------------------------------------------
 _data_dir = os.path.join(_script_dir, "..", "data")
-NPZ_PATH = os.path.join(_data_dir, "train-and-test", "train_test_splits.npz")
+NPZ_PATH = os.path.join(_data_dir, "train-and-test", f"train_test_splits_{WINDOW_LENGTH}.npz")
 MODELS_OUTPUT_DIR = os.path.join(_script_dir, "..", "outputs", "models")
 
 # ---------------------------------------------------------------------------
@@ -297,7 +297,6 @@ def main():
     pipeline_excl_fouling = build_pipeline(formula_excl_fouling, feature_list=NON_FOULING_FEATURES)
 
     # 4. Train and evaluate
-
     pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(pipeline_incl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_incl_fouling")
     pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(pipeline_excl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_excl_fouling")
 
