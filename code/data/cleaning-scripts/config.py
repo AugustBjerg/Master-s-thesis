@@ -370,13 +370,14 @@ SPEED_VARIABLE = "Vessel Hull Through Water Longitudinal Speed (knots)"
 TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
 CANDIDATE_FEATURES = [
     # Metocean
-    "Vessel External Conditions Wind Relative Angle (degrees)",
-    "Vessel External Conditions Wind Relative Speed (knots)",
     "Vessel External Conditions Sea Water Temperature (Provider S)",
     "Vessel External Conditions Wave Significant Height (Provider MB)",
     "SOG - STW (calculated)",
     "Vessel External Conditions Swell Significant Height (Provider MB)",
     "Vessel External Conditions Wave Period (Provider S)",
+    'longitudinal_wind_force (calculated)',
+    'longitudinal_wave_force (calculated)',
+    'longitudinal_swell_force (calculated)',
 
     # Non-metocean
     "Avg Draft (Calculated)",

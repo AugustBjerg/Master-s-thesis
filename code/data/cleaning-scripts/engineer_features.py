@@ -131,6 +131,99 @@ def add_SOG_STW_difference(df, new_column_name: str, sog_col_name: str, stw_col_
 
     return df
 
+def _true_to_relative_angle(true_angle_deg: pd.Series, heading_deg: pd.Series) -> pd.Series:
+    """
+    Convert a true (meteorological) angle to a ship-relative angle.
+    
+    Meteorological convention: angle FROM which the wind/wave comes, in degrees true north.
+    Ship-relative: 0° = from the bow, 90° = from starboard, 180° = from stern, 270° = from port.
+    
+    Parameters
+    ----------
+    true_angle_deg : pd.Series
+        Direction the wind/wave comes FROM, in degrees true north (meteorological convention).
+    heading_deg : pd.Series
+        Ship's true heading in degrees.
+    
+    Returns
+    -------
+    pd.Series
+        Relative angle in [0, 360).
+    """
+    relative = (true_angle_deg - heading_deg) % 360
+    return relative
+
+def _longitudinal_component(speed: pd.Series, relative_angle_deg: pd.Series) -> pd.Series:
+    """
+    Extract the longitudinal (bow-stern axis) component of a vector.
+    
+    Positive = opposing forward motion (headwind/head-sea resistance).
+    Negative = assisting forward motion (tailwind/following sea).
+    
+    Parameters
+    ----------
+    speed : pd.Series
+        Magnitude of the vector (wind speed, wave height, etc.).
+    relative_angle_deg : pd.Series
+        Ship-relative angle in degrees (0° = from bow).
+    
+    Returns
+    -------
+    pd.Series
+        Longitudinal component.
+    """
+    return speed * np.cos(np.radians(relative_angle_deg))
+
+def add_longitudinal_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add longitudinal wind and wave force components to the dataframe,
+    computing relative angles from true (provider) directions and ship heading.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw feature dataframe containing heading, wind and wave columns.
+
+    Returns
+    -------
+    pd.DataFrame
+        Copy of df with new longitudinal feature columns appended.
+    """
+
+    heading = df["Vessel Hull Heading True Angle (degrees)"]
+
+    # ── Wind (Provider S) ───────────────────────────────────────────────────
+    # Reconstruct true wind direction from eastward + northward components
+    # atan2 gives angle FROM which wind comes (meteorological convention)
+    wind_east  = df["Vessel External Conditions Eastward Wind Velocity (Provider S)"]
+    wind_north = df["Vessel External Conditions Northward Wind Velocity (Provider S)"]
+    wind_true_speed = np.sqrt(wind_east**2 + wind_north**2)
+    wind_true_angle = (np.degrees(np.arctan2(-wind_east, -wind_north)) % 360)
+
+    wind_relative_angle = _true_to_relative_angle(wind_true_angle, heading)
+    df["longitudinal_wind_force (calculated)"] = _longitudinal_component(
+        wind_true_speed, wind_relative_angle
+    )
+
+    # ── Waves (Provider MB) ─────────────────────────────────────────────────
+    wave_true_angle = df["Vessel External Conditions Wind True Angle (Provider MB)"]
+    wave_height     = df["Vessel External Conditions Wave Significant Height (Provider MB)"]
+
+    wave_relative_angle = _true_to_relative_angle(wave_true_angle, heading)
+    df["longitudinal_wave_force (calculated)"] = _longitudinal_component(
+        wave_height, wave_relative_angle
+    )
+
+    # ── Swell (Provider MB) ─────────────────────────────────────────────────
+    # No separate swell direction available — use same wave true angle as proxy
+    swell_height = df["Vessel External Conditions Swell Significant Height (Provider MB)"]
+    df["longitudinal_swell_force (calculated)"] = _longitudinal_component(
+        swell_height, wave_relative_angle
+    )
+
+    return df
+
+
 # --- Executions ---
 
 columns_before = set(df.columns)
@@ -142,6 +235,7 @@ df = add_speed_cubed(df, "Speed Through Water^3 (m/s)", "Vessel Hull Through Wat
 df = add_speed_dsc_interaction(df, "Speed x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
 df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
 df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
+df = add_longitudinal_features(df)
 
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
