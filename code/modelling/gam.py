@@ -292,7 +292,7 @@ def main():
 
     # 2. Build GAM formulas
     formula_excl_fouling = build_gam_formula(NON_FOULING_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
-    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=True)
+    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=False)
     logger.info("GAM formula constructed.")
 
     # 3. Build pipelines
