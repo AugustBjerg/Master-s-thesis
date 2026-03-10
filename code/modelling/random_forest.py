@@ -215,21 +215,14 @@ def main():
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
 
 	# Build pipelines and grid searches
-	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
-	grid_search_incl_fouling = build_grid_search(pipeline_incl_fouling, cv)
-
 	pipeline_excl_fouling = build_pipeline(FEATURES_EXCL_FOULING)
 	grid_search_excl_fouling = build_grid_search(pipeline_excl_fouling, cv)
 
+	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
+	grid_search_incl_fouling = build_grid_search(pipeline_incl_fouling, cv)
+
 	# Train and evaluate
-	name_n_metrics_incl_fouling, fitted_pipeline_incl_fouling = train_and_evaluate(
-		grid_search_incl_fouling,
-		X_train[ALL_FEATURES],
-		y_train,
-		X_test[ALL_FEATURES],
-		y_test,
-		model_name="RandomForest_incl_fouling",
-	)
+
 	name_n_metrics_excl_fouling, fitted_pipeline_excl_fouling = train_and_evaluate(
 		grid_search_excl_fouling,
 		X_train[FEATURES_EXCL_FOULING],
@@ -238,10 +231,18 @@ def main():
 		y_test,
 		model_name="RandomForest_excl_fouling",
 	)
+	name_n_metrics_incl_fouling, fitted_pipeline_incl_fouling = train_and_evaluate(
+		grid_search_incl_fouling,
+		X_train[ALL_FEATURES],
+		y_train,
+		X_test[ALL_FEATURES],
+		y_test,
+		model_name="RandomForest_incl_fouling",
+	)
 
 	# Save
-	save_pipeline(fitted_pipeline_incl_fouling, MODELS_OUTPUT_DIR)
 	save_pipeline(fitted_pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+	save_pipeline(fitted_pipeline_incl_fouling, MODELS_OUTPUT_DIR)
 	save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
 	logger.info("=== Done ===")

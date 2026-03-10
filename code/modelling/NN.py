@@ -200,18 +200,11 @@ def main():
 	X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
 	# Build pipelines
-	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
 	pipeline_excl_fouling = build_pipeline(FEATURES_EXCL_FOULING)
+	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
 
 	# Train and evaluate
-	pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(
-		pipeline_incl_fouling,
-		X_train[ALL_FEATURES],
-		y_train,
-		X_test[ALL_FEATURES],
-		y_test,
-		model_name="NN_incl_fouling",
-	)
+	
 	pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(
 		pipeline_excl_fouling,
 		X_train[FEATURES_EXCL_FOULING],
@@ -220,10 +213,18 @@ def main():
 		y_test,
 		model_name="NN_excl_fouling",
 	)
+	pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(
+		pipeline_incl_fouling,
+		X_train[ALL_FEATURES],
+		y_train,
+		X_test[ALL_FEATURES],
+		y_test,
+		model_name="NN_incl_fouling",
+	)
 
 	# Save
-	save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
 	save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+	save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
 	save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
 	logger.info("=== Done ===")

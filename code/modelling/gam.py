@@ -288,21 +288,21 @@ def main():
     X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
     # 2. Build GAM formulas
-    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=True)
     formula_excl_fouling = build_gam_formula(NON_FOULING_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
+    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=True)
     logger.info("GAM formula constructed.")
 
     # 3. Build pipelines
-    pipeline_incl_fouling = build_pipeline(formula_incl_fouling, feature_list=ALL_FEATURES)
     pipeline_excl_fouling = build_pipeline(formula_excl_fouling, feature_list=NON_FOULING_FEATURES)
+    pipeline_incl_fouling = build_pipeline(formula_incl_fouling, feature_list=ALL_FEATURES)
 
     # 4. Train and evaluate
-    pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(pipeline_incl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_incl_fouling")
     pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(pipeline_excl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_excl_fouling")
-
+    pipeline_incl_fouling, name_n_metrics_incl_fouling = train_and_evaluate(pipeline_incl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_incl_fouling")
+    
     # 5. Save
-    save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
     save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR)
+    save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
     save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
     logger.info("=== Done ===")
