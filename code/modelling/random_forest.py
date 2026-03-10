@@ -114,7 +114,7 @@ def train_and_evaluate(
 	y_train: pd.Series,
 	X_test: pd.DataFrame,
 	y_test: pd.Series,
-	model_name: str = "RandomForest",
+	model_name: str = "Random_Forest",
 ) -> tuple[tuple[str, dict], object]:
 	"""Cross-validate, fit on full training set, and compute holdout metrics."""
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
@@ -177,7 +177,7 @@ def save_metrics(metrics_names_and_metrics: list[tuple[str, dict]]):
 	"""Save the metrics for multiple models to a single CSV file."""
 	timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
 	os.makedirs(MODELS_OUTPUT_DIR, exist_ok=True)
-	results_path = os.path.join(MODELS_OUTPUT_DIR, f"RandomForest_training_{timestamp}.csv")
+	results_path = os.path.join(MODELS_OUTPUT_DIR, f"Random_Forest_training_{timestamp}.csv")
 	rows = []
 	for model_name, metrics in metrics_names_and_metrics:
 		rows.append({"model": model_name, **metrics})
@@ -231,7 +231,7 @@ def main():
 		y_train,
 		X_test[FEATURES_EXCL_FOULING],
 		y_test,
-		model_name="RandomForest_excl_fouling",
+		model_name="Random_Forest_excl_fouling",
 	)
 	name_n_metrics_incl_fouling, fitted_pipeline_incl_fouling = train_and_evaluate(
 		grid_search_incl_fouling,
@@ -239,7 +239,7 @@ def main():
 		y_train,
 		X_test[ALL_FEATURES],
 		y_test,
-		model_name="RandomForest_incl_fouling",
+		model_name="Random_Forest_incl_fouling",
 	)
 
 	# Save
