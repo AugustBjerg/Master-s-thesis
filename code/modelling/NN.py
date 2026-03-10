@@ -176,10 +176,13 @@ def save_metrics(metrics_names_and_metrics: list[tuple[str, dict]]):
 # Persistence
 # ---------------------------------------------------------------------------
 
-def save_pipeline(pipeline: Pipeline, output_dir: str) -> str:
+def save_pipeline(pipeline: Pipeline, output_dir: str, incl_fouling: bool) -> str:
 	"""Save the fitted pipeline with joblib; create the directory if needed."""
 	os.makedirs(output_dir, exist_ok=True)
-	save_path = os.path.join(output_dir, f"nn_pipeline_{WINDOW_LENGTH}.joblib")
+	if incl_fouling:
+		save_path = os.path.join(output_dir, f"nn_pipeline_incl_fouling_{WINDOW_LENGTH}.joblib")
+	elif not incl_fouling:
+		save_path = os.path.join(output_dir, f"nn_pipeline_excl_fouling_{WINDOW_LENGTH}.joblib")
 	joblib.dump(pipeline, save_path)
 	logger.info(f"Pipeline saved to {save_path}")
 	return save_path
@@ -223,8 +226,8 @@ def main():
 	)
 
 	# Save
-	save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR)
-	save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR)
+	save_pipeline(pipeline_excl_fouling, MODELS_OUTPUT_DIR, incl_fouling=False)
+	save_pipeline(pipeline_incl_fouling, MODELS_OUTPUT_DIR, incl_fouling=True)
 	save_metrics([name_n_metrics_incl_fouling, name_n_metrics_excl_fouling])
 
 	logger.info("=== Done ===")
