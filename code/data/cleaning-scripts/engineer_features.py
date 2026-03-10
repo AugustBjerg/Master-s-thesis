@@ -125,6 +125,12 @@ def add_cubic_speed_dsc_interaction(df, new_column_name: str, speed_col_name: st
 
     return df
 
+def add_SOG_STW_difference(df, new_column_name: str, sog_col_name: str, stw_col_name: str):
+
+    df[new_column_name] = df[sog_col_name] - df[stw_col_name]
+
+    return df
+
 # --- Executions ---
 
 columns_before = set(df.columns)
@@ -135,6 +141,7 @@ df = add_trim(df, "Draft Trim (Calculated)", "Fwd Draft (Noon Report)", "Aft Dra
 df = add_speed_cubed(df, "Speed Through Water^3 (m/s)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 df = add_speed_dsc_interaction(df, "Speed x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
 df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
+df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
