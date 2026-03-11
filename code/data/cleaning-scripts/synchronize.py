@@ -134,7 +134,7 @@ if __name__ == "__main__":
     df = pd.read_csv(
         os.path.join(appended_data_dir, 'excl_noon_reports.csv'),
         parse_dates=['utc_timestamp'],
-        nrows=1000000 # for testing, remove this line for full dataset
+    #    nrows=1000000 # for testing, remove this line for full dataset
         )
 
     logger.info(f'QIDs in appended data: {df["qid_mapping"].unique()}')
@@ -350,8 +350,7 @@ if __name__ == "__main__":
     }
 
     logger.info(f'columns planned to be in synchronized dataframes: {all_columns_15s} and {all_columns_1h}')
-    logger.info(f'columns actually in synchronized dataframes: {pd.read_csv(results[0][3], nrows=0).columns.tolist()}')
-
+    
     # save metadata to json file
     metadata_filepath = os.path.join(sync_output_dir, f'synchronization_metadata_{script_start}.json') # script start time is close enough
     with open(metadata_filepath, 'w') as f:
