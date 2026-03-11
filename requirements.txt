@@ -11,3 +11,4 @@ plotly
 pygam
 gplearn
 statsmodels
+shap
