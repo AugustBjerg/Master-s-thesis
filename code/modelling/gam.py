@@ -113,10 +113,14 @@ def build_gam_formula(
             continue  # Already handled by te()
 
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
-            term = s(i, constraints="monotonic_inc", n_splines=15)
+            term = s(i, 
+                    #constraints="monotonic_inc", 
+                    n_splines=15)
 
         elif var_name == SPEED_VARIABLE:
-            term = s(i, constraints="monotonic_inc", n_splines=15)
+            term = s(i, 
+                    constraints="monotonic_inc",
+                    n_splines=15)
 
         elif var_name in (
             "Speed Through Water^3 (m/s)",
@@ -128,17 +132,11 @@ def build_gam_formula(
         elif var_name == "Avg Draft (Calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
 
-        elif var_name == "Vessel External Conditions Sea Water Temperature (Provider S)":
-            term = s(i, constraints="monotonic_dec", n_splines=10)
-
-        elif var_name in (
-            "Vessel External Conditions Wave Significant Height (Provider MB)",
-            "Vessel External Conditions Swell Significant Height (Provider MB)",
-        ):
+        elif var_name == "Longitudinal wind force (calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
 
-        elif var_name == "Vessel External Conditions Wind Relative Angle (degrees)":
-            term = s(i, basis="cp", n_splines=10, edge_knots=[0, 360])
+        elif var_name == "Vessel External Conditions Sea Water Temperature (Provider S)":
+            term = s(i, constraints="monotonic_dec", n_splines=10)
 
         elif var_name == "Vessel External Conditions Wind Relative Speed (knots)":
             term = s(i, constraints="monotonic_inc", n_splines=15)
