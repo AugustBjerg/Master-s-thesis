@@ -101,6 +101,10 @@ INTENDED_SAMPLING_INTERVALS_SECONDS = {
     # Pre-sync calculations - not actual variables but need to be represented here
     "5::0::0::0_0::0::0::0::0_0::0::0::0_1" : 15, # delta fouling penalty index
     "5::0::0::0_0::0::0::0::0_0::0::0::0_2" : 15, # cumulative fouling penalty index
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_3" : 15, # is_in_voyage
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_4" : 15, # temporary_voyage_id
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_5" : 15, # voyage_duration_hours
+    "5::0::0::0_0::0::0::0::0_0::0::0::0_6" : 15, # actual_voyage_id
 
 }
 
@@ -348,6 +352,13 @@ JULY_CLEANING_DATE = "2024-07-10"
 
 DELTA_FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_1"
 FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
+IS_IN_VOYAGE_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_3"
+TEMPORARY_VOYAGE_ID_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_4"
+VOYAGE_DURATION_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_5"
+ACTUAL_VOYAGE_ID_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_6"
+
+VOYAGE_SPEED_THRESHOLD = SPEED_THROUGH_WATER_THRESHOLD  # knots, same as STW threshold for consistency
+VOYAGE_DURATION_THRESHOLD_HOURS = 24  # hours, minimum voyage duration to be considered a real voyage
 
 # --- Modelling ---
 

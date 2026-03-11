@@ -4,7 +4,10 @@ import pandas as pd
 import numpy as np
 from typing import List
 from loguru import logger
-from config import EXPECTED_SENSOR_OBSERVATIONS, DELTA_FPI_QID, FPI_QID, JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0, FOULING_PROXY_EPSILON
+from config import (EXPECTED_SENSOR_OBSERVATIONS, DELTA_FPI_QID, FPI_QID,
+    JANUARY_CLEANING_DATE, JULY_CLEANING_DATE, FOULING_PROXY_V_0, FOULING_PROXY_EPSILON,
+    IS_IN_VOYAGE_QID, TEMPORARY_VOYAGE_ID_QID, VOYAGE_DURATION_QID, ACTUAL_VOYAGE_ID_QID,
+    VOYAGE_SPEED_THRESHOLD, VOYAGE_DURATION_THRESHOLD_HOURS)
 from multiprocessing import Pool, cpu_count
 
 # Get the directory where THIS script is located
@@ -71,6 +74,156 @@ def _fpi_change(stw, water_temp, delta_t, v_0=FOULING_PROXY_V_0, water_temp_thre
 
     d = np.maximum(d, 0.0)
     return d
+
+def add_voyage_dummies(
+    df,
+    sog_qid="2::0::6::1_1::1::0::2::0_1::0::1::0_8",
+    voyage_speed_threshold=VOYAGE_SPEED_THRESHOLD,
+    voyage_duration_threshold_hours=VOYAGE_DURATION_THRESHOLD_HOURS,
+):
+    """
+    Adds voyage-related calculated rows based on Speed Over Ground (SOG) timeline.
+
+    New rows added for each SOG observation:
+      1. is_in_voyage: binary, 1 if SOG > threshold, 0 otherwise
+      2. temporary_voyage_id: incremented each 0->1 transition, NaN when not in voyage
+      3. voyage_duration_hours: hours since current voyage start, NaN when not in voyage
+      4. actual_voyage_id: same as temporary but NaN if voyage duration < threshold
+    """
+    required_cols = {
+        'utc_timestamp', 'qid_mapping', 'value',
+        'quantity_name', 'source_name', 'unit', 'time_delta_sec'
+    }
+    missing = required_cols - set(df.columns)
+    if missing:
+        raise ValueError(f"df missing required columns: {missing}")
+
+    if df.empty:
+        logger.warning("add_voyage_dummies called with empty df")
+        return df
+
+    # Extract SOG rows
+    sog_df = df.loc[
+        df['qid_mapping'] == sog_qid,
+        ['utc_timestamp', 'value', 'time_delta_sec']
+    ].copy()
+
+    if sog_df.empty:
+        logger.warning(f"No SOG rows found for qid {sog_qid}; skipping voyage dummies.")
+        return df
+
+    sog_df = sog_df.sort_values('utc_timestamp').reset_index(drop=True)
+    sog_df['utc_timestamp'] = pd.to_datetime(sog_df['utc_timestamp'], errors='coerce')
+    sog_df['sog'] = pd.to_numeric(sog_df['value'], errors='coerce')
+
+    # --- Step 1: is_in_voyage ---
+    sog_df['is_in_voyage'] = (sog_df['sog'] > voyage_speed_threshold).astype(int)
+
+    n_total = len(sog_df)
+    n_in_voyage = int(sog_df['is_in_voyage'].sum())
+    n_not_in_voyage = n_total - n_in_voyage
+    logger.info(
+        f"is_in_voyage: {n_in_voyage} ({100*n_in_voyage/n_total:.1f}%) are 1, "
+        f"{n_not_in_voyage} ({100*n_not_in_voyage/n_total:.1f}%) are 0"
+    )
+
+    # --- Step 2: temporary_voyage_id ---
+    # New voyage starts when is_in_voyage transitions 0->1 (first obs being 1 counts as start)
+    voyage_starts = (sog_df['is_in_voyage'] == 1) & (
+        sog_df['is_in_voyage'].shift(1, fill_value=0) == 0
+    )
+    sog_df['temporary_voyage_id'] = np.where(
+        sog_df['is_in_voyage'] == 1,
+        voyage_starts.cumsum(),
+        np.nan
+    )
+
+    n_unique_voyages = int(sog_df['temporary_voyage_id'].dropna().nunique())
+    logger.info(f"temporary_voyage_id: {n_unique_voyages} unique voyages identified")
+
+    # --- Step 3: voyage_duration_hours ---
+    sog_df['voyage_duration_hours'] = np.nan
+    voyage_mask = sog_df['temporary_voyage_id'].notna()
+    if voyage_mask.any():
+        voyage_start_ts = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['utc_timestamp'].transform('first')
+        sog_df.loc[voyage_mask, 'voyage_duration_hours'] = (
+            (sog_df.loc[voyage_mask, 'utc_timestamp'] - voyage_start_ts).dt.total_seconds() / 3600.0
+        )
+
+    if n_unique_voyages > 0:
+        avg_duration = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['voyage_duration_hours'].max().mean()
+        logger.info(f"Average voyage duration: {avg_duration:.2f} hours")
+        logger.info(f'total voyage hours across all voyages: {sog_df.loc[voyage_mask, "voyage_duration_hours"].sum():.2f} hours')
+
+    # --- Step 4: actual_voyage_id ---
+    # NaN if is_in_voyage == 0 or if the voyage's max duration < threshold
+    sog_df['actual_voyage_id'] = np.nan
+    if voyage_mask.any():
+        max_durations = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['voyage_duration_hours'].transform('max')
+        sog_df.loc[voyage_mask, 'actual_voyage_id'] = np.where(
+            max_durations >= voyage_duration_threshold_hours,
+            sog_df.loc[voyage_mask, 'temporary_voyage_id'],
+            np.nan
+        )
+
+    n_voyages_after = int(sog_df['actual_voyage_id'].dropna().nunique())
+    n_filtered = n_unique_voyages - n_voyages_after
+    pct_filtered = 100 * n_filtered / n_unique_voyages if n_unique_voyages > 0 else 0
+    logger.info(
+        f"actual_voyage_id: {n_filtered} ({pct_filtered:.1f}%) voyages set to NaN "
+        f"due to duration threshold ({voyage_duration_threshold_hours}h). "
+        f"{n_voyages_after} voyages remain."
+    )
+
+    # --- Build new rows (long format) ---
+    is_in_voyage_rows = pd.DataFrame({
+        'utc_timestamp': sog_df['utc_timestamp'],
+        'qid_mapping': IS_IN_VOYAGE_QID,
+        'value': sog_df['is_in_voyage'],
+        'quantity_name': 'is_in_voyage',
+        'source_name': 'calculated',
+        'unit': 'calculated',
+        'time_delta_sec': sog_df['time_delta_sec']
+    })
+
+    temp_voyage_id_rows = pd.DataFrame({
+        'utc_timestamp': sog_df['utc_timestamp'],
+        'qid_mapping': TEMPORARY_VOYAGE_ID_QID,
+        'value': sog_df['temporary_voyage_id'],
+        'quantity_name': 'temporary_voyage_id',
+        'source_name': 'calculated',
+        'unit': 'calculated',
+        'time_delta_sec': sog_df['time_delta_sec']
+    })
+
+    voyage_duration_rows = pd.DataFrame({
+        'utc_timestamp': sog_df['utc_timestamp'],
+        'qid_mapping': VOYAGE_DURATION_QID,
+        'value': sog_df['voyage_duration_hours'],
+        'quantity_name': 'voyage_duration_hours',
+        'source_name': 'calculated',
+        'unit': 'calculated',
+        'time_delta_sec': sog_df['time_delta_sec']
+    })
+
+    actual_voyage_id_rows = pd.DataFrame({
+        'utc_timestamp': sog_df['utc_timestamp'],
+        'qid_mapping': ACTUAL_VOYAGE_ID_QID,
+        'value': sog_df['actual_voyage_id'],
+        'quantity_name': 'actual_voyage_id',
+        'source_name': 'calculated',
+        'unit': 'calculated',
+        'time_delta_sec': sog_df['time_delta_sec']
+    })
+
+    out = pd.concat(
+        [df, is_in_voyage_rows, temp_voyage_id_rows, voyage_duration_rows, actual_voyage_id_rows],
+        ignore_index=True
+    )
+
+    logger.info(f"Added voyage dummy rows: {4 * len(sog_df)} new rows. New shape: {out.shape}")
+
+    return out
 
 def add_fouling_penalty_index(
     df,
@@ -365,6 +518,10 @@ if __name__ == "__main__":
     # Sort by timestamp again since new rows were added
     appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
 
-    # Save this version of the appended df (excl. noon report data) to the folder
+    # Add voyage dummy variables
+    appended_df = add_voyage_dummies(appended_df)
+
+    # Sort by timestamp again since new rows were added
+    appended_df = appended_df.sort_values(by='utc_timestamp').reset_index(drop=True)
     os.makedirs(appended_data_dir, exist_ok=True)
     appended_df.to_csv(os.path.join(appended_data_dir, 'excl_noon_reports.csv'), index=False)
