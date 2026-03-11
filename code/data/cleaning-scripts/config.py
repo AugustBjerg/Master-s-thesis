@@ -354,8 +354,8 @@ FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
 TRAIN_RATIO = 0.8
 N_CV_SPLITS = 5
 
-FOULING_PROXY_VAR_NAME = "cumulative_fouling_penalty_index" # should be either "cumulative_fouling_penalty_index" or "Days Since Last Cleaning"
-FOULING_PROXY_VAR_NAME_WITH_UNIT = "cumulative_fouling_penalty_index (calculated)" # should be either "cumulative_fouling_penalty_index (calculated)" or "Days Since Last Cleaning"
+FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning" # should be either "cumulative_fouling_penalty_index" or "Days Since Last Cleaning"
+FOULING_PROXY_VAR_NAME_WITH_UNIT = "Days Since Last Cleaning" # should be either "cumulative_fouling_penalty_index (calculated)" or "Days Since Last Cleaning"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
 FOULING_PROXY_V_0 = 4 
 FOULING_PROXY_EPSILON = 0.01
