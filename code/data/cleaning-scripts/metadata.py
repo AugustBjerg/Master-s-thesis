@@ -52,6 +52,29 @@ def add_calculated_fouling_penalty_index_rows(df):
     logger.info(f'Added calculated fouling penalty index rows to the dataframe. Shape is now: {df.shape}')
     return df
 
+def add_voyage_dummy_rows(df):
+    # add rows for the four calculated voyage dummy variables
+    voyage_qids = {
+        "5::0::0::0_0::0::0::0::0_0::0::0::0_3": "is_in_voyage",
+        "5::0::0::0_0::0::0::0::0_0::0::0::0_4": "temporary_voyage_id",
+        "5::0::0::0_0::0::0::0::0_0::0::0::0_5": "voyage_duration_hours",
+        "5::0::0::0_0::0::0::0::0_0::0::0::0_6": "actual_voyage_id",
+    }
+
+    existing = set(df['qid_mapping'].values)
+    if any(qid in existing for qid in voyage_qids):
+        logger.warning('Voyage dummy qids already exist in the dataframe. Skipping adding voyage dummy rows.')
+        return df
+
+    new_rows = [
+        {'qid_mapping': qid, 'quantity_name': name, 'source_name': 'calculated', 'unit': 'calculated'}
+        for qid, name in voyage_qids.items()
+    ]
+
+    df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
+    logger.info(f'Added voyage dummy rows to the dataframe. Shape is now: {df.shape}')
+    return df
+
 def convert_xlsx_to_csv(input_path, output_path):
     # Read the Excel file from the specified sheet
     df = pd.read_excel(input_path, sheet_name=sheet_name)
@@ -62,6 +85,9 @@ def convert_xlsx_to_csv(input_path, output_path):
 
     # rows for the fouling proxy
     df = add_calculated_fouling_penalty_index_rows(df)
+
+    # rows for the voyage dummy variables
+    df = add_voyage_dummy_rows(df)
 
     # Convert to CSV
     df.to_csv(output_path, index=False)

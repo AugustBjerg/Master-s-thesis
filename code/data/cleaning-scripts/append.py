@@ -153,7 +153,6 @@ def add_voyage_dummies(
     if n_unique_voyages > 0:
         avg_duration = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['voyage_duration_hours'].max().mean()
         logger.info(f"Average voyage duration: {avg_duration:.2f} hours")
-        logger.info(f'total voyage hours across all voyages: {sog_df.loc[voyage_mask, "voyage_duration_hours"].sum():.2f} hours')
 
     # --- Step 4: actual_voyage_id ---
     # NaN if is_in_voyage == 0 or if the voyage's max duration < threshold
