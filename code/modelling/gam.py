@@ -30,6 +30,7 @@ from config import (  # noqa: E402
     TARGET_VARIABLE,
     WEATHER_FEATURES,
     NON_WEATHER_FEATURES,
+    VOYAGE_DUMMY_PREFIX,
     SPEED_VARIABLE,
     WINDOW_LENGTH,
     N_CV_SPLITS,
@@ -39,8 +40,7 @@ from config import (  # noqa: E402
 # Constants
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
-ALL_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
-NON_FOULING_FEATURES = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
+_BASE_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -64,14 +64,17 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
     """
     data = np.load(npz_path, allow_pickle=True)
     feature_cols = data["X_columns"].tolist()
+    voyage_cols = sorted([c for c in feature_cols if c.startswith(VOYAGE_DUMMY_PREFIX)])
+    all_features = _BASE_FEATURES + voyage_cols
 
-    X_train = pd.DataFrame(data["X_train"], columns=feature_cols)[ALL_FEATURES]
-    X_test  = pd.DataFrame(data["X_test"],  columns=feature_cols)[ALL_FEATURES]
+    X_train = pd.DataFrame(data["X_train"], columns=feature_cols)[all_features]
+    X_test  = pd.DataFrame(data["X_test"],  columns=feature_cols)[all_features]
     y_train = pd.Series(data["y_train"].ravel(), name=TARGET_VARIABLE)
     y_test  = pd.Series(data["y_test"].ravel(),  name=TARGET_VARIABLE)
 
     logger.info(f"Loaded train/test split from {npz_path}")
     logger.info(f"Train rows: {len(X_train):,} | Test rows: {len(X_test):,}")
+    logger.info(f"Voyage dummy columns ({len(voyage_cols)}): {voyage_cols}")
     return X_train, X_test, y_train, y_test
 
 # ---------------------------------------------------------------------------
@@ -140,6 +143,9 @@ def build_gam_formula(
 
         elif var_name == "Vessel External Conditions Wind Relative Speed (knots)":
             term = s(i, constraints="monotonic_inc", n_splines=15)
+
+        elif var_name.startswith(VOYAGE_DUMMY_PREFIX):
+            term = f(i)
 
         else:
             term = s(i, n_splines=10)
@@ -283,19 +289,22 @@ def main():
     logger.info("=== GAM training pipeline started ===")
     logger.info(f"Window length: {WINDOW_LENGTH}")
     logger.info(f"Target variable: {TARGET_VARIABLE}")
-    logger.info(f"Features ({len(ALL_FEATURES)}): {ALL_FEATURES}")
 
     # 1. Load data
     X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
 
+    all_features = list(X_train.columns)
+    non_fouling_features = [f for f in all_features if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
+    logger.info(f"Features ({len(all_features)}): {all_features}")
+
     # 2. Build GAM formulas
-    formula_excl_fouling = build_gam_formula(NON_FOULING_FEATURES, include_fouling_proxy=False, speed_fouling_interaction=False)
-    formula_incl_fouling = build_gam_formula(ALL_FEATURES, include_fouling_proxy=True, speed_fouling_interaction=False)
+    formula_excl_fouling = build_gam_formula(non_fouling_features, include_fouling_proxy=False, speed_fouling_interaction=False)
+    formula_incl_fouling = build_gam_formula(all_features, include_fouling_proxy=True, speed_fouling_interaction=False)
     logger.info("GAM formula constructed.")
 
     # 3. Build pipelines
-    pipeline_excl_fouling = build_pipeline(formula_excl_fouling, feature_list=NON_FOULING_FEATURES)
-    pipeline_incl_fouling = build_pipeline(formula_incl_fouling, feature_list=ALL_FEATURES)
+    pipeline_excl_fouling = build_pipeline(formula_excl_fouling, feature_list=non_fouling_features)
+    pipeline_incl_fouling = build_pipeline(formula_incl_fouling, feature_list=all_features)
 
     # 4. Train and evaluate
     pipeline_excl_fouling, name_n_metrics_excl_fouling = train_and_evaluate(pipeline_excl_fouling, X_train, y_train, X_test, y_test, model_name="GAM_excl_fouling")
