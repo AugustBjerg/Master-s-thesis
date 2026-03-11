@@ -4,7 +4,8 @@ import os
 import json
 import time
 from multiprocessing import Pool
-from config import INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH_SECONDS, DROP_TRANDUCER_DEPTH
+from config import (INTENDED_SAMPLING_INTERVALS_SECONDS, THRESHOLD_FACTOR, MIN_SEGMENT_LENGTH_SECONDS,
+    DROP_TRANDUCER_DEPTH, IS_IN_VOYAGE_QID, TEMPORARY_VOYAGE_ID_QID, VOYAGE_DURATION_QID, ACTUAL_VOYAGE_ID_QID)
 from loguru import logger
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -70,7 +71,22 @@ def process_single_segment(args):
     
     # Combine actual observation timestamps with the grid, interpolate, extract grid points
     combined_15s = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
+
+    # Forward-fill categorical voyage columns before linear interpolation
+    ffill_qids = [IS_IN_VOYAGE_QID, TEMPORARY_VOYAGE_ID_QID, ACTUAL_VOYAGE_ID_QID]
+    ffill_cols_present = [q for q in ffill_qids if q in combined_15s.columns]
+    if ffill_cols_present:
+        combined_15s[ffill_cols_present] = combined_15s[ffill_cols_present].ffill()
+
     combined_15s.interpolate(method='linear', limit_area='inside', inplace=True)
+
+    # Restore categorical voyage columns (overwrite any linear interpolation artifacts)
+    # Re-derive from the forward-filled pivot to avoid fractional IDs
+    if ffill_cols_present:
+        ffill_source = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
+        ffill_source[ffill_cols_present] = ffill_source[ffill_cols_present].ffill()
+        combined_15s[ffill_cols_present] = ffill_source.loc[grid_15s['utc_timestamp'].values, ffill_cols_present].values
+
     combined_15s = (
         combined_15s
         .loc[grid_15s['utc_timestamp']]

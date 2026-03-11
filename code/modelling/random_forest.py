@@ -27,6 +27,7 @@ from config import (  # noqa: E402
 	TARGET_VARIABLE,
 	WEATHER_FEATURES,
 	NON_WEATHER_FEATURES,
+	VOYAGE_DUMMY_PREFIX,
 	WINDOW_LENGTH,
 	N_CV_SPLITS,
 )
@@ -35,8 +36,7 @@ from config import (  # noqa: E402
 # Constants
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
-ALL_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
-FEATURES_EXCL_FOULING = [f for f in ALL_FEATURES if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
+_BASE_FEATURES = NON_WEATHER_FEATURES + WEATHER_FEATURES
 
 # Notebook RF grid
 RF_PARAM_GRID = {
@@ -63,14 +63,17 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 	"""Load the pre-computed train/test split from an .npz file."""
 	data = np.load(npz_path, allow_pickle=True)
 	feature_cols = data["X_columns"].tolist()
+	voyage_cols = sorted([c for c in feature_cols if c.startswith(VOYAGE_DUMMY_PREFIX)])
+	all_features = _BASE_FEATURES + voyage_cols
 
-	X_train = pd.DataFrame(data["X_train"], columns=feature_cols)[ALL_FEATURES]
-	X_test = pd.DataFrame(data["X_test"], columns=feature_cols)[ALL_FEATURES]
+	X_train = pd.DataFrame(data["X_train"], columns=feature_cols)[all_features]
+	X_test = pd.DataFrame(data["X_test"], columns=feature_cols)[all_features]
 	y_train = pd.Series(data["y_train"].ravel(), name=TARGET_VARIABLE)
 	y_test = pd.Series(data["y_test"].ravel(), name=TARGET_VARIABLE)
 
 	logger.info(f"Loaded train/test split from {npz_path}")
 	logger.info(f"Train rows: {len(X_train):,} | Test rows: {len(X_test):,}")
+	logger.info(f"Voyage dummy columns ({len(voyage_cols)}): {voyage_cols}")
 	return X_train, X_test, y_train, y_test
 
 
@@ -210,34 +213,37 @@ def main():
 	logger.info("=== Random Forest training pipeline started ===")
 	logger.info(f"Window length: {WINDOW_LENGTH}")
 	logger.info(f"Target variable: {TARGET_VARIABLE}")
-	logger.info(f"Features ({len(ALL_FEATURES)}): {ALL_FEATURES}")
 
 	X_train, X_test, y_train, y_test = load_data(NPZ_PATH)
+
+	all_features = list(X_train.columns)
+	features_excl_fouling = [f for f in all_features if f != FOULING_PROXY_VAR_NAME_WITH_UNIT]
+	logger.info(f"Features ({len(all_features)}): {all_features}")
 
 	cv = KFold(n_splits=N_CV_SPLITS, shuffle=True, random_state=RANDOM_SEED)
 
 	# Build pipelines and grid searches
-	pipeline_excl_fouling = build_pipeline(FEATURES_EXCL_FOULING)
+	pipeline_excl_fouling = build_pipeline(features_excl_fouling)
 	grid_search_excl_fouling = build_grid_search(pipeline_excl_fouling, cv)
 
-	pipeline_incl_fouling = build_pipeline(ALL_FEATURES)
+	pipeline_incl_fouling = build_pipeline(all_features)
 	grid_search_incl_fouling = build_grid_search(pipeline_incl_fouling, cv)
 
 	# Train and evaluate
 
 	name_n_metrics_excl_fouling, fitted_pipeline_excl_fouling = train_and_evaluate(
 		grid_search_excl_fouling,
-		X_train[FEATURES_EXCL_FOULING],
+		X_train[features_excl_fouling],
 		y_train,
-		X_test[FEATURES_EXCL_FOULING],
+		X_test[features_excl_fouling],
 		y_test,
 		model_name="Random_Forest_excl_fouling",
 	)
 	name_n_metrics_incl_fouling, fitted_pipeline_incl_fouling = train_and_evaluate(
 		grid_search_incl_fouling,
-		X_train[ALL_FEATURES],
+		X_train[all_features],
 		y_train,
-		X_test[ALL_FEATURES],
+		X_test[all_features],
 		y_test,
 		model_name="Random_Forest_incl_fouling",
 	)

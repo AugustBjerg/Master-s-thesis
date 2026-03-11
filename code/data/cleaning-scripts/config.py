@@ -330,7 +330,10 @@ SENSOR_DATA_AGGREGATION_METHODS = {
     "Imputed Spike in Main Engine Fuel Load %": "sum",
     "Imputed Spike in Main Engine Scavenging Air Pressure": "sum",
     "delta_fouling_penalty_index (calculated)": "sum",
-    "cumulative_fouling_penalty_index (calculated)": "last"
+    "cumulative_fouling_penalty_index (calculated)": "last",
+    "voyage_duration_hours (calculated)": "last",
+    "actual_voyage_id (calculated)": "last",
+    "temporary_voyage_id (calculated)": "last",
 }
 
 ANGLE_COLUMNS = [
@@ -359,6 +362,7 @@ ACTUAL_VOYAGE_ID_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_6"
 
 VOYAGE_SPEED_THRESHOLD = SPEED_THROUGH_WATER_THRESHOLD  # knots, same as STW threshold for consistency
 VOYAGE_DURATION_THRESHOLD_HOURS = 24  # hours, minimum voyage duration to be considered a real voyage
+VOYAGE_DUMMY_PREFIX = "voyage_"  # prefix used for one-hot encoded voyage dummy columns
 
 # --- Modelling ---
 

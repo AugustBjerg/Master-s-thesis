@@ -237,6 +237,25 @@ df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel H
 df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 df = add_longitudinal_features(df)
 
+# One-hot encode actual_voyage_id and drop raw voyage columns
+if "actual_voyage_id (calculated)" in df.columns:
+    voyage_dummies = pd.get_dummies(
+        df["actual_voyage_id (calculated)"],
+        prefix="voyage",
+        drop_first=True,
+    )
+    voyage_dummies.columns = voyage_dummies.columns.astype(str)
+    df = pd.concat([df, voyage_dummies], axis=1)
+    logger.info(f"Created {voyage_dummies.shape[1]} voyage dummy columns: {sorted(voyage_dummies.columns.tolist())}")
+else:
+    logger.warning("'actual_voyage_id (calculated)' not found — skipping voyage dummy creation.")
+
+# Drop raw voyage columns that are not needed as model features
+for col_to_drop in ["actual_voyage_id (calculated)", "temporary_voyage_id (calculated)", "voyage_duration_hours (calculated)"]:
+    if col_to_drop in df.columns:
+        df = df.drop(columns=[col_to_drop])
+        logger.info(f"Dropped column '{col_to_drop}'")
+
 # get the first value of every day in january to check if the feature is correct
 first_values_january = df[df["window_start"].dt.month == 1].groupby(df["window_start"].dt.date).first()[["window_start", "Days Since Last Cleaning"]]
 

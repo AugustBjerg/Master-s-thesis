@@ -80,6 +80,7 @@ def add_voyage_dummies(
     sog_qid="2::0::6::1_1::1::0::2::0_1::0::1::0_8",
     voyage_speed_threshold=VOYAGE_SPEED_THRESHOLD,
     voyage_duration_threshold_hours=VOYAGE_DURATION_THRESHOLD_HOURS,
+    voyage_merge_gap_hours=12,
 ):
     """
     Adds voyage-related calculated rows based on Speed Over Ground (SOG) timeline.
@@ -173,6 +174,57 @@ def add_voyage_dummies(
         f"due to duration threshold ({voyage_duration_threshold_hours}h). "
         f"{n_voyages_after} voyages remain."
     )
+
+    # --- Step 5: merge actual voyages with small gaps ---
+    n_before_merge = n_voyages_after
+    if n_voyages_after > 1:
+        actual_mask = sog_df['actual_voyage_id'].notna()
+        # Get end/start timestamps per actual voyage
+        voyage_bounds = sog_df.loc[actual_mask].groupby('actual_voyage_id')['utc_timestamp'].agg(['min', 'max'])
+        voyage_bounds = voyage_bounds.sort_values('min')
+
+        # Build a mapping: old_id -> merged_id
+        merge_map = {}
+        current_group_id = voyage_bounds.index[0]
+        current_end = voyage_bounds.loc[current_group_id, 'max']
+        merge_map[current_group_id] = current_group_id
+
+        for vid in voyage_bounds.index[1:]:
+            gap_hours = (voyage_bounds.loc[vid, 'min'] - current_end).total_seconds() / 3600.0
+            if gap_hours <= voyage_merge_gap_hours:
+                merge_map[vid] = current_group_id
+                current_end = max(current_end, voyage_bounds.loc[vid, 'max'])
+            else:
+                current_group_id = vid
+                current_end = voyage_bounds.loc[vid, 'max']
+                merge_map[vid] = current_group_id
+
+        # Apply merge mapping
+        sog_df.loc[actual_mask, 'actual_voyage_id'] = (
+            sog_df.loc[actual_mask, 'actual_voyage_id'].map(merge_map)
+        )
+
+        # Also fill in the gap rows between merged voyages
+        merged_ids = set(merge_map.values())
+        for mid in merged_ids:
+            member_ids = [k for k, v in merge_map.items() if v == mid]
+            if len(member_ids) <= 1:
+                continue
+            overall_start = voyage_bounds.loc[member_ids, 'min'].min()
+            overall_end = voyage_bounds.loc[member_ids, 'max'].max()
+            gap_mask = (
+                (sog_df['utc_timestamp'] >= overall_start)
+                & (sog_df['utc_timestamp'] <= overall_end)
+                & sog_df['actual_voyage_id'].isna()
+            )
+            sog_df.loc[gap_mask, 'actual_voyage_id'] = mid
+
+        n_after_merge = int(sog_df['actual_voyage_id'].dropna().nunique())
+        n_merged = n_before_merge - n_after_merge
+        logger.info(
+            f"Voyage merging: {n_merged} voyages merged into neighbours "
+            f"(gap <= {voyage_merge_gap_hours}h). {n_after_merge} voyages remain."
+        )
 
     # --- Build new rows (long format) ---
     is_in_voyage_rows = pd.DataFrame({
