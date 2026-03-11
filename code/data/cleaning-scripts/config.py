@@ -388,6 +388,8 @@ CANDIDATE_FEATURES = [
 
 WEATHER_FEATURES = [
     "Vessel External Conditions Wave Period (Provider S)",
+    "Vessel External Conditions Sea Water Temperature (Provider S)",
+    "Vessel External Conditions Wave Significant Height (Provider MB)",
     "longitudinal_wave_force (calculated)",
     "longitudinal_wind_force (calculated)",
     ]
