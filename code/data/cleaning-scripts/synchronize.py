@@ -83,10 +83,17 @@ def process_single_segment(args):
     # Restore categorical voyage columns (overwrite any linear interpolation artifacts)
     # Re-derive from the forward-filled pivot to avoid fractional IDs
     if ffill_cols_present:
-        ffill_source = pivot_15s.reindex(pivot_15s.index.union(grid_15s['utc_timestamp'])).sort_index()
+    # Build the forward-filled source on the full union
+        ffill_source = pivot_15s.reindex(
+            pivot_15s.index.union(grid_15s['utc_timestamp'])
+        ).sort_index()
         ffill_source[ffill_cols_present] = ffill_source[ffill_cols_present].ffill()
-        combined_15s[ffill_cols_present] = ffill_source.loc[grid_15s['utc_timestamp'].values, ffill_cols_present].values
 
+        # Now align exactly to the grid timestamps
+        ffill_on_grid = ffill_source.reindex(grid_15s['utc_timestamp'])
+
+        combined_15s[ffill_cols_present] = ffill_on_grid[ffill_cols_present].values
+        
     combined_15s = (
         combined_15s
         .loc[grid_15s['utc_timestamp']]
