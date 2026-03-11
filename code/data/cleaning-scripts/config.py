@@ -387,14 +387,13 @@ CANDIDATE_FEATURES = [
 ]
 
 WEATHER_FEATURES = [
-    "Vessel External Conditions Wind Relative Angle (degrees)",
-    "Vessel External Conditions Wind Relative Speed (knots)",
-    "Vessel External Conditions Sea Water Temperature (Provider S)",
-    "Vessel External Conditions Wave Significant Height (Provider MB)",
+    "Vessel External Conditions Wave Period (Provider S)",
+    "longitudinal_wave_force (calculated)",
+    "longitudinal_wind_force (calculated)",
     ]
 NON_WEATHER_FEATURES = [
     "Avg Draft (Calculated)",
-    "Draft Trim (Calculated)",
+    "SOG - STW (calculated)",
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     ]
