@@ -114,7 +114,7 @@ def build_gam_formula(
 
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, 
-                    #constraints="monotonic_inc", 
+                    constraints="monotonic_inc", 
                     n_splines=15)
 
         elif var_name == SPEED_VARIABLE:
@@ -132,7 +132,7 @@ def build_gam_formula(
         elif var_name == "Avg Draft (Calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
 
-        elif var_name == "Longitudinal wind force (calculated)":
+        elif var_name == "longitudinal_wind_force (calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
 
         elif var_name == "Vessel External Conditions Sea Water Temperature (Provider S)":
