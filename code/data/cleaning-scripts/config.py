@@ -424,3 +424,4 @@ SCORING_METRICS = {
     "mae": "neg_mean_absolute_error",
 }
 
+KERNEL_BACKGROUND_SIZE = 100 # for SHAP
