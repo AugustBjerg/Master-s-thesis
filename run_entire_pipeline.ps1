@@ -33,4 +33,8 @@ echo "gam.py executed"
 python code/modelling/random_forest.py
 echo "random_forest.py executed"
 
+python code/modelling/NN.py
+echo "NN.py executed"
+
+
 echo "data pipeline finished"
