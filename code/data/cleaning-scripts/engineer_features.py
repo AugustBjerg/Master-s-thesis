@@ -41,10 +41,6 @@ logger.add(
 # load data
 df = pd.read_csv(aggregated_data_path)
 
-# check if the fouling proxy feature is present
-if FOULING_PROXY_VAR_NAME_WITH_UNIT not in df.columns:
-    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}' not found in the data. Please check why.")
-
 # Ensure datetime datatypes
 df["window_start"] = pd.to_datetime(df["window_start"], format="ISO8601", utc=True)
 
@@ -267,6 +263,10 @@ if FOULING_PROXY_VAR_NAME_WITH_UNIT in df.columns:
     logger.info(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}'")
 else:
     logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}' not found in the data after feature engineering. Please check why.")
+
+# check if the fouling proxy feature is present
+if FOULING_PROXY_VAR_NAME_WITH_UNIT not in df.columns:
+    logger.warning(f"Fouling proxy variable '{FOULING_PROXY_VAR_NAME_WITH_UNIT}' not found in the data. Please check why.")
 
 # save the dateframe with the new features
 output_path = os.path.join(engineered_dir, f"engineered_features_{WINDOW_LENGTH}.csv")

@@ -136,15 +136,15 @@ def add_voyage_dummies(
     sog_df['temporary_voyage_id'] = np.where(
         sog_df['is_in_voyage'] == 1,
         voyage_starts.cumsum(),
-        np.nan
+        0
     )
 
-    n_unique_voyages = int(sog_df['temporary_voyage_id'].dropna().nunique())
+    n_unique_voyages = int(sog_df.loc[sog_df['temporary_voyage_id'] > 0, 'temporary_voyage_id'].nunique())
     logger.info(f"temporary_voyage_id: {n_unique_voyages} unique voyages identified")
 
     # --- Step 3: voyage_duration_hours ---
-    sog_df['voyage_duration_hours'] = np.nan
-    voyage_mask = sog_df['temporary_voyage_id'].notna()
+    sog_df['voyage_duration_hours'] = 0.0
+    voyage_mask = sog_df['temporary_voyage_id'] > 0
     if voyage_mask.any():
         voyage_start_ts = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['utc_timestamp'].transform('first')
         sog_df.loc[voyage_mask, 'voyage_duration_hours'] = (
@@ -156,8 +156,8 @@ def add_voyage_dummies(
         logger.info(f"Average voyage duration: {avg_duration:.2f} hours")
 
     # --- Step 4: actual_voyage_id ---
-    # NaN if is_in_voyage == 0 or if the voyage's max duration < threshold
-    sog_df['actual_voyage_id'] = np.nan
+    # 0 when not in voyage, NaN if the voyage's max duration < threshold
+    sog_df['actual_voyage_id'] = 0.0
     if voyage_mask.any():
         max_durations = sog_df.loc[voyage_mask].groupby('temporary_voyage_id')['voyage_duration_hours'].transform('max')
         sog_df.loc[voyage_mask, 'actual_voyage_id'] = np.where(
@@ -166,7 +166,7 @@ def add_voyage_dummies(
             np.nan
         )
 
-    n_voyages_after = int(sog_df['actual_voyage_id'].dropna().nunique())
+    n_voyages_after = int(sog_df.loc[sog_df['actual_voyage_id'] > 0, 'actual_voyage_id'].nunique())
     n_filtered = n_unique_voyages - n_voyages_after
     pct_filtered = 100 * n_filtered / n_unique_voyages if n_unique_voyages > 0 else 0
     logger.info(
@@ -178,7 +178,7 @@ def add_voyage_dummies(
     # --- Step 5: merge actual voyages with small gaps ---
     n_before_merge = n_voyages_after
     if n_voyages_after > 1:
-        actual_mask = sog_df['actual_voyage_id'].notna()
+        actual_mask = sog_df['actual_voyage_id'] > 0
         # Get end/start timestamps per actual voyage
         voyage_bounds = sog_df.loc[actual_mask].groupby('actual_voyage_id')['utc_timestamp'].agg(['min', 'max'])
         voyage_bounds = voyage_bounds.sort_values('min')
@@ -215,11 +215,11 @@ def add_voyage_dummies(
             gap_mask = (
                 (sog_df['utc_timestamp'] >= overall_start)
                 & (sog_df['utc_timestamp'] <= overall_end)
-                & sog_df['actual_voyage_id'].isna()
+                & (sog_df['actual_voyage_id'].isna() | (sog_df['actual_voyage_id'] == 0))
             )
             sog_df.loc[gap_mask, 'actual_voyage_id'] = mid
 
-        n_after_merge = int(sog_df['actual_voyage_id'].dropna().nunique())
+        n_after_merge = int(sog_df.loc[sog_df['actual_voyage_id'] > 0, 'actual_voyage_id'].nunique())
         n_merged = n_before_merge - n_after_merge
         logger.info(
             f"Voyage merging: {n_merged} voyages merged into neighbours "

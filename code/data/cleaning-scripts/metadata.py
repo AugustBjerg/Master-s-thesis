@@ -86,6 +86,9 @@ def convert_xlsx_to_csv(input_path, output_path):
     # rows for the fouling proxy
     df = add_calculated_fouling_penalty_index_rows(df)
 
+    # rows for the voyage dummy variables
+    df = add_voyage_dummy_rows(df)
+
     # Convert to CSV
     df.to_csv(output_path, index=False)
 
