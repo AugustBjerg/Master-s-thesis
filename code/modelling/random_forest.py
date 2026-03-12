@@ -44,7 +44,7 @@ RF_PARAM_GRID = {
 	"model__min_samples_leaf": [20],
 	"model__min_samples_split": [20],
 	"model__n_estimators": [300],
-	"model__max_features": [0.75],
+	"model__max_features": [0.85],
 }
 
 # ---------------------------------------------------------------------------
