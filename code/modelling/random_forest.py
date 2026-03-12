@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.abspath(_cleaning_scripts_dir))
 
 from config import (  # noqa: E402
 	FOULING_PROXY_VAR_NAME_WITH_UNIT,
+	INCLUDE_VOYAGE_DUMMIES,
 	TARGET_VARIABLE,
 	WEATHER_FEATURES,
 	NON_WEATHER_FEATURES,
@@ -63,7 +64,11 @@ def load_data(npz_path: str) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.
 	"""Load the pre-computed train/test split from an .npz file."""
 	data = np.load(npz_path, allow_pickle=True)
 	feature_cols = data["X_columns"].tolist()
-	voyage_cols = sorted([c for c in feature_cols if c.startswith(VOYAGE_DUMMY_PREFIX)])
+	if INCLUDE_VOYAGE_DUMMIES:
+		voyage_cols = sorted([c for c in feature_cols if c.startswith(VOYAGE_DUMMY_PREFIX)])
+	else:
+		voyage_cols = []
+		logger.info("Voyage dummies disabled; excluding voyage dummy columns.")
 	all_features = _BASE_FEATURES + voyage_cols
 
 	X_train = pd.DataFrame(data["X_train"], columns=feature_cols)[all_features]

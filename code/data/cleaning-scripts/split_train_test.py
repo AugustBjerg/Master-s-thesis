@@ -6,7 +6,7 @@ import re
 import itertools
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from config import WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME_WITH_UNIT, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES, VOYAGE_DUMMY_PREFIX
+from config import INCLUDE_VOYAGE_DUMMIES, WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME_WITH_UNIT, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES, VOYAGE_DUMMY_PREFIX
 from typing import List, Optional
 from datetime import datetime
 from loguru import logger
@@ -101,9 +101,14 @@ def create_controlled_var_df(
 
 if __name__ == "__main__":
 
-    voyage_cols = sorted([c for c in df.columns if c.startswith(VOYAGE_DUMMY_PREFIX)])
-    logger.info(f"Detected {len(voyage_cols)} voyage dummy columns: {voyage_cols}")
-    features = WEATHER_FEATURES + NON_WEATHER_FEATURES + voyage_cols
+    if INCLUDE_VOYAGE_DUMMIES:
+        voyage_cols = sorted([c for c in df.columns if c.startswith(VOYAGE_DUMMY_PREFIX)])
+        logger.info(f"Detected {len(voyage_cols)} voyage dummy columns: {voyage_cols}")
+        features = WEATHER_FEATURES + NON_WEATHER_FEATURES + voyage_cols
+    else:
+        logger.info("Voyage dummies disabled; using only weather and non-weather features.")
+        features = WEATHER_FEATURES + NON_WEATHER_FEATURES
+
     all_column_names = features + [TARGET_VARIABLE]
 
     all_columns_in_df = df.columns.tolist()

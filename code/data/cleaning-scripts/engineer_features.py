@@ -219,6 +219,9 @@ def add_longitudinal_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+def add_day_of_year(df, new_column_name: str):
+    df[new_column_name] = df["window_start"].dt.dayofyear
+    return df
 
 # --- Executions ---
 
@@ -232,6 +235,7 @@ df = add_speed_dsc_interaction(df, "Speed x DSC (calculated)", "Vessel Hull Thro
 df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
 df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 df = add_longitudinal_features(df)
+df = add_day_of_year(df, "Day of Year")
 
 # One-hot encode actual_voyage_id and drop raw voyage columns
 if "actual_voyage_id (calculated)" in df.columns:
