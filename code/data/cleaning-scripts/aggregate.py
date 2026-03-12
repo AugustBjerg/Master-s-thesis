@@ -356,6 +356,9 @@ else:
 
 # ---- Saving ----
 
+logger.info(f'date of first observation: {out_with_weather_and_noon["window_start"].min()}')
+logger.info(f'date of last observation: {out_with_weather_and_noon["window_start"].max()}')
+
 # Save the aggregated table to a csv file with the window length in the name
 output_path = os.path.join(aggregated_dir, f'aggregated_{WINDOW_LENGTH}.csv')
 out_with_weather_and_noon.to_csv(output_path, index=False)
