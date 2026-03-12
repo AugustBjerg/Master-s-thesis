@@ -24,8 +24,8 @@ echo "engineer_features.py executed"
 python code/data/cleaning-scripts/split_train_test.py
 echo "split_train_test.py executed"
 
-python code/modelling/LR.py
-echo "LR.py executed"
+python code/modelling/ridge_regression.py
+echo "ridge_regression.py executed"
 
 python code/modelling/gam.py
 echo "gam.py executed"
