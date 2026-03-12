@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import copy
 from loguru import logger
-from pygam import LinearGAM, s, te, f
+from pygam import LinearGAM, s, te, f, l
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import (
@@ -117,7 +117,7 @@ def build_gam_formula(
 
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, 
-                    constraints="monotonic_inc", 
+        #            constraints="monotonic_inc", 
                     n_splines=15)
 
         elif var_name == SPEED_VARIABLE:
@@ -145,7 +145,7 @@ def build_gam_formula(
             term = s(i, constraints="monotonic_inc", n_splines=15)
 
         elif var_name.startswith(VOYAGE_DUMMY_PREFIX):
-            term = f(i)
+            term = l(i)
 
         else:
             term = s(i, n_splines=10)
@@ -184,9 +184,14 @@ class SklearnGAM(BaseEstimator, RegressorMixin):
 # ---------------------------------------------------------------------------
 
 def build_pipeline(formula, feature_list: list[str]) -> Pipeline:
-    preprocessor = ColumnTransformer(
-        transformers=[("scaler", StandardScaler(), feature_list)]
-    )
+    continuous_features = [f for f in feature_list if not f.startswith(VOYAGE_DUMMY_PREFIX)]
+    voyage_features = [f for f in feature_list if f.startswith(VOYAGE_DUMMY_PREFIX)]
+
+    transformers = [("scaler", StandardScaler(), continuous_features)]
+    if voyage_features:
+        transformers.append(("passthrough_voyage", "passthrough", voyage_features))
+
+    preprocessor = ColumnTransformer(transformers=transformers)
     return Pipeline([
         ("preprocessor", preprocessor),
         ("model", SklearnGAM(formula=formula, auto_tune=True)),
