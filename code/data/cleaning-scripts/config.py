@@ -371,8 +371,8 @@ INCLUDE_VOYAGE_DUMMIES = False
 TRAIN_RATIO = 0.8
 N_CV_SPLITS = 5
 
-FOULING_PROXY_VAR_NAME = "cumulative_fouling_penalty_index" # should be either "cumulative_fouling_penalty_index" or "Days Since Last Cleaning"
-FOULING_PROXY_VAR_NAME_WITH_UNIT = "cumulative_fouling_penalty_index (calculated)" # should be either "cumulative_fouling_penalty_index (calculated)" or "Days Since Last Cleaning"
+FOULING_PROXY_VAR_NAME = "Days Since Last Cleaning" # should be either "cumulative_fouling_penalty_index" or "Days Since Last Cleaning"
+FOULING_PROXY_VAR_NAME_WITH_UNIT = "Days Since Last Cleaning" # should be either "cumulative_fouling_penalty_index (calculated)" or "Days Since Last Cleaning"
 FOULING_PROXY_CONTROLLED_VARIABLE_RANGE = (0, 150)
 FOULING_PROXY_V_0 = 4 
 FOULING_PROXY_EPSILON = 0.01
@@ -403,7 +403,6 @@ CANDIDATE_FEATURES = [
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     "Day of Year",
     "Days Since Last Cleaning",
-    "Vessel Propeller Shaft Revolutions (cumulative) (revs)",
 ]
 
 WEATHER_FEATURES = [
@@ -416,7 +415,6 @@ NON_WEATHER_FEATURES = [
     "SOG - STW (calculated)",
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
-    "Day of Year",
     ]
 
 SCORING_METRICS = {
