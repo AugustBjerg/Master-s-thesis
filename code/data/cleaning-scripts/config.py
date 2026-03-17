@@ -402,7 +402,8 @@ CANDIDATE_FEATURES = [
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     "Day of Year",
-    "Days Since Last Cleaning"
+    "Days Since Last Cleaning",
+    "Vessel Propeller Shaft Revolutions (cumulative) (revs)",
 ]
 
 WEATHER_FEATURES = [
