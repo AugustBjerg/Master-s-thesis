@@ -216,6 +216,58 @@ REQUIRED_SENSOR_VARIABLES = [
     'Main Engine Scavenging Air Pressure',
 ]
 
+# Sensor variables used as hard row-retention gates in pre-aggregation cleaning.
+# This list is intentionally narrower than REQUIRED_SENSOR_VARIABLES so rows are not
+# dropped due to missing mediator variables that are not needed for modelling.
+MODEL_RETENTION_SENSOR_VARIABLES = [
+    'Vessel External Conditions Wind Relative Speed',
+    'Vessel External Conditions Wind Relative Angle',
+    'Vessel Hull Over Ground Speed',
+    'Vessel Hull Heading True Angle',
+    'Vessel Hull Through Water Longitudinal Speed',
+    'Vessel Propeller Shaft Mechanical Power',
+    'Vessel Propeller Shaft Rotational Speed',
+    'Vessel Propeller Shaft Torque',
+]
+
+# Mapping from pre-aggregation sensor names to aggregated names with units.
+# This keeps aggregate-level row retention consistent with MODEL_RETENTION_SENSOR_VARIABLES.
+MODEL_RETENTION_SENSOR_TO_AGG_COL = {
+    'Vessel External Conditions Wind Relative Speed': 'Vessel External Conditions Wind Relative Speed (knots)',
+    'Vessel External Conditions Wind Relative Angle': 'Vessel External Conditions Wind Relative Angle (degrees)',
+    'Vessel Hull Over Ground Speed': 'Vessel Hull Over Ground Speed (knots)',
+    'Vessel Hull Heading True Angle': 'Vessel Hull Heading True Angle (degrees)',
+    'Vessel Hull Through Water Longitudinal Speed': 'Vessel Hull Through Water Longitudinal Speed (knots)',
+    'Vessel Propeller Shaft Mechanical Power': 'Vessel Propeller Shaft Mechanical Power (KW)',
+    'Vessel Propeller Shaft Rotational Speed': 'Vessel Propeller Shaft Rotational Speed (rpm)',
+    'Vessel Propeller Shaft Torque': 'Vessel Propeller Shaft Torque (N*m)',
+}
+
+AGG_MODEL_RETENTION_SENSOR_COLUMNS = [
+    MODEL_RETENTION_SENSOR_TO_AGG_COL[name]
+    for name in MODEL_RETENTION_SENSOR_VARIABLES
+    if name in MODEL_RETENTION_SENSOR_TO_AGG_COL
+]
+
+# Additional columns required by downstream feature engineering/model prep.
+# These are included in aggregate dropna subset so NaN filtering is done on
+# modelling-relevant columns only.
+AGG_DROPNA_REQUIRED_EXTRA_COLUMNS = [
+    'Fwd Draft (Noon Report)',
+    'Aft Draft (Noon Report)',
+    'Vessel External Conditions Wind True Angle (Provider MB)',
+    'Vessel External Conditions Eastward Wind Velocity (Provider S)',
+    'Vessel External Conditions Northward Wind Velocity (Provider S)',
+    'Vessel External Conditions Wave Significant Height (Provider MB)',
+    'Vessel External Conditions Swell Significant Height (Provider MB)',
+    'Vessel External Conditions Wave Period (Provider S)',
+    'Vessel External Conditions Sea Water Temperature (Provider S)',
+]
+
+AGG_DROPNA_REQUIRED_COLUMNS = list(dict.fromkeys(
+    AGG_MODEL_RETENTION_SENSOR_COLUMNS + AGG_DROPNA_REQUIRED_EXTRA_COLUMNS
+))
+
 NO_REPETITION_SENSOR_VARIABLES = [
     'Main Engine Scavenging Air Pressure',
     'Main Engine Fuel Oil Inlet Mass Flow',
@@ -255,7 +307,7 @@ ROLLING_STD_THRESHOLDS = {
 ROLLING_STD_WINDOW_SIZE = 120 # 120 observations corresponds to 30 minutes at a 15-second sampling interval
 ROLLING_STD_MIN_PERIODS = 60 # require at least 60 observations (15 minutes) to calculate a rolling std, to avoid flagging too many observations at the start of segments
 
-SPEED_THROUGH_WATER_THRESHOLD = 4 # knots. Observations with a speed through water below this threshold will be removed, as they are likely to correspond to maneuvering or other unsteady operations that are not of interest for the analysis.
+SPEED_THROUGH_WATER_THRESHOLD = 9 # knots. Observations with a speed through water below this threshold will be removed, as they are likely to correspond to maneuvering or other unsteady operations that are not of interest for the analysis.
 
 THRESHOLD_FACTOR = 0.5
 

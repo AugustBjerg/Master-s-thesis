@@ -3,7 +3,7 @@ import numpy as np
 import os
 import re
 from datetime import datetime
-from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS, CUMULATIVE_COLS, FOULING_PROXY_VAR_NAME
+from config import WINDOW_LENGTH, MIN_WINDOW_COVERAGE, WINDOW_SIDE, WINDOW_LABEL, SENSOR_DATA_AGGREGATION_METHODS, ANGLE_COLUMNS, CUMULATIVE_COLS, FOULING_PROXY_VAR_NAME, AGG_DROPNA_REQUIRED_COLUMNS
 from loguru import logger
 
 _num_re = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
@@ -342,17 +342,33 @@ logger.info(f'Final shape after joining weather and noon report data: {out_with_
 
 # --- Last cleaning ---
 
-# drop rows with NaN values if less than 1% of observations
-total_nans = out_with_weather_and_noon.isna().sum().sum()
-total_cells = out_with_weather_and_noon.size
-nan_pct = total_nans / total_cells * 100
-logger.info(f"Total NaNs in out_with_weather_and_noon: {total_nans} ({nan_pct:.2f}%)")
-if nan_pct < 1.0:
-    out_with_weather_and_noon = out_with_weather_and_noon.dropna()
-    logger.info(f"Dropped NaN rows, new shape: {out_with_weather_and_noon.shape}") 
+# Keep NaN filtering aligned with modelling-relevant columns only.
+# This avoids dropping rows due to unrelated columns that are not used downstream.
+required_dropna_cols = [c for c in AGG_DROPNA_REQUIRED_COLUMNS if c in out_with_weather_and_noon.columns]
+missing_required_dropna_cols = sorted(set(AGG_DROPNA_REQUIRED_COLUMNS) - set(required_dropna_cols))
+
+if missing_required_dropna_cols:
+    logger.warning(f'Missing configured aggregate dropna columns: {missing_required_dropna_cols}')
+
+if not required_dropna_cols:
+    logger.warning('No configured aggregate dropna columns found in dataframe. Skipping subset NaN filtering.')
 else:
-    out_with_weather_and_noon = out_with_weather_and_noon.dropna()
-    logger.warning(f'expected less than 1% NaNs at this point, but got {nan_pct:.2f}%. Consider reviewing the join steps and NaN handling.')
+    total_nans_required = out_with_weather_and_noon[required_dropna_cols].isna().sum().sum()
+    total_required_cells = len(out_with_weather_and_noon) * len(required_dropna_cols)
+    nan_pct_required = (total_nans_required / total_required_cells * 100) if total_required_cells else 0.0
+    rows_before_dropna = len(out_with_weather_and_noon)
+
+    logger.info(
+        f'Total NaNs in required aggregate columns: {total_nans_required} '
+        f'({nan_pct_required:.2f}%) across {len(required_dropna_cols)} columns'
+    )
+
+    out_with_weather_and_noon = out_with_weather_and_noon.dropna(subset=required_dropna_cols)
+    rows_removed = rows_before_dropna - len(out_with_weather_and_noon)
+    logger.info(
+        f'Subset NaN filtering removed {rows_removed} rows '
+        f'({rows_removed / rows_before_dropna * 100:.2f}%); new shape: {out_with_weather_and_noon.shape}'
+    )
 
 # ---- Saving ----
 

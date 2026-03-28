@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_SENSOR_VARIABLES, REQUIRED_WEATHER_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES, SHAFT_POWER_THRESHOLD
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_WEATHER_VARIABLES, MODEL_RETENTION_SENSOR_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES, SHAFT_POWER_THRESHOLD
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -373,8 +373,11 @@ def _remove_required_sensor_nans(df, required_sensor_variables: List):
     logger.info(f'Removed {num_rows_removed} rows with NaN in at least one required sensor variable, resulting in a new shape of {df.shape}')
     return df
 
-def filter_nans(df, required_weather_variables=REQUIRED_WEATHER_VARIABLES, required_sensor_variables=REQUIRED_SENSOR_VARIABLES):
-    """ This function removes rows where key columns have NaN values, as these are not useful for the analysis and we want to focus on documenting a more steady state of the ship. The key columns are: Vessel Propeller Shaft Mechanical Power, Vessel Hull Over Ground Speed, Vessel Speed Through Water."""
+def filter_nans(df, required_weather_variables=REQUIRED_WEATHER_VARIABLES, required_sensor_variables=MODEL_RETENTION_SENSOR_VARIABLES):
+    """ This function removes rows where modelling-critical columns have NaN values.
+    The retention gate is intentionally narrower than REQUIRED_SENSOR_VARIABLES to avoid
+    dropping rows due to variables that are cleaned/flagged but not needed for modelling.
+    """
     
     rows_before = len(df)
     logger.info(f'number of observations before NaN filtering: {len(df)}')
@@ -716,9 +719,6 @@ if __name__ == "__main__":
     nan_percentages = nan_percentages[nan_percentages > 0].sort_values(ascending=False)
     logger.info(f'Percentage of NaN values per column after dealing with dropouts:\n{nan_percentages}')
 
-    # --- Remove rows with NaN in required Sensor columns --- 
-    df = filter_nans(df)
-
     # --- Flag repeated values in weather and sensor variables ---
     repeated_values_flag_columns = {}
     df = flag_repeated_values(df, repeated_values_flag_columns=repeated_values_flag_columns)
@@ -731,7 +731,8 @@ if __name__ == "__main__":
     nan_percentages_after_spike_removal = nan_percentages_after_spike_removal[nan_percentages_after_spike_removal > 0].sort_values(ascending=False)
     logger.info(f'Percentage of NaN values per column with spike filtering:\n{nan_percentages_after_spike_removal}')
 
-    # Filter NaNs again (remaining NaNs are values with more than 10 consecutive spikes)
+    # Apply hard NaN filtering after spike handling so retention gating is done once.
+    # Remaining NaNs are mainly values with long spike runs that were rejected.
     df = filter_nans(df)
 
     nan_percentages_after_spike_removal = df.isna().mean() * 100
