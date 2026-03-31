@@ -219,6 +219,75 @@ def add_longitudinal_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+def _transversal_component(speed: pd.Series, relative_angle_deg: pd.Series) -> pd.Series:
+    """
+    Extract the transversal (port-starboard axis) component of a vector.
+
+    Sign convention:
+    Positive = coming from starboard side (90° relative).
+    Negative = coming from port side (270° relative).
+
+    Parameters
+    ----------
+    speed : pd.Series
+        Magnitude of the vector (wind speed, wave height, etc.).
+    relative_angle_deg : pd.Series
+        Ship-relative angle in degrees (0° = from bow).
+
+    Returns
+    -------
+    pd.Series
+        Transversal component.
+    """
+    return speed * np.sin(np.radians(relative_angle_deg))
+
+def add_transversal_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add transversal wind and wave force components to the dataframe,
+    computing relative angles from true (provider) directions and ship heading.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw feature dataframe containing heading, wind and wave columns.
+
+    Returns
+    -------
+    pd.DataFrame
+        Copy of df with new transversal feature columns appended.
+    """
+
+    heading = df["Vessel Hull Heading True Angle (degrees)"]
+
+    # ── Wind (Provider S) ───────────────────────────────────────────────────
+    wind_east  = df["Vessel External Conditions Eastward Wind Velocity (Provider S)"]
+    wind_north = df["Vessel External Conditions Northward Wind Velocity (Provider S)"]
+    wind_true_speed = np.sqrt(wind_east**2 + wind_north**2)
+    wind_true_angle = (np.degrees(np.arctan2(-wind_east, -wind_north)) % 360)
+
+    wind_relative_angle = _true_to_relative_angle(wind_true_angle, heading)
+    df["transversal_wind_force (calculated)"] = _transversal_component(
+        wind_true_speed, wind_relative_angle
+    )
+
+    # ── Waves (Provider MB) ─────────────────────────────────────────────────
+    wave_true_angle = df["Vessel External Conditions Wind True Angle (Provider MB)"]
+    wave_height     = df["Vessel External Conditions Wave Significant Height (Provider MB)"]
+
+    wave_relative_angle = _true_to_relative_angle(wave_true_angle, heading)
+    df["transversal_wave_force (calculated)"] = _transversal_component(
+        wave_height, wave_relative_angle
+    )
+
+    # ── Swell (Provider MB) ─────────────────────────────────────────────────
+    # No separate swell direction available — use same wave true angle as proxy
+    swell_height = df["Vessel External Conditions Swell Significant Height (Provider MB)"]
+    df["transversal_swell_force (calculated)"] = _transversal_component(
+        swell_height, wave_relative_angle
+    )
+
+    return df
+
 def add_day_of_year(df, new_column_name: str):
     df[new_column_name] = df["window_start"].dt.dayofyear
     return df
@@ -256,6 +325,7 @@ df = add_speed_dsc_interaction(df, "Speed x DSC (calculated)", "Vessel Hull Thro
 df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel Hull Through Water Longitudinal Speed (knots)", "Days Since Last Cleaning")
 df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 df = add_longitudinal_features(df)
+df = add_transversal_features(df)
 df = add_day_of_year(df, "Day of Year")
 df = add_torquemeter_calibration_dummy(df)
 

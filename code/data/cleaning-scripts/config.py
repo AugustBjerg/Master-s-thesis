@@ -452,6 +452,9 @@ CANDIDATE_FEATURES = [
     'longitudinal_wind_force (calculated)',
     'longitudinal_wave_force (calculated)',
     'longitudinal_swell_force (calculated)',
+    "transversal_wind_force (calculated)",
+    "transversal_wave_force (calculated)",
+    "transversal_swell_force (calculated)",
 
     # Non-metocean
     "Avg Draft (Calculated)",
@@ -466,10 +469,12 @@ WEATHER_FEATURES = [
     "Vessel External Conditions Wave Period (Provider S)",
     "longitudinal_wave_force (calculated)",
     "longitudinal_wind_force (calculated)",
+    "transversal_wind_force (calculated)",
+    "transversal_wave_force (calculated)",
     ]
 NON_WEATHER_FEATURES = [
     "Avg Draft (Calculated)",
-#    "SOG - STW (calculated)",
+    "SOG - STW (calculated)",
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     ]
