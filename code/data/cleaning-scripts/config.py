@@ -403,9 +403,12 @@ CUMULATIVE_COLS = [
 
 JANUARY_CLEANING_DATE = "2024-01-24"
 
-JULY_CLEANING_DATE = "2024-07-10"
+JULY_CLEANING_DATE = "2024-07-30"
 
-TORQUEMETER_CALIBRATION_DATE = "2024-07-01"
+TORQUEMETER_CALIBRATION_DATE = "2024-07-03"
+
+USE_CALIBRATION_POWER_CORRECTION = True
+TORQUEMETER_CALIBRATION_DIFFERENCE_KW = 1900.77 # The difference in shaft power measurements before and after torquemeter calibration, as estimated with the double linear regression method (see post_filtering_validation.ipynb)
 
 DELTA_FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_1"
 FPI_QID = "5::0::0::0_0::0::0::0::0_0::0::0::0_2"
