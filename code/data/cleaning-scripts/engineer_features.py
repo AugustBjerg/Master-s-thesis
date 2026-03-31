@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
-from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE, FOULING_PROXY_VAR_NAME_WITH_UNIT
+from config import WINDOW_LENGTH, JULY_CLEANING_DATE, JANUARY_CLEANING_DATE, TORQUEMETER_CALIBRATION_DATE, FOULING_PROXY_VAR_NAME_WITH_UNIT
 from typing import List
 from datetime import datetime
 from loguru import logger
@@ -223,6 +223,16 @@ def add_day_of_year(df, new_column_name: str):
     df[new_column_name] = df["window_start"].dt.dayofyear
     return df
 
+def add_torquemeter_calibration_dummy(df, new_column_name: str = "Before Torquemeter Calibration", calibration_date: str=TORQUEMETER_CALIBRATION_DATE):
+    calibration_ts = pd.to_datetime(calibration_date, utc=True, errors="coerce")
+
+    if pd.isna(calibration_ts):
+        raise ValueError("Invalid torquemeter calibration date provided.")
+
+    df[new_column_name] = (df["window_start"] >= calibration_ts).astype(int)
+
+    return df
+
 # --- Executions ---
 
 columns_before = set(df.columns)
@@ -236,6 +246,7 @@ df = add_cubic_speed_dsc_interaction(df, "Speed^3 x DSC (calculated)", "Vessel H
 df = add_SOG_STW_difference(df, "SOG - STW (calculated)", "Vessel Hull Over Ground Speed (knots)", "Vessel Hull Through Water Longitudinal Speed (knots)")
 df = add_longitudinal_features(df)
 df = add_day_of_year(df, "Day of Year")
+df = add_torquemeter_calibration_dummy(df)
 
 # One-hot encode actual_voyage_id and drop raw voyage columns
 if "actual_voyage_id (calculated)" in df.columns:
