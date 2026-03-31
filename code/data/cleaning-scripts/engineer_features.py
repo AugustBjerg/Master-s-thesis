@@ -288,6 +288,74 @@ def add_transversal_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+def add_implied_stw_from_sea_water_velocity(
+    df: pd.DataFrame,
+    new_column_name: str = "Implied STW from Sea Water Velocity (calculated)",
+    sog_col_name: str = "Vessel Hull Over Ground Speed (knots)",
+    heading_col_name: str = "Vessel Hull Heading True Angle (degrees)",
+    sea_water_east_col_name: str = "Vessel External Conditions Eastward Sea Water Velocity (Provider MB)",
+    sea_water_north_col_name: str = "Vessel External Conditions Northward Sea Water Velocity (Provider MB)",
+) -> pd.DataFrame:
+    """
+    Estimate implied speed through water (STW) from SOG and sea-water velocity.
+
+    Logic
+    -----
+    1. Resolve the sea-water velocity vector into the ship's longitudinal axis
+       using the ship heading.
+    2. Convert the longitudinal sea-water velocity from m/s to knots.
+    3. Compute implied STW as:
+
+           implied_STW = SOG - longitudinal_current_component
+
+       where a positive longitudinal current component means current flowing in
+       the same direction as the ship's heading (thus increasing SOG relative to STW).
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe.
+    new_column_name : str
+        Name of the new implied STW column.
+    sog_col_name : str
+        Name of the SOG column in knots.
+    heading_col_name : str
+        Name of the true heading column in degrees.
+    sea_water_east_col_name : str
+        Name of the eastward sea-water velocity column in m/s.
+    sea_water_north_col_name : str
+        Name of the northward sea-water velocity column in m/s.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with the implied STW column added.
+    """
+    MS_TO_KNOTS = 1.9438444924406
+
+    sog = pd.to_numeric(df[sog_col_name], errors="coerce")
+    heading_deg = pd.to_numeric(df[heading_col_name], errors="coerce")
+    sea_water_east = pd.to_numeric(df[sea_water_east_col_name], errors="coerce")
+    sea_water_north = pd.to_numeric(df[sea_water_north_col_name], errors="coerce")
+
+    heading_rad = np.radians(heading_deg)
+
+    ship_east_unit = np.sin(heading_rad)
+    ship_north_unit = np.cos(heading_rad)
+
+    longitudinal_sea_water_velocity_ms = (
+        sea_water_east * ship_east_unit
+        + sea_water_north * ship_north_unit
+    )
+
+    longitudinal_sea_water_velocity_knots = (
+        longitudinal_sea_water_velocity_ms * MS_TO_KNOTS
+    )
+
+    df[new_column_name] = sog - longitudinal_sea_water_velocity_knots
+
+    return df
+
 def add_day_of_year(df, new_column_name: str):
     df[new_column_name] = df["window_start"].dt.dayofyear
     return df
@@ -328,6 +396,7 @@ df = add_longitudinal_features(df)
 df = add_transversal_features(df)
 df = add_day_of_year(df, "Day of Year")
 df = add_torquemeter_calibration_dummy(df)
+df = add_implied_stw_from_sea_water_velocity(df)
 
 if USE_CALIBRATION_POWER_CORRECTION:
     df = correct_pre_calibration_power_measurements(df, "Vessel Propeller Shaft Mechanical Power (KW)")
