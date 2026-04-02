@@ -442,6 +442,8 @@ DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 6.75, 14.25]
 
 SPEED_VARIABLE = "Vessel Hull Through Water Longitudinal Speed (knots)"
 TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
+USE_CALCULATED_STW = False
+
 CANDIDATE_FEATURES = [
     # Metocean
     "Vessel External Conditions Sea Water Temperature (Provider S)",
@@ -462,13 +464,14 @@ CANDIDATE_FEATURES = [
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     "Day of Year",
-    "Days Since Last Cleaning",
 ]
 
 WEATHER_FEATURES = [
     "Vessel External Conditions Wave Period (Provider S)",
     "longitudinal_wave_force (calculated)",
     "longitudinal_wind_force (calculated)",
+    "longitudinal_swell_force (calculated)",
+    "transversal_swell_force (calculated)",
     "transversal_wind_force (calculated)",
     "transversal_wave_force (calculated)",
     ]
