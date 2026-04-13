@@ -447,9 +447,7 @@ USE_CALCULATED_STW = False
 CANDIDATE_FEATURES = [
     # Metocean
     "Vessel External Conditions Sea Water Temperature (Provider S)",
-    "Vessel External Conditions Wave Significant Height (Provider MB)",
     "SOG - STW (calculated)",
-    "Vessel External Conditions Swell Significant Height (Provider MB)",
     "Vessel External Conditions Wave Period (Provider S)",
     'longitudinal_wind_force (calculated)',
     'longitudinal_wave_force (calculated)',
@@ -463,7 +461,6 @@ CANDIDATE_FEATURES = [
     "Draft Trim (Calculated)",
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
-    "Day of Year",
 ]
 
 WEATHER_FEATURES = [
@@ -478,6 +475,7 @@ WEATHER_FEATURES = [
 NON_WEATHER_FEATURES = [
     "Avg Draft (Calculated)",
     "SOG - STW (calculated)",
+    "Draft Trim (Calculated)",
     FOULING_PROXY_VAR_NAME_WITH_UNIT,
     "Vessel Hull Through Water Longitudinal Speed (knots)",
     ]
