@@ -30,8 +30,8 @@ echo "ridge_regression.py executed"
 python code/modelling/gam.py
 echo "gam.py executed"
 
-python code/modelling/random_forest.py
-echo "random_forest.py executed"
+# python code/modelling/random_forest.py
+# echo "random_forest.py executed"
 
 python code/modelling/NN.py
 echo "NN.py executed"
