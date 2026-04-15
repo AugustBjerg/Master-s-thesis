@@ -6,7 +6,7 @@ import re
 import itertools
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from config import INCLUDE_VOYAGE_DUMMIES, WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME_WITH_UNIT, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, WEATHER_FEATURES, NON_WEATHER_FEATURES, VOYAGE_DUMMY_PREFIX
+from config import INCLUDE_VOYAGE_DUMMIES, WINDOW_LENGTH, TRAIN_RATIO, TARGET_VARIABLE, FOULING_PROXY_VAR_NAME_WITH_UNIT, FOULING_PROXY_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_RANGE, SPEED_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_NAME, DRAFT_TRIM_CONTROLLED_VARIABLE_NAME, DRAFT_CONTROLLED_VARIABLE_RANGE, LOADING_CONDITION_SCENARIOS, WEATHER_FEATURES, NON_WEATHER_FEATURES, VOYAGE_DUMMY_PREFIX
 from typing import List, Optional
 from datetime import datetime
 from loguru import logger
@@ -99,6 +99,70 @@ def create_controlled_var_df(
 
     return synthetic_df
 
+
+def create_loading_condition_controlled_var_df(
+    window_length: str,
+    loading_conditions: dict,
+    fouling_values: list,
+    speed_values: list,
+    columns: Optional[List[str]] = None,
+    X_train: Optional[pd.DataFrame] = None,
+) -> pd.DataFrame:
+    """
+    Creates a synthetic dataframe for fouling x speed scenarios where draft and trim
+    are coupled to fixed loading conditions from ship particulars.
+    """
+    if columns is None:
+        columns = X_train.columns.tolist() if X_train is not None else [
+            FOULING_PROXY_VAR_NAME_WITH_UNIT,
+            SPEED_CONTROLLED_VARIABLE_NAME,
+            DRAFT_CONTROLLED_VARIABLE_NAME,
+            DRAFT_TRIM_CONTROLLED_VARIABLE_NAME,
+        ]
+
+    median_values: dict = {}
+    controlled_cols = {
+        FOULING_PROXY_VAR_NAME_WITH_UNIT,
+        SPEED_CONTROLLED_VARIABLE_NAME,
+        DRAFT_CONTROLLED_VARIABLE_NAME,
+        DRAFT_TRIM_CONTROLLED_VARIABLE_NAME,
+    }
+    for col in columns:
+        if col not in controlled_cols:
+            if X_train is not None and col in X_train.columns:
+                median_values[col] = X_train[col].median()
+            else:
+                median_values[col] = np.nan
+
+    rows = []
+    for condition_name, condition_values in loading_conditions.items():
+        draft_val = float(condition_values[DRAFT_CONTROLLED_VARIABLE_NAME])
+        trim_val = float(condition_values[DRAFT_TRIM_CONTROLLED_VARIABLE_NAME])
+        for fouling_val, speed_val in itertools.product(fouling_values, speed_values):
+            row = {col: median_values.get(col, np.nan) for col in columns}
+            row[FOULING_PROXY_VAR_NAME_WITH_UNIT] = fouling_val
+            row[SPEED_CONTROLLED_VARIABLE_NAME] = speed_val
+            row[DRAFT_CONTROLLED_VARIABLE_NAME] = draft_val
+            row[DRAFT_TRIM_CONTROLLED_VARIABLE_NAME] = trim_val
+            rows.append(row)
+
+    synthetic_df = pd.DataFrame(rows, columns=columns)
+
+    var_names_str = '_'.join([
+        FOULING_PROXY_VAR_NAME_WITH_UNIT,
+        SPEED_CONTROLLED_VARIABLE_NAME,
+        DRAFT_CONTROLLED_VARIABLE_NAME,
+    ])
+    filename = f'controlled_var_{window_length}_{var_names_str}.csv'
+    save_path = os.path.join(train_test_dir, filename)
+    synthetic_df.to_csv(save_path, index=False)
+    logger.info(
+        f"Saved loading-condition controlled dataframe to {save_path} "
+        f"with shape {synthetic_df.shape} using scenarios {list(loading_conditions.keys())}"
+    )
+
+    return synthetic_df
+
 if __name__ == "__main__":
 
     if INCLUDE_VOYAGE_DUMMIES:
@@ -184,4 +248,14 @@ if __name__ == "__main__":
         },
         columns=all_column_names,
         X_train=X_train
+    )
+
+    # create a fouling-speed dataset with draft and trim fixed by loading condition
+    fouling_proxy_speed_and_draft_df = create_loading_condition_controlled_var_df(
+        window_length=WINDOW_LENGTH,
+        loading_conditions=LOADING_CONDITION_SCENARIOS,
+        fouling_values=full_controlled_fouling_proxy_range,
+        speed_values=SPEED_CONTROLLED_VARIABLE_RANGE,
+        columns=all_column_names,
+        X_train=X_train,
     )

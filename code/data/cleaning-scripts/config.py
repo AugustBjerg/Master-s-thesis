@@ -438,7 +438,24 @@ SPEED_CONTROLLED_VARIABLE_NAME = "Vessel Hull Through Water Longitudinal Speed (
 SPEED_CONTROLLED_VARIABLE_RANGE = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14]
 
 DRAFT_CONTROLLED_VARIABLE_NAME = "Avg Draft (Calculated)"
-DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 6.75, 14.25]
+DRAFT_TRIM_CONTROLLED_VARIABLE_NAME = "Draft Trim (Calculated)"
+DRAFT_CONTROLLED_VARIABLE_RANGE = [6.42, 11.615, 14.25]
+
+# Loading conditions from ship particulars.
+LOADING_CONDITION_SCENARIOS = {
+    "Ballast": {
+        DRAFT_CONTROLLED_VARIABLE_NAME: 6.42,
+        DRAFT_TRIM_CONTROLLED_VARIABLE_NAME: 2.8,
+    },
+    "Design": {
+        DRAFT_CONTROLLED_VARIABLE_NAME: 11.615,
+        DRAFT_TRIM_CONTROLLED_VARIABLE_NAME: 0.0,
+    },
+    "Scantling": {
+        DRAFT_CONTROLLED_VARIABLE_NAME: 14.25,
+        DRAFT_TRIM_CONTROLLED_VARIABLE_NAME: 0.0,
+    },
+}
 
 SPEED_VARIABLE = "Vessel Hull Through Water Longitudinal Speed (knots)"
 TARGET_VARIABLE = "Vessel Propeller Shaft Mechanical Power (KW)" 
