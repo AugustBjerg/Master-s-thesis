@@ -113,7 +113,7 @@ def build_gam_formula(
     interaction_indices = {speed_idx, fouling_idx} if use_interaction else set()
 
     # Seed formula with interaction term if applicable
-    formula = te(speed_idx, fouling_idx, n_splines=[15, 15]) if use_interaction else None
+    formula = te(speed_idx, fouling_idx, n_splines=[10, 10]) if use_interaction else None
 
     for i, var_name in enumerate(feature_list):
 
@@ -123,19 +123,19 @@ def build_gam_formula(
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, 
                     constraints="monotonic_inc", 
-                    n_splines=15)
+                    n_splines=10)
 
         elif var_name == SPEED_VARIABLE:
             term = s(i, 
                     constraints="monotonic_inc",
-                    n_splines=15)
+                    n_splines=10)
 
         elif var_name in (
             "Speed Through Water^3 (m/s)",
             "Speed^3 x DSC (calculated)",
             "Speed x DSC (calculated)",
         ):
-            term = s(i, constraints="monotonic_inc", n_splines=15)
+            term = s(i, constraints="monotonic_inc", n_splines=10)
 
         elif var_name == "Avg Draft (Calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
@@ -143,11 +143,17 @@ def build_gam_formula(
         elif var_name == "longitudinal_wind_force (calculated)":
             term = s(i, constraints="monotonic_inc", n_splines=10)
 
+        elif var_name == "longitudinal_swell_force (calculated)":
+            term = s(i, constraints="monotonic_inc", n_splines=10)
+
+        elif var_name == "longitudinal_wave_force (calculated)":
+            term = s(i, constraints="monotonic_inc", n_splines=10)
+
         elif var_name == "Vessel External Conditions Sea Water Temperature (Provider S)":
             term = s(i, constraints="monotonic_dec", n_splines=10)
 
         elif var_name == "Vessel External Conditions Wind Relative Speed (knots)":
-            term = s(i, constraints="monotonic_inc", n_splines=15)
+            term = s(i, constraints="monotonic_inc", n_splines=10)
 
         elif var_name.startswith(VOYAGE_DUMMY_PREFIX):
             term = l(i)
@@ -173,7 +179,7 @@ class SklearnGAM(BaseEstimator, RegressorMixin):
     def fit(self, X, y):
         self.gam_model_ = LinearGAM(copy.deepcopy(self.formula))  # ← deepcopy here
         if self.auto_tune:
-            lam_grid = np.logspace(-6, 3, 20)
+            lam_grid = np.logspace(-8, 2, 15)
             self.gam_model_.gridsearch(X, y, lam=lam_grid)
         else:
             self.gam_model_.fit(X, y)
