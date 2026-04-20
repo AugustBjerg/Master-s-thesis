@@ -300,8 +300,8 @@ MAX_CONSECUTIVE_SPIKES = 10  # if more than 10 consecutive observations are mark
 
 # Configurations for the rolling average filtering (steady state identification)
 ROLLING_STD_THRESHOLDS = {
-    'Vessel Hull Through Water Longitudinal Speed': 0.388,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
-    'Vessel Hull Over Ground Speed': 0.388,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
+    'Vessel Hull Through Water Longitudinal Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
+    'Vessel Hull Over Ground Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
     'Vessel Hull Heading True Angle': 2.0  # 2 degrees
 }
 ROLLING_STD_WINDOW_SIZE = 120 # 120 observations corresponds to 30 minutes at a 15-second sampling interval
