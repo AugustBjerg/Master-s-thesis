@@ -300,8 +300,8 @@ MAX_CONSECUTIVE_SPIKES = 10  # if more than 10 consecutive observations are mark
 
 # Configurations for the rolling average filtering (steady state identification)
 ROLLING_STD_THRESHOLDS = {
-    'Vessel Hull Through Water Longitudinal Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
-    'Vessel Hull Over Ground Speed': 0.194,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
+    'Vessel Hull Through Water Longitudinal Speed': 0.388,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
+    'Vessel Hull Over Ground Speed': 0.388,  # 0.1 m/s ≈ 0.194 knots * 2 (double of DNV recommendation)
     'Vessel Hull Heading True Angle': 2.0  # 2 degrees
 }
 ROLLING_STD_WINDOW_SIZE = 120 # 120 observations corresponds to 30 minutes at a 15-second sampling interval
@@ -326,7 +326,7 @@ SHAFT_REVOLUTIONS_MAX_DEVIATION = 0.05
 SHAFT_POWER_THRESHOLD = 1000 # kW
 
 # --- Aggregation ---
-WINDOW_LENGTH = "15min"
+WINDOW_LENGTH = "5min"
 
 MIN_WINDOW_COVERAGE = 0.9
 
@@ -361,10 +361,10 @@ SENSOR_DATA_AGGREGATION_METHODS = {
     "Vessel External Conditions Eastward Sea Water Velocity (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
     "Vessel External Conditions Wave Period (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
     "Vessel External Conditions Wind True Speed (Provider MB)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
-    "Vessel External Conditions Northward Sea Water Velocity (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+#    "Vessel External Conditions Northward Sea Water Velocity (Provider S)": "mean", # For some reason, including this makes the aggregation file fail. I dont need it, so ill just leave it out
     "Vessel External Conditions Wave Significant Height (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
     "Vessel External Conditions Northward Wind Velocity (Provider S)": "mean", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
-    "Sea Temperature Dropout": "sum", # Somewhat arbitrary since modelling is done at lower sampling interval than the original data (so it is forward filled instead)
+#    "Sea Temperature Dropout": "sum", # For some reason, including this makes the aggregation file fail. I dont need it, so ill just leave it out
     "Calculated Shaft Power": "mean", 
     "Imputed Spike in Main Engine Rotational Speed": "sum",
     "Imputed Spike in Vessel External Conditions Wind Relative Speed": "sum",
