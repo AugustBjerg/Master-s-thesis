@@ -231,8 +231,8 @@ def prep_long_noon_table(long_df,
 # --- Aggregate ---
 
 # get the aggregation methods
-agg_map = SENSOR_DATA_AGGREGATION_METHODS
-angle_cols = ANGLE_COLUMNS
+agg_map = {k: v for k, v in SENSOR_DATA_AGGREGATION_METHODS.items() if k in df.columns}
+angle_cols = [c for c in ANGLE_COLUMNS if c in df.columns]
 
 # Change angles to circular mean instead of arithmetic mean
 for c in angle_cols:
@@ -299,7 +299,7 @@ weather_long = add_var_full(weather_long)
 logger.info(f'added column with full variable names to weather_long')
 
 # Choose variables to join
-weather_cols_in_out = [c for c in out.columns if c.startswith("Vessel External Conditions")]
+weather_cols_in_out = [c for c in SENSOR_DATA_AGGREGATION_METHODS if c.startswith("Vessel External Conditions")]
 logger.info(f'weather columns in out: {weather_cols_in_out} (including 2 on board sensors)')
 
 # Subtract weather columns measured on board

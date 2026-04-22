@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Dict, List
 from multiprocessing import Pool
 from loguru import logger
-from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_WEATHER_VARIABLES, MODEL_RETENTION_SENSOR_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES, SHAFT_POWER_THRESHOLD
+from config import SHAFT_POWER_MAX_DEVIATION, REQUIRED_WEATHER_VARIABLES, MODEL_RETENTION_SENSOR_VARIABLES, ROLLING_STD_THRESHOLDS, ROLLING_STD_WINDOW_SIZE, ROLLING_STD_MIN_PERIODS, SPEED_THROUGH_WATER_THRESHOLD, NO_REPETITION_SENSOR_VARIABLES, SENSOR_SPIKE_THRESHOLDS, LOW_PASS_MIN_PERIODS, LOW_PASS_WINDOW_SIZE_SECONDS, MAX_CONSECUTIVE_SPIKES, SHAFT_POWER_THRESHOLD, FILTER_WAVES, FILTER_WIND, WAVE_SIGNIFICANT_HEIGHT_MAX_MB, WAVE_SIGNIFICANT_HEIGHT_MAX_S, SWELL_SIGNIFICANT_HEIGHT_MAX_MB, WIND_SPEED_MAX_KNOTS
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 synchronized_data_dir = os.path.join(script_dir, '..', 'synchronized')
@@ -388,6 +388,87 @@ def filter_nans(df, required_weather_variables=REQUIRED_WEATHER_VARIABLES, requi
     logger.info(f'removed {rows_before - len(df)} rows ({(rows_before - len(df)) / rows_before * 100:.2f}% of original observations) after NaN filtering')
     return df
 
+def _filter_bad_weather_rows(
+    df,
+    filter_waves=FILTER_WAVES,
+    filter_wind=FILTER_WIND,
+    wave_sig_height_max_mb=WAVE_SIGNIFICANT_HEIGHT_MAX_MB,
+    wave_sig_height_max_s=WAVE_SIGNIFICANT_HEIGHT_MAX_S,
+    swell_sig_height_max_mb=SWELL_SIGNIFICANT_HEIGHT_MAX_MB,
+    wind_speed_max_knots=WIND_SPEED_MAX_KNOTS,
+):
+    """Filter rows with extreme weather values when enabled.
+
+    Conservative rule: if any provider exceeds its threshold, the row is removed.
+    """
+    if not filter_waves and not filter_wind:
+        return df
+
+    rows_before = len(df)
+    if rows_before == 0:
+        return df
+
+    combined_mask = pd.Series(False, index=df.index)
+
+    if filter_waves:
+        wave_masks = []
+        mb_col = 'Vessel External Conditions Wave Significant Height (Provider MB)'
+        s_col = 'Vessel External Conditions Wave Significant Height (Provider S)'
+        swell_col = 'Vessel External Conditions Swell Significant Height (Provider MB)'
+
+        if mb_col in df.columns and wave_sig_height_max_mb is not None:
+            wave_masks.append(df[mb_col] > wave_sig_height_max_mb)
+        if s_col in df.columns and wave_sig_height_max_s is not None:
+            wave_masks.append(df[s_col] > wave_sig_height_max_s)
+        if swell_col in df.columns and swell_sig_height_max_mb is not None:
+            wave_masks.append(df[swell_col] > swell_sig_height_max_mb)
+
+        if wave_masks:
+            wave_mask = wave_masks[0]
+            for mask in wave_masks[1:]:
+                wave_mask = wave_mask | mask
+            combined_mask = combined_mask | wave_mask
+            logger.info(f'Wave filtering: removed {wave_mask.sum()} rows that exceeded wave thresholds')
+        else:
+            logger.warning('Wave filtering enabled but no wave columns/thresholds available; skipping')
+
+    if filter_wind:
+        wind_masks = []
+        mb_col = 'Vessel External Conditions Wind True Speed (Provider MB)'
+        e_col = 'Vessel External Conditions Eastward Wind Velocity (Provider S)'
+        n_col = 'Vessel External Conditions Northward Wind Velocity (Provider S)'
+
+        if wind_speed_max_knots is not None:
+            if mb_col in df.columns:
+                wind_masks.append(df[mb_col] > wind_speed_max_knots)
+
+            if e_col in df.columns and n_col in df.columns:
+                wind_speed_ms = np.sqrt(df[e_col] ** 2 + df[n_col] ** 2)
+                wind_speed_knots = wind_speed_ms * 1.943844
+                wind_masks.append(wind_speed_knots > wind_speed_max_knots)
+            else:
+                if e_col in df.columns:
+                    wind_masks.append(df[e_col].abs() * 1.943844 > wind_speed_max_knots)
+                if n_col in df.columns:
+                    wind_masks.append(df[n_col].abs() * 1.943844 > wind_speed_max_knots)
+
+        if wind_masks:
+            wind_mask = wind_masks[0]
+            for mask in wind_masks[1:]:
+                wind_mask = wind_mask | mask
+            combined_mask = combined_mask | wind_mask
+            logger.info(f'Wind filtering: removed {wind_mask.sum()} rows that exceeded wind thresholds')
+        else:
+            logger.warning('Wind filtering enabled but no wind columns/thresholds available; skipping')
+
+    if combined_mask.any():
+        df = df[~combined_mask]
+
+    rows_removed = rows_before - len(df)
+    percentage = (rows_removed / rows_before * 100) if rows_before else 0
+    logger.info(f'Bad weather filtering: removed {rows_removed} rows ({percentage:.2f}% of df)')
+    return df
+
 def _filter_by_rolling_stds(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS):
     """ This function identifies steady states by calculating a rolling window variance for speed through water, speed over ground and hull heading.
     if the rolling standard deviation is too high (thresholds defined in config file), these rows are removed for being "unsteady".
@@ -488,7 +569,10 @@ def _filter_low_shaft_power(df, threshold=0):
     return df
 
 def filter_undesired_rows(df, rolling_std_thresholds=ROLLING_STD_THRESHOLDS, rolling_std_window_size=ROLLING_STD_WINDOW_SIZE, rolling_std_min_periods=ROLLING_STD_MIN_PERIODS, power_threshold=SHAFT_POWER_THRESHOLD):
-    """ This function applies various filters to remove "undesirable" rows from the dataframe, such as rows where the ship is in reverse or maneuvering, rows with heavy/violent weather, etc. The specific filters applied are based on the thresholds defined in the config file and the judgment of what constitutes "undesirable" data for the analysis."""
+    """ This function applies various filters to remove "undesirable" rows from the dataframe.
+    Optional weather filtering is controlled by FILTER_WAVES/FILTER_WIND in config.
+    """
+    df = _filter_bad_weather_rows(df)
     df = _filter_by_rolling_stds(df, rolling_std_thresholds=rolling_std_thresholds, rolling_std_window_size=rolling_std_window_size, rolling_std_min_periods=rolling_std_min_periods)
     df = _filter_low_speed_rows(df, speed_threshold=SPEED_THROUGH_WATER_THRESHOLD)
     df = _filter_low_propeller_shaft_rpm(df)

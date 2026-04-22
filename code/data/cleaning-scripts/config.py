@@ -307,6 +307,16 @@ ROLLING_STD_THRESHOLDS = {
 ROLLING_STD_WINDOW_SIZE = 120 # 120 observations corresponds to 30 minutes at a 15-second sampling interval
 ROLLING_STD_MIN_PERIODS = 60 # require at least 60 observations (15 minutes) to calculate a rolling std, to avoid flagging too many observations at the start of segments
 
+# Optional weather filtering
+FILTER_WAVES = False
+FILTER_WIND = False
+
+# Maximum allowed weather values for filtering
+WAVE_SIGNIFICANT_HEIGHT_MAX_MB = 2  # meters
+WAVE_SIGNIFICANT_HEIGHT_MAX_S = 2  # meters
+SWELL_SIGNIFICANT_HEIGHT_MAX_MB = 2  # meters
+WIND_SPEED_MAX_KNOTS = 25.0  # knots (Provider MB is in knots; Provider S is converted from m/s)
+
 SPEED_THROUGH_WATER_THRESHOLD = 9 # knots. Observations with a speed through water below this threshold will be removed, as they are likely to correspond to maneuvering or other unsteady operations that are not of interest for the analysis.
 
 THRESHOLD_FACTOR = 0.5
