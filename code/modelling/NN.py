@@ -20,7 +20,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 # ---------------------------------------------------------------------------
-# Add cleaning-scripts to path so we can import config
+# Add cleaning-scripts to path to import config
 # ---------------------------------------------------------------------------
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _cleaning_scripts_dir = os.path.join(_script_dir, "..", "data", "cleaning-scripts")

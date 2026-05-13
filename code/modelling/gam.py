@@ -19,7 +19,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils.validation import check_is_fitted
 
 # ---------------------------------------------------------------------------
-# Add cleaning-scripts to path so we can import config
+# Add cleaning-scripts to path to import config
 # ---------------------------------------------------------------------------
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _cleaning_scripts_dir = os.path.join(_script_dir, "..", "data", "cleaning-scripts")
@@ -118,7 +118,7 @@ def build_gam_formula(
     for i, var_name in enumerate(feature_list):
 
         if i in interaction_indices:
-            continue  # Already handled by te()
+            continue 
 
         if var_name == FOULING_PROXY_VAR_NAME_WITH_UNIT and include_fouling_proxy:
             term = s(i, 
@@ -177,7 +177,7 @@ class SklearnGAM(BaseEstimator, RegressorMixin):
         self.auto_tune = auto_tune
 
     def fit(self, X, y):
-        self.gam_model_ = LinearGAM(copy.deepcopy(self.formula))  # ← deepcopy here
+        self.gam_model_ = LinearGAM(copy.deepcopy(self.formula))  
         if self.auto_tune:
             lam_grid = np.logspace(-8, 2, 15)
             self.gam_model_.gridsearch(X, y, lam=lam_grid)
