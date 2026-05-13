@@ -100,7 +100,7 @@ def add_var_full(long_df,
 def join_long_vars_asof(
     out_df,
     long_df,
-    vars_full,                     # list of column names exactly as you want them in out
+    vars_full,                     
     out_time_col="window_start",
     long_time_col="utc_timestamp",
     long_var_col="var_full",
@@ -131,7 +131,7 @@ def join_long_vars_asof(
             out2[v] = np.nan
             continue
 
-        # If you have multiple rows at the exact same timestamp for a variable, collapse them
+        # If there are multiple rows at the exact same timestamp for a variable, collapse them
         if collapse_duplicates == "mean":
             tmp = tmp.groupby(long_time_col, as_index=False)[long_value_col].mean()
         elif collapse_duplicates == "last":
@@ -217,7 +217,6 @@ def prep_long_noon_table(long_df,
     long2 = long_df.copy()
     long2[time_col] = pd.to_datetime(long2[time_col], utc=True)
 
-    # full name matches your out naming convention
     long2["var_full"] = (
         long2[quantity_col].astype(str).str.strip()
         + " (" + long2[source_col].astype(str).str.strip() + ")"
@@ -239,7 +238,7 @@ for c in angle_cols:
     agg_map[c] = circular_mean_deg
     logger.info(f'set column "{c}" to use circular mean aggregation')
 
-# Change cumulative counters to use counter_increase (or counter_delta if you want net change including resets)
+# Change cumulative counters to use counter_increase
 for col in CUMULATIVE_COLS:
     if col in agg_map:
         agg_map[col] = counter_increase   
@@ -314,7 +313,7 @@ out_with_weather = join_long_vars_asof(
     out_df=out,
     long_df=weather_long,
     vars_full=weather_cols_in_out,
-    out_time_col="window_start",     # adjust if yours is named differently
+    out_time_col="window_start",    
     tolerance="1h",                  
 )
 
