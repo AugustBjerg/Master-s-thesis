@@ -14,7 +14,9 @@
 # =============================================================================
 
 library(mgcv)
+library(scam)      # registers mpi/mpd smooth constructors so gam() can use them
 library(gratia)
+library(patchwork) # required for plot_annotation(); gratia depends on it but doesn't re-export it
 library(dplyr)
 library(readr)
 library(ggplot2)
@@ -232,7 +234,8 @@ pred_grid$stw_orig <- pred_grid$stw * train_sds["stw"] + train_means["stw"]
 
 p_interaction <- ggplot(pred_grid, aes(x = dsc_orig, y = stw_orig, fill = ti_effect)) +
   geom_tile() +
-  geom_contour(aes(z = ti_effect), colour = "white", alpha = 0.55, linewidth = 0.3) +
+  geom_contour(aes(x = dsc_orig, y = stw_orig, z = ti_effect),
+               inherit.aes = FALSE, colour = "white", alpha = 0.55, linewidth = 0.3) +
   scale_fill_distiller(palette = "RdYlBu", direction = -1,
                        name = "Interaction\neffect (kW)") +
   labs(
