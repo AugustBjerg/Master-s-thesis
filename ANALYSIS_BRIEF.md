@@ -26,12 +26,28 @@ This is a supplementary analysis to my submitted master's thesis on marine biofo
 - Produce a 2D interaction surface (3D plot) that allows me to visually inspect the interaction
 
 ## Data
-- Train file: code/data/train_split.csv (or equivalent — check the folder)
-- Test file: code/data/test_split.csv (or equivalent — check the folder)
-- Target: Vessel_Propeller_Shaft_Mechanical_Power_KW (or similar — check the column names)
-- Features (13): STW, DSC, Avg_Draft, Draft_Trim, Sea_Water_Temp, Wave_Period, 
-  Long_Wave_Force, Trans_Wave_Force, Long_Wind_Force, Trans_Wind_Force, 
-  Long_Swell_Force, Trans_Swell_Force, Long_Current
+- File: code/data/train_test_splits_15min.npz (single file containing all four arrays)
+- Load in R with: `np <- reticulate::np$load("train_test_splits_15min.npz")` or convert to CSV first with a small Python script — whatever you deem the easiest
+- Arrays: X_train (12048×13), X_test (3013×13), y_train (12048,), y_test (3013,)
+- Target (y): Stored as a separate array (y_train, y_test) — not a column in X. Represents shaft mechanical power in kW, range ~99–5598 kW, mean ~3368 kW.
+- Rename columns to clean snake_case immediately on load (e.g. janitor::clean_names()) to avoid backtick hell throughout the script
+
+## Features (exact column names in order)
+| Index | Raw name | Suggested R name |
+|-------|----------|-----------------|
+| 0  | Vessel External Conditions Sea Water Temperature (Provider S) | sea_water_temp |
+| 1  | Vessel External Conditions Wave Period (Provider S) | wave_period |
+| 2  | longitudinal_wave_force (calculated) | long_wave_force |
+| 3  | longitudinal_wind_force (calculated) | long_wind_force |
+| 4  | longitudinal_swell_force (calculated) | long_swell_force |
+| 5  | transversal_swell_force (calculated) | trans_swell_force |
+| 6  | transversal_wind_force (calculated) | trans_wind_force |
+| 7  | transversal_wave_force (calculated) | trans_wave_force |
+| 8  | Avg Draft (Calculated) | avg_draft |
+| 9  | SOG - STW (calculated) | long_current |
+| 10 | Draft Trim (Calculated) | draft_trim |
+| 11 | Days Since Last Cleaning | dsc |
+| 12 | Vessel Hull Through Water Longitudinal Speed (knots) | stw |
 
 ## Success criteria
 - mgcv additive GAM produces test metrics within a reasonable range of the Python baseline - or there is a natural explanation as to why it doesn't.
