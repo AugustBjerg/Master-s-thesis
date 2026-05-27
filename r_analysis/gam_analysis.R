@@ -2,15 +2,15 @@
 # gam_analysis.R  —  Supplementary Analysis: GAM with Tensor Product Interaction
 # =============================================================================
 # Goal:
-#   1. Replicate the Python pyGAM additive model in mgcv (sanity check)
+#   1. Replicate the Python pyGAM additive model in R via scam (sanity check)
 #   2. Extend with ti(dsc, stw) to capture fouling × speed interaction
 #   3. Compare test metrics against Python baseline; produce interpretable plots
 #
 # Working directory: set to repo root (Master-s-thesis/) before running.
 #
-# Required packages: mgcv, gratia, dplyr, readr, ggplot2
+# Required packages: mgcv, scam, gratia, patchwork, dplyr, readr, ggplot2
 # Install if needed:
-#   install.packages(c("mgcv", "gratia", "dplyr", "readr", "ggplot2"))
+#   install.packages(c("mgcv", "scam", "gratia", "patchwork", "dplyr", "readr", "ggplot2"))
 # =============================================================================
 
 library(mgcv)
@@ -86,14 +86,17 @@ save_plot <- function(p, filename, width = 7, height = 5, dpi = 150) {
 # =============================================================================
 # 13 univariate smooths, k=10 each (matches Python's n_splines=10).
 # Monotonicity constraints replicate pyGAM's constraints= argument:
-#   bs="mpi"  monotone-increasing P-spline (Pya & Wood 2015; mgcv >= 1.8-36)
-#   bs="mpd"  monotone-decreasing P-spline
+#   bs="mpi"  monotone-increasing SCOP-spline (Pya & Wood 2015)
+#   bs="mpd"  monotone-decreasing SCOP-spline
 #   bs="cr"   cubic regression spline (unconstrained)
 #
-# method="REML" is preferred over GCV for stable smoothing parameter selection.
-# Python used GCV — minor differences in effective df per term are expected.
-# This model is a sanity check: metrics should be broadly comparable to the
-# Python baseline (test RMSE ~286 kW, MAPE ~7.3%, MAE ~214 kW).
+# IMPORTANT: the mpi/mpd bases come from the scam package and the monotonicity
+# is only ENFORCED when the model is fitted with scam::scam(). mgcv::gam() will
+# build the basis but fit it UNCONSTRAINED, producing visibly non-monotone
+# curves (verified empirically). We therefore fit with scam(). scam selects
+# smoothing parameters by GCV/UBRE, matching pyGAM's GCV (REML is unavailable
+# in scam). This model is a sanity check: metrics should be broadly comparable
+# to the Python baseline (test RMSE ~286 kW, MAPE ~7.3%, MAE ~214 kW).
 
 formula_additive <- shaft_power_kw ~
   s(sea_water_temp,   bs = "mpd", k = 10) +  # colder water -> higher viscosity -> more resistance
@@ -110,11 +113,8 @@ formula_additive <- shaft_power_kw ~
   s(dsc,              bs = "mpi", k = 10) +  # more days since cleaning -> more fouling -> more power
   s(stw,              bs = "mpi", k = 10)    # more speed through water -> more power (cube law)
 
-cat("\n=== Fitting Model 1: Additive GAM ===\n")
-gam_additive <- gam(
-  formula_additive, data = train, method = "REML",
-  control = gam.control(maxit = 200)
-)
+cat("\n=== Fitting Model 1: Additive GAM (scam) ===\n")
+gam_additive <- scam(formula_additive, data = train)
 print(summary(gam_additive))
 cat("\nk-index check (edf/k close to 1 warns that k may be too small):\n")
 print(k.check(gam_additive))
@@ -163,11 +163,8 @@ formula_tensor <- shaft_power_kw ~
   s(stw,              bs = "mpi", k = 10) +  # constrained marginal: speed main effect
   ti(dsc, stw,        k  = c(10, 10))         # pure fouling x speed interaction (unconstrained)
 
-cat("\n=== Fitting Model 2: Tensor Product GAM ===\n")
-gam_tensor <- gam(
-  formula_tensor, data = train, method = "REML",
-  control = gam.control(maxit = 200)
-)
+cat("\n=== Fitting Model 2: Tensor Product GAM (scam) ===\n")
+gam_tensor <- scam(formula_tensor, data = train)
 print(summary(gam_tensor))
 cat("\nk-index check:\n")
 print(k.check(gam_tensor))
@@ -248,48 +245,87 @@ p_interaction <- ggplot(pred_grid, aes(x = dsc_orig, y = stw_orig, fill = ti_eff
 
 save_plot(p_interaction, "interaction_surface.png", width = 8, height = 6)
 
-# ---- 2, 3, 4. Partial effect curves (tensor model marginal smooths) ----------
-# gratia::smooth_estimates() evaluates a single smooth over a sequence of n
-# values. add_confint() appends approximate 95% CIs.
+# ---- 2, 3, 4. Partial effect curves (ADDITIVE model marginal smooths) --------
+# gratia::smooth_estimates() does not support scam objects, so we evaluate each
+# 1-D smooth directly with predict(type="terms", se.fit=TRUE): vary the focal
+# feature over its range, hold every other feature at 0 (= standardised mean),
+# and read off that term's centered contribution and pointwise SE.
+#
+# These curves are sourced from gam_additive so they are the exact large-format
+# versions of the panels in additive_all_smooths.png — i.e. "the additive term"
+# partial effects requested in DELIVERABLES.md. (Sourcing them from gam_tensor
+# instead would split the dsc/stw effect into marginal + ti() interaction, which
+# is why the earlier version did not match the all-smooths sanity-check plot.)
 
-plot_marginal_smooth <- function(model, term, x_col, x_label, filename) {
-  sm <- smooth_estimates(model, select = term, n = 300) |>
-        add_confint()
+partial_effect <- function(model, var, n = 300) {
+  grid <- as.data.frame(matrix(0, nrow = n, ncol = length(FEATURE_COLS)))
+  names(grid) <- FEATURE_COLS
+  grid[[var]] <- seq(min(train[[var]]), max(train[[var]]), length.out = n)
 
-  # Back-transform x to original scale
-  sm[[x_col]] <- sm[[x_col]] * train_sds[x_col] + train_means[x_col]
+  pr   <- predict(model, newdata = grid, type = "terms", se.fit = TRUE)
+  term <- paste0("s(", var, ")")
+  if (!term %in% colnames(pr$fit)) {
+    cand <- grep(paste0("\\(", var, "\\)$"), colnames(pr$fit), value = TRUE)
+    if (length(cand) == 0)
+      stop("Term for ", var, " not found in: ", paste(colnames(pr$fit), collapse = ", "))
+    term <- cand[1]
+  }
+  est <- as.numeric(pr$fit[, term])
+  se  <- as.numeric(pr$se.fit[, term])
+  data.frame(
+    x_orig = grid[[var]] * train_sds[var] + train_means[var],
+    est    = est,
+    lower  = est - 1.96 * se,
+    upper  = est + 1.96 * se
+  )
+}
 
-  p <- ggplot(sm, aes(x = .data[[x_col]])) +
-    geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci),
-                fill = "steelblue3", alpha = 0.25) +
-    geom_line(aes(y = .estimate), colour = "steelblue4", linewidth = 1) +
-    geom_hline(yintercept = 0, linetype = "dashed",
-               colour = "grey50", linewidth = 0.5) +
+plot_marginal_smooth <- function(model, var, x_label, filename) {
+  df <- partial_effect(model, var)
+  p <- ggplot(df, aes(x = x_orig)) +
+    geom_ribbon(aes(ymin = lower, ymax = upper), fill = "steelblue3", alpha = 0.25) +
+    geom_line(aes(y = est), colour = "steelblue4", linewidth = 1) +
+    geom_hline(yintercept = 0, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
     labs(
       title    = paste0("Partial effect: ", x_label),
-      subtitle = "Tensor product GAM — marginal smooth term with 95% CI",
+      subtitle = "Additive scam GAM — monotone-constrained marginal smooth with 95% CI",
       x        = x_label,
       y        = "Partial effect on shaft power (kW)"
     ) +
     theme_bw(base_size = 12)
-
   save_plot(p, filename)
 }
 
-plot_marginal_smooth(gam_tensor, "s(dsc)",      "dsc",      "Days since last cleaning",
-                     "dsc_partial_effect_curve.png")
-plot_marginal_smooth(gam_tensor, "s(stw)",      "stw",      "Speed through water (knots)",
-                     "stw_partial_effect_curve.png")
-plot_marginal_smooth(gam_tensor, "s(avg_draft)","avg_draft","Average draft (m)",
-                     "draft_partial_effect_curve.png")
+plot_marginal_smooth(gam_additive, "dsc",       "Days since last cleaning",    "dsc_partial_effect_curve.png")
+plot_marginal_smooth(gam_additive, "stw",       "Speed through water (knots)", "stw_partial_effect_curve.png")
+plot_marginal_smooth(gam_additive, "avg_draft", "Average draft (m)",           "draft_partial_effect_curve.png")
 
 # ---- 5. All marginal smooths — additive model (sanity check) ----------------
-# Compare visually to thesis Fig 6.6. Uses gratia::draw() which returns a
-# patchwork of individual smooth panels.
-p_all_smooths <- draw(gam_additive, residuals = FALSE) +
+# Built from the SAME partial_effect() helper as the individual curves above, so
+# each panel is identical to its large-format counterpart. Compare to thesis
+# Fig 6.6. gratia::draw() is avoided because its scam support is unreliable.
+feature_labels <- c(
+  sea_water_temp = "Sea water temp",      wave_period       = "Wave period",
+  long_wave_force = "Long. wave force",   long_wind_force   = "Long. wind force",
+  long_swell_force = "Long. swell force", trans_swell_force = "Trans. swell force",
+  trans_wind_force = "Trans. wind force", trans_wave_force  = "Trans. wave force",
+  avg_draft = "Avg draft",                long_current      = "SOG - STW (current)",
+  draft_trim = "Draft trim",              dsc               = "Days since cleaning",
+  stw = "Speed through water"
+)
+smooth_panels <- lapply(FEATURE_COLS, function(v) {
+  df <- partial_effect(gam_additive, v, n = 200)
+  ggplot(df, aes(x = x_orig)) +
+    geom_ribbon(aes(ymin = lower, ymax = upper), fill = "steelblue3", alpha = 0.2) +
+    geom_line(aes(y = est), colour = "steelblue4", linewidth = 0.7) +
+    geom_hline(yintercept = 0, linetype = "dashed", colour = "grey60", linewidth = 0.3) +
+    labs(title = feature_labels[[v]], x = NULL, y = NULL) +
+    theme_bw(base_size = 9)
+})
+p_all_smooths <- wrap_plots(smooth_panels, ncol = 4) +
   plot_annotation(
-    title    = "R additive GAM — all 13 marginal smooths",
-    subtitle = "Sanity check: compare shape/direction to Python baseline (thesis Fig 6.6)"
+    title    = "R additive scam GAM — all 13 marginal smooths",
+    subtitle = "Monotone constraints enforced via scam. Compare shape/direction to thesis Fig 6.6"
   )
 save_plot(p_all_smooths, "additive_all_smooths.png", width = 15, height = 10)
 
